@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+
+    // https://plugins.gradle.org/plugin/io.freefair.lombok
+    id "io.freefair.lombok" version "4.0.2"
+
+}
+
+group 'edu.kaiseran'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    // https://github.com/google/guava
+    compile group: 'com.google.guava', name: 'guava', version: '28.1-jre'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.9'
+
+    // https://mvnrepository.com/artifact/junit/junit
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
