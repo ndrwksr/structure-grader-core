@@ -6,13 +6,13 @@ package edu.kaiseran.structuregrader;
  */
 public class TemplateKeys {
 
-  /**
-   * The template key for Noncompliance.expected
-   */
-  public static final String EXPECTED_TEMPLATE = "%E";
+	/**
+	 * The template key for Noncompliance.expected
+	 */
+	public static final String EXPECTED_TEMPLATE = "%E";
 
-  /**
-   * The template key for Noncompliance.actual
-   */
-  public static final String ACTUAL_TEMPLATE = "%A";
+	/**
+	 * The template key for Noncompliance.actual
+	 */
+	public static final String ACTUAL_TEMPLATE = "%A";
 }

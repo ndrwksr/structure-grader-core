@@ -1,6 +1,11 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.ClassCollection.ClassCollectionVisitor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NonNull;
+import lombok.ToString.Exclude;
+
+import javax.annotation.Nullable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -9,11 +14,6 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import javax.annotation.Nullable;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
-import lombok.ToString.Exclude;
 
 /**
  * Stores all of the information about a class which can be accessed via reflection at runtime.
@@ -23,166 +23,176 @@ import lombok.ToString.Exclude;
 @Builder
 public class ClassStructure {
 
-  /**
-   * The Class that this ClassStructure instance represents. Only available if the ClassStructure
-   * object was generated from a Class with {@link ClassStructure#buildFrom(Class)}, and is excluded
-   * from serialization.
-   */
-  @Nullable
-  @Exclude
-  private final Class sourceClass;
+	// -------------------------------------------------------------------------------------------------------------------
+	// TRANSIENT FIELDS
+	// -------------------------------------------------------------------------------------------------------------------
 
-  /**
-   * The Class that declared the Class which this ClassStructure instance represents. Only available
-   * if the ClassStructure object was generated from a Class with {@link
-   * ClassStructure#buildFrom(Class)}, and is excluded from serialization. Null if this class is
-   * top-level.
-   */
-  @Nullable
-  @Exclude
-  private final Class declaringClass;
+	/**
+	 * The Class that this ClassStructure instance represents. Only available if the ClassStructure
+	 * object was generated from a Class with {@link ClassStructure#buildFrom(Class)}, and is excluded
+	 * from serialization.
+	 */
+	@Nullable
+	@Exclude
+	private final Class sourceClass;
 
-  /**
-   * The super-Class of the Class which this instance represents. Only available if the
-   * ClassStructure object was generated from a Class with {@link ClassStructure#buildFrom(Class)},
-   * and is excluded from serialization. Null if this class is does not have a super class.
-   */
-  @Nullable
-  private final Class superclass;
+	/**
+	 * The Class that declared the Class which this ClassStructure instance represents. Only available
+	 * if the ClassStructure object was generated from a Class with {@link
+	 * ClassStructure#buildFrom(Class)}, and is excluded from serialization. Null if this class is
+	 * top-level.
+	 */
+	@Nullable
+	@Exclude
+	private final Class declaringClass;
+
+	/**
+	 * The super-Class of the Class which this instance represents. Only available if the
+	 * ClassStructure object was generated from a Class with {@link ClassStructure#buildFrom(Class)},
+	 * and is excluded from serialization. Null if this class is does not have a super class.
+	 */
+	@Nullable
+	@Exclude
+	private final Class superclass;
 
 
-  /**
-   * The name of the Class this instance represents.
-   */
-  @NonNull
-  private final String name;
+	// -------------------------------------------------------------------------------------------------------------------
+	// NON-TRANSIENT FIELDS
+	// -------------------------------------------------------------------------------------------------------------------
 
-  /**
-   * A ClassCollection containing all of the ClassStructures which this ClassStructure declares.
-   */
-  @Nullable
-  private final ClassCollection classCollection;
+	/**
+	 * The name of the Class this instance represents.
+	 */
+	@NonNull
+	private final String name;
 
-  /**
-   * The name of the Class that declared the Class which this instance represents. Null if this
-   * class is top-level.
-   */
-  @Nullable
-  private final String declaringClassName;
+	/**
+	 * A ClassCollection containing all of the ClassStructures which this ClassStructure declares.
+	 */
+	@NonNull
+	private final ClassCollection classCollection;
 
-  /**
-   * The name of the super-Class for the Class which this instance represents.
-   */
-  @Nullable
-  private final String superclassName;
+	/**
+	 * The name of the Class that declared the Class which this instance represents. Null if this
+	 * class is top-level.
+	 */
+	@Nullable
+	private final String declaringClassName;
 
-  /**
-   * The annotations on the Class which this instance represents.
-   */
-  @Nullable
-  private final Annotation[] annotations;
+	/**
+	 * The name of the super-Class for the Class which this instance represents.
+	 */
+	@Nullable
+	private final String superclassName;
 
-  /**
-   * The constructors for the Class which this instance represents.
-   */
-  @Nullable
-  private final Constructor[] constructors;
+	/**
+	 * The annotations on the Class which this instance represents.
+	 */
+	@Nullable
+	private final Annotation[] annotations;
 
-  /**
-   * The fields for the Class which this instance represents.
-   */
-  @Nullable
-  private final Field[] fields;
+	/**
+	 * The constructors for the Class which this instance represents.
+	 */
+	@Nullable
+	private final Constructor[] constructors;
 
-  /**
-   * The interfaces which the Class this instance represents implements.
-   */
-  @Nullable
-  private final Class[] interfaces;
+	/**
+	 * The fields for the Class which this instance represents.
+	 */
+	@Nullable
+	private final Field[] fields;
 
-  /**
-   * The methods for the Class this instance represents.
-   */
-  @Nullable
-  private final Method[] methods;
+	/**
+	 * The interfaces which the Class this instance represents implements.
+	 */
+	@Nullable
+	private final Class[] interfaces;
 
-  /**
-   * Factory method. Returns a new ClassStructure instance representing the provided Class.
-   *
-   * @param clazz The Class to build the ClassStructure instance from.
-   * @return a new ClassStructure instance representing the provided Class.
-   */
-  @NonNull
-  public static ClassStructure buildFrom(@NonNull final Class clazz) {
-    final ClassStructureBuilder builder = new ClassStructureBuilder();
+	/**
+	 * The methods for the Class this instance represents.
+	 */
+	@Nullable
+	private final Method[] methods;
 
-    builder.sourceClass(clazz);
-    builder.superclass(clazz.getSuperclass());
-    builder.declaringClass(clazz.getDeclaringClass());
+	/**
+	 * Factory method. Returns a new ClassStructure instance representing the provided Class.
+	 *
+	 * @param clazz The Class to build the ClassStructure instance from.
+	 * @return a new ClassStructure instance representing the provided Class.
+	 */
+	@NonNull
+	public static ClassStructure buildFrom(@NonNull final Class clazz) {
+		final ClassStructureBuilder builder = new ClassStructureBuilder();
 
-    builder.name(clazz.getSimpleName());
+		builder.sourceClass(clazz);
+		builder.superclass(clazz.getSuperclass());
+		builder.declaringClass(clazz.getDeclaringClass());
 
-    final Map<String, ClassStructure> declaredClasses = Arrays.stream(clazz.getDeclaredClasses())
-        .map(ClassStructure::buildFrom)
-        .collect(Collectors.toMap(ClassStructure::getName, Function.identity()));
+		builder.name(clazz.getSimpleName());
 
-    final ClassCollection classCollection = ClassCollection.builder()
-        .declaredClasses(declaredClasses)
-        .name(clazz.getSimpleName())
-        .build();
+		final Map<String, ClassStructure> declaredClasses = Arrays.stream(clazz.getDeclaredClasses())
+				.map(ClassStructure::buildFrom)
+				.collect(Collectors.toMap(ClassStructure::getName, Function.identity()));
 
-    builder.classCollection(classCollection);
+		final ClassCollection classCollection = ClassCollection.builder()
+				.declaredClasses(declaredClasses)
+				.name(clazz.getSimpleName())
+				.build();
 
-    final Class declaringClass = clazz.getDeclaringClass();
+		builder.classCollection(classCollection);
 
-    builder.declaringClassName(declaringClass != null ? declaringClass.getSimpleName() : null);
-    builder.superclassName(clazz.getSuperclass().getSimpleName());
-    builder.annotations(clazz.getDeclaredAnnotations());
-    builder.constructors(clazz.getDeclaredConstructors());
-    builder.fields(clazz.getDeclaredFields());
-    builder.interfaces(clazz.getInterfaces());
-    builder.methods(clazz.getDeclaredMethods());
+		final Class declaringClass = clazz.getDeclaringClass();
 
-    return builder.build();
-  }
+		builder.declaringClassName(declaringClass != null ? declaringClass.getSimpleName() : null);
+		builder.superclassName(clazz.getSuperclass() != null ? clazz.getSuperclass().getSimpleName() : null);
+		builder.annotations(clazz.getDeclaredAnnotations());
+		builder.constructors(clazz.getDeclaredConstructors());
+		builder.fields(clazz.getDeclaredFields());
+		builder.interfaces(clazz.getInterfaces());
+		builder.methods(clazz.getDeclaredMethods());
 
-  /**
-   * @return the declared classes contained within this instance's ClassCollection.
-   */
-  @Nullable
-  public Map<String, ClassStructure> getDeclaredClasses() {
-    return classCollection != null ? classCollection.getDeclaredClasses() : null;
-  }
+		return builder.build();
+	}
 
-  /**
-   * Accepts the provided visitor.
-   *
-   * @param classVisitor The visitor to accept.
-   */
-  public void accept(@NonNull final ClassVisitor classVisitor) {
-    classVisitor.visit(this);
-  }
+	/**
+	 * @return the declared classes contained within this instance's ClassCollection.
+	 */
+	@Nullable
+	public Map<String, ClassStructure> getDeclaredClasses() {
+		return classCollection != null ? classCollection.getDeclaredClasses() : null;
+	}
 
-  /**
-   * Accepts the provided visitor.
-   *
-   * @param classCollectionVisitor The visitor to accept. Applies the visitor to the instance's
-   * ClassCollection.
-   */
-  public void accept(@NonNull final ClassCollectionVisitor classCollectionVisitor) {
-    classCollectionVisitor.visit(this.getClassCollection());
-  }
+	/**
+	 * Accepts the provided visitor.
+	 *
+	 * @param classVisitor The visitor to accept.
+	 */
+	public void accept(@NonNull final ClassVisitor classVisitor) {
+		classVisitor.visit(this);
+	}
 
-  /**
-   * Provides a way for specifications to gather information about the a ClassStructure under
-   * evaluation.
-   */
-  public interface ClassVisitor {
+	/**
+	 * Accepts the provided visitor.
+	 *
+	 * @param collectionVisitor The visitor to accept. Applies the visitor to the instance's
+	 *                          ClassCollection.
+	 */
+	public void accept(@NonNull final ClassCollection.CollectionVisitor collectionVisitor) {
+		collectionVisitor.visit(this.getClassCollection());
+	}
 
-    /**
-     * Visits the provided class.
-     * @param classStructure The ClassStructure to visit.
-     */
-    void visit(@NonNull final ClassStructure classStructure);
-  }
+	/**
+	 * Provides a way for specifications to gather information about the a ClassStructure under
+	 * evaluation.
+	 */
+	public interface ClassVisitor {
+
+		/**
+		 * Visits the provided class.
+		 *
+		 * @param classStructure The ClassStructure to visit.
+		 */
+		void visit(@NonNull final ClassStructure classStructure);
+	}
 }
