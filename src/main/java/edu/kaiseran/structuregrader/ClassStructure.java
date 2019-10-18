@@ -156,33 +156,6 @@ public class ClassStructure {
 	}
 
 	/**
-	 * @return the declared classes contained within this instance's ClassCollection.
-	 */
-	@Nullable
-	public Map<String, ClassStructure> getDeclaredClasses() {
-		return classCollection != null ? classCollection.getDeclaredClasses() : null;
-	}
-
-	/**
-	 * Accepts the provided visitor.
-	 *
-	 * @param classVisitor The visitor to accept.
-	 */
-	public void accept(@NonNull final ClassVisitor classVisitor) {
-		classVisitor.visit(this);
-	}
-
-	/**
-	 * Accepts the provided visitor.
-	 *
-	 * @param collectionVisitor The visitor to accept. Applies the visitor to the instance's
-	 *                          ClassCollection.
-	 */
-	public void accept(@NonNull final ClassCollection.CollectionVisitor collectionVisitor) {
-		collectionVisitor.visit(this.getClassCollection());
-	}
-
-	/**
 	 * Provides a way for specifications to gather information about the a ClassStructure under
 	 * evaluation.
 	 */
@@ -193,6 +166,6 @@ public class ClassStructure {
 		 *
 		 * @param classStructure The ClassStructure to visit.
 		 */
-		void visit(@NonNull final ClassStructure classStructure);
+		void visitClass(@NonNull final ClassStructure classStructure);
 	}
 }

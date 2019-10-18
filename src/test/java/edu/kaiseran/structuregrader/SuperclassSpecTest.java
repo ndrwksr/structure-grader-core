@@ -28,6 +28,16 @@ public class SuperclassSpecTest {
 			edu.test.proj1.SubClass.class
 	);
 
+	private static class WrongSuperClass {
+	}
+
+	private static class SubClassOfWrongSuper extends WrongSuperClass {
+	}
+
+	@SuppressWarnings("ClassExplicitlyExtendsObject") // This class exists just to extend Object
+	private static class ExplicitlyExtendsObject extends Object {
+	}
+
 	@Before
 	public void setup() {
 		noncompliances.clear();
@@ -35,66 +45,43 @@ public class SuperclassSpecTest {
 
 	@Test
 	public void noSuperExpectedAndHadNone() {
+		final SuperclassSpec superclassSpec = superclassSpecFactory.buildFromClass(noSuperStructure, noncomplianceConsumer);
+		superclassSpec.visitClass(noSuperStructure);
+		assert noncompliances.size() == 0;
+	}
 
-		final SuperclassSpec superclassSpec = superclassSpecFactory.buildVisitorFrom(noSuperStructure, noncomplianceConsumer);
-		superclassSpec.visit(noSuperStructure);
-
+	@Test
+	public void noSuperExpectedAndExtendsObjectExplicitly() {
+		final SuperclassSpec superclassSpec = superclassSpecFactory.buildFromClass(noSuperStructure, noncomplianceConsumer);
+		superclassSpec.visitClass(ClassStructure.buildFrom(ExplicitlyExtendsObject.class));
 		assert noncompliances.size() == 0;
 	}
 
 	@Test
 	public void noSuperExpectedButHadSuper() {
-		final SuperclassSpec superclassSpec = superclassSpecFactory.buildVisitorFrom(noSuperStructure, noncomplianceConsumer);
-		superclassSpec.visit(subStructure);
-
+		final SuperclassSpec superclassSpec = superclassSpecFactory.buildFromClass(noSuperStructure, noncomplianceConsumer);
+		superclassSpec.visitClass(subStructure);
 		assert noncompliances.size() == 1;
-
-		final String explanation = noncompliances.get(0).getExplanation();
-		assert !explanation.contains("Object");
-		assert explanation.contains("to have no superclass");
-		assert explanation.contains("but had SuperClass");
 	}
 
 	@Test
 	public void superExpectedButHadNone() {
-		final SuperclassSpec superclassSpec = superclassSpecFactory.buildVisitorFrom(subStructure, noncomplianceConsumer);
-		superclassSpec.visit(noSuperStructure);
-
+		final SuperclassSpec superclassSpec = superclassSpecFactory.buildFromClass(subStructure, noncomplianceConsumer);
+		superclassSpec.visitClass(noSuperStructure);
 		assert noncompliances.size() == 1;
-
-		final String explanation = noncompliances.get(0).getExplanation();
-		assert !explanation.contains("Object");
-		assert explanation.contains("to have superclass SuperClass");
-		assert explanation.contains("but had none");
 	}
 
 	@Test
 	public void superExpectedAndHadSuper() {
-		final SuperclassSpec superclassSpec = superclassSpecFactory.buildVisitorFrom(subStructure, noncomplianceConsumer);
-		superclassSpec.visit(subStructure);
-
+		final SuperclassSpec superclassSpec = superclassSpecFactory.buildFromClass(subStructure, noncomplianceConsumer);
+		superclassSpec.visitClass(subStructure);
 		assert noncompliances.size() == 0;
 	}
 
 	@Test
 	public void superExpectedButHadWrongSuper() {
-		final SuperclassSpec superclassSpec = superclassSpecFactory.buildVisitorFrom(subStructure, noncomplianceConsumer);
-
-		class WrongSuperClass {
-		}
-
-		class SubClassOfWrongSuper extends WrongSuperClass {
-		}
-
-		superclassSpec.visit(ClassStructure.buildFrom(SubClassOfWrongSuper.class));
-
+		final SuperclassSpec superclassSpec = superclassSpecFactory.buildFromClass(subStructure, noncomplianceConsumer);
+		superclassSpec.visitClass(ClassStructure.buildFrom(SubClassOfWrongSuper.class));
 		assert noncompliances.size() == 1;
-
-		final String explanation = noncompliances.get(0).getExplanation();
-		assert !explanation.contains("Object");
-		assert explanation.contains("to have superclass SuperClass");
-		assert explanation.contains("but had WrongSuperClass");
 	}
-
-	// TODO [ndrwksr | 10/15/19]: Add tests for an object which explicitly extends Object
 }

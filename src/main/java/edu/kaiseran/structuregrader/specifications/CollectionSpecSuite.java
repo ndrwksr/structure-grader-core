@@ -39,13 +39,13 @@ public class CollectionSpecSuite implements CollectionVisitor {
 	private final Map<String, ClassSpecSuite> classSpecSuites;
 
 	@Override
-	public void visit(@NonNull final ClassCollection classCollection) {
-		collectionVisitors.forEach(spec -> spec.visit(classCollection));
+	public void visitCollection(@NonNull final ClassCollection classCollection) {
+		collectionVisitors.forEach(spec -> spec.visitCollection(classCollection));
 	}
 
 	@Override
-	public void visit(@NonNull final ClassStructure classStructure) {
-		visit(classStructure.getClassCollection());
+	public void visitClass(@NonNull final ClassStructure classStructure) {
+		visitCollection(classStructure.getClassCollection());
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class CollectionSpecSuite implements CollectionVisitor {
 		}
 
 		@Override
-		public CollectionSpecSuite buildVisitorFrom(
+		public CollectionSpecSuite buildFromCollection(
 				@NonNull final ClassCollection classCollection,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
@@ -109,14 +109,14 @@ public class CollectionSpecSuite implements CollectionVisitor {
 			final Map<String, ClassSpecSuite> classSpecSuites = declaredClasses.entrySet().stream()
 					.map(entry -> new AbstractMap.SimpleEntry<>(
 							entry.getKey(),
-							classSpecSuiteFactory.buildVisitorFrom(entry.getValue(), noncomplianceConsumer)
+							classSpecSuiteFactory.buildFromClass(entry.getValue(), noncomplianceConsumer)
 					))
 					.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 			builder.classSpecSuites(classSpecSuites);
 
 			// Make sure that there are no missing/extra classes
 			final List<CollectionVisitor> collectionVisitors = collectionVisitorFactories.stream()
-					.map(factory -> factory.buildVisitorFrom(classCollection, noncomplianceConsumer))
+					.map(factory -> factory.buildFromCollection(classCollection, noncomplianceConsumer))
 					.collect(Collectors.toList());
 
 			builder.collectionVisitors(collectionVisitors);
@@ -125,11 +125,11 @@ public class CollectionSpecSuite implements CollectionVisitor {
 		}
 
 		@Override
-		public CollectionSpecSuite buildVisitorFrom(
+		public CollectionSpecSuite buildFromClass(
 				@NonNull final ClassStructure classStructure,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
-			return buildVisitorFrom(classStructure.getClassCollection(), noncomplianceConsumer);
+			return buildFromCollection(classStructure.getClassCollection(), noncomplianceConsumer);
 		}
 	}
 }

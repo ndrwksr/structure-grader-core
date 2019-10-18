@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NonNull;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -18,6 +18,8 @@ import java.util.function.Consumer;
 @Data
 @Builder(access = AccessLevel.PRIVATE)
 public class SuperclassSpec implements ClassVisitor {
+	public static final String NO_SUPERCLASS = "no superclass";
+
 	/**
 	 * Accepts any generated noncompliances, decoupling the consumption of noncompliances from their
 	 * creation.
@@ -31,64 +33,51 @@ public class SuperclassSpec implements ClassVisitor {
 	@Nullable
 	private final String expectedSuperclassName;
 
+	// These warnings are promoting a structure which is substantially less readable.
+	@SuppressWarnings({"StringConcatenationInsideStringBufferAppend", "StringBufferReplaceableByString"})
 	@Override
-	public void visit(@NonNull final ClassStructure classStructure) {
-		final Optional<String> expectedSuperclassName = Optional.ofNullable(this.expectedSuperclassName);
-		final Optional<String> actualSuperclassName = Optional.ofNullable(classStructure.getSuperclass())
-				.map(Class::getSimpleName)
-				.map(SuperclassSpec::nullifyStringIfObject); // This doesn't nullify the Optional, it nullifies the inner value
+	public void visitClass(@NonNull final ClassStructure classStructure) {
+		final String actualSuperclassName = getNameFromSuperclass(classStructure.getSuperclass());
 
-		// TODO [ndrwksr | 10/15/19]: Refactor to condense construction of Noncompliances
+		if (!Objects.equals(expectedSuperclassName, actualSuperclassName)) {
+			final StringBuilder stringBuilder = new StringBuilder();
 
-		if (!expectedSuperclassName.isPresent() && actualSuperclassName.isPresent()) {
-			// Only actual is present, expected was null
-
-			getNoncomplianceConsumer().accept(
-					Noncompliance.builder()
-							.className(classStructure.getName())
-							.expected(null)
-							.actual(actualSuperclassName.get())
-							.explanation("Expected class to have no superclass, but had %A")
-							.build()
-			);
-		} else if (expectedSuperclassName.isPresent() && !actualSuperclassName.isPresent()) {
-			// Only expected is present, actual was null
+			stringBuilder.append("Expected class " + classStructure.getName() + " to have ");
+			stringBuilder.append(expectedSuperclassName == null ? NO_SUPERCLASS : "superclass %E");
+			stringBuilder.append(", but had ");
+			stringBuilder.append(actualSuperclassName == null ? NO_SUPERCLASS : "superclass %A.");
 
 			getNoncomplianceConsumer().accept(
 					Noncompliance.builder()
 							.className(classStructure.getName())
-							.expected(expectedSuperclassName.get())
-							.actual(null)
-							.explanation("Expected class to have superclass %E, but had none")
+							.expected(expectedSuperclassName)
+							.actual(actualSuperclassName)
+							.explanation(stringBuilder.toString())
 							.build()
 			);
-		} else if (expectedSuperclassName.isPresent()) {
-			// Both are present. We didn't have to check actual, because if it wasn't present then
-			// the second condition would have been true.
-
-			if (!expectedSuperclassName.get().equals(actualSuperclassName.get())) {
-				// The names of the superclasses weren't equal
-
-				getNoncomplianceConsumer().accept(Noncompliance.builder()
-						.className(classStructure.getName())
-						.expected(expectedSuperclassName.get())
-						.actual(actualSuperclassName.get())
-						.explanation("Expected class to have superclass %E, but had %A")
-						.build()
-				);
-			}
 		}
 	}
 
 	/**
-	 * Returns null if string is non-null and equals "Object". Used to ensure that the name of a class which extends only
-	 * from Object is mapped to null (as extending from Object is equivalent to having no superclass).
+	 * Returns the name of the Class. If the Class is Object, null is returned instead.
 	 *
-	 * @param string The String to check for equality with "Object".
-	 * @return null if string is non-null and equals "Object".
+	 * @param clazz The Class whose name should be returned.
+	 * @return the name of the Class. If the Class is Object, null is returned instead.
 	 */
-	private static String nullifyStringIfObject(@Nullable final String string) {
-		return string != null && string.equals("Object") ? null : string;
+	private static String getNameFromSuperclass(@Nullable final Class clazz) {
+		final String name;
+
+		if (clazz == null) {
+			name = null;
+		} else {
+			if (clazz.equals(Object.class)) {
+				name = null;
+			} else {
+				name = clazz.getSimpleName();
+			}
+		}
+
+		return name;
 	}
 
 	/**
@@ -98,16 +87,11 @@ public class SuperclassSpec implements ClassVisitor {
 	public static class SuperclassSpecFactory implements ClassVisitorFactory<SuperclassSpec> {
 
 		@Override
-		public SuperclassSpec buildVisitorFrom(
+		public SuperclassSpec buildFromClass(
 				@NonNull final ClassStructure classStructure,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
-			// Get the super class name from superclass directly if present, else get it from superclassName
-			final String uncheckedSuperclassName = classStructure.getSuperclass() != null ?
-					classStructure.getSuperclass().getSimpleName() :
-					classStructure.getSuperclassName();
-
-			final String checkedSuperclassName = nullifyStringIfObject(uncheckedSuperclassName);
+			final String checkedSuperclassName = getNameFromSuperclass(classStructure.getSuperclass());
 
 			return SuperclassSpec.builder()
 					.expectedSuperclassName(checkedSuperclassName)

@@ -47,38 +47,13 @@ public class Noncompliance<T> {
 		this.expected = expected;
 		this.actual = actual;
 
-		String templatedExplanation = explanation;
-
-    // TODO [ndrwksr | 10/15/19]: Refactor (could be DRYer)
-
-		if (expected != null) {
-			// Replace EXPECTED_TEMPLATE with expected.toString() if expected is non-null,
-			templatedExplanation = templatedExplanation.replaceAll(
-					TemplateKeys.EXPECTED_TEMPLATE,
-					expected.toString()
-			);
-		} else {
-			// Else replace EXPECTED_TEMPLATE with "null"
-			templatedExplanation = templatedExplanation.replaceAll(
-					TemplateKeys.EXPECTED_TEMPLATE,
-					"null"
-			);
-		}
-
-		if (actual != null) {
-			// Replace ACTUAL_TEMPLATE with actual.toString() if actual is non-null,
-			templatedExplanation = templatedExplanation.replaceAll(
-					TemplateKeys.ACTUAL_TEMPLATE,
-					actual.toString()
-			);
-		} else {
-			// Else replace ACTUAL_TEMPLATE with "null"
-			templatedExplanation = templatedExplanation.replaceAll(
-					TemplateKeys.ACTUAL_TEMPLATE,
-					"null"
-			);
-		}
-
-		this.explanation = templatedExplanation;
+		// Replace EXPECTED_TEMPLATE and ACTUAL_TEMPLATE with expected and actual, respectively
+		this.explanation = explanation.replaceAll(
+				TemplateKeys.EXPECTED_TEMPLATE,
+				expected != null ? expected.toString() : "null"
+		).replaceAll(
+				TemplateKeys.ACTUAL_TEMPLATE,
+				actual != null ? actual.toString() : "null"
+		);
 	}
 }

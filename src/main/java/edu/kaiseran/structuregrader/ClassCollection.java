@@ -45,7 +45,7 @@ public class ClassCollection {
 	 */
 	@SuppressWarnings({"UnstableApiUsage", "WeakerAccess"})
 	// ClassPath is marked as @Beta, so it's fine for applications
-	public static ClassCollection buildFrom(
+	public static ClassCollection buildFromPackage(
 			@NonNull final String pkg
 	) throws IOException {
 		final ClassPath classPath = ClassPath.from(ClassCollection.class.getClassLoader());
@@ -67,15 +67,6 @@ public class ClassCollection {
 	}
 
 	/**
-	 * Accepts a ClassCollectionVisitor.
-	 *
-	 * @param collectionVisitor The visitor to accept.
-	 */
-	public void accept(@NonNull final ClassCollection.CollectionVisitor collectionVisitor) {
-		collectionVisitor.visit(this);
-	}
-
-	/**
 	 * Provides a way for specifications to gather information about the ClassCollection under
 	 * evaluation.
 	 */
@@ -86,6 +77,6 @@ public class ClassCollection {
 		 *
 		 * @param classCollection The ClassCollection to visit.
 		 */
-		void visit(@NonNull final ClassCollection classCollection);
+		void visitCollection(@NonNull final ClassCollection classCollection);
 	}
 }

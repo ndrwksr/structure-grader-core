@@ -10,9 +10,15 @@ public class TestClassStructure {
 	final String PKG2 = "edu.test.proj2";
 
 	@Test
-	public void testSimpleEqualStructureComparison() throws IOException {
+	public void testSimpleSameStructureComparison() throws IOException {
+		final List<Noncompliance> noncompliances = SpecificationTester.getNoncompliancesForStructures(PKG1, PKG2);
+		noncompliances.forEach(System.out::println);
+		assert noncompliances.size() == 0;
+	}
 
-		List<Noncompliance> noncompliances = SpecificationTester.getNoncompliancesForStructures(PKG1, PKG2);
+	@Test
+	public void testSimpleEqualStructureComparison() throws IOException {
+		final List<Noncompliance> noncompliances = SpecificationTester.getNoncompliancesForStructures(PKG1, PKG2);
 		noncompliances.forEach(System.out::println);
 		assert noncompliances.size() == 0;
 	}

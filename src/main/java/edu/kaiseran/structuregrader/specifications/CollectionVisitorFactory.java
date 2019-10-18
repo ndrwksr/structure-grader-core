@@ -21,7 +21,7 @@ public interface CollectionVisitorFactory<T extends CollectionVisitor> extends C
 	 * @param noncomplianceConsumer A consumer for any Noncompliances the generated class may create.
 	 * @return a visitor from the provided ClassCollection and Noncompliance consumer.
 	 */
-	T buildVisitorFrom(
+	T buildFromCollection(
 			@NonNull final ClassCollection classCollection,
 			@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 	);

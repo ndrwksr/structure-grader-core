@@ -18,16 +18,15 @@ public class SpecificationTester {
 			@NonNull final String expectedPkg,
 			@NonNull final String actualPkg
 	) throws IOException {
-		final ClassCollection expectedCollection = ClassCollection.buildFrom(expectedPkg);
-		final ClassCollection actualCollection = ClassCollection.buildFrom(actualPkg);
+		final ClassCollection expectedCollection = ClassCollection.buildFromPackage(expectedPkg);
+		final ClassCollection actualCollection = ClassCollection.buildFromPackage(actualPkg);
 
 		final List<Noncompliance> noncompliances = new ArrayList<>();
 		final Consumer<Noncompliance> noncomplianceConsumer = noncompliances::add;
 
 		final CollectionSpecSuite specSuite = CollectionSpecSuiteFactory.getDefaultInst()
-				.buildVisitorFrom(expectedCollection, noncomplianceConsumer);
-
-		actualCollection.accept(specSuite);
+				.buildFromCollection(expectedCollection, noncomplianceConsumer);
+		specSuite.visitCollection(actualCollection);
 
 		return noncompliances;
 	}

@@ -34,9 +34,9 @@ public class ClassSpecSuite implements ClassVisitor {
 	private final CollectionSpecSuite collectionSpecSuite;
 
 	@Override
-	public void visit(@NonNull final ClassStructure classStructure) {
-		declaringClassSpecs.forEach(spec -> spec.visit(classStructure));
-		collectionSpecSuite.visit(classStructure.getClassCollection());
+	public void visitClass(@NonNull final ClassStructure classStructure) {
+		declaringClassSpecs.forEach(spec -> spec.visitClass(classStructure));
+		collectionSpecSuite.visitCollection(classStructure.getClassCollection());
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class ClassSpecSuite implements ClassVisitor {
 		 * @return a new ClassSpecSuite from the provided ClassStructure and with the provided Noncompliance consumer.
 		 */
 		@Override
-		public ClassSpecSuite buildVisitorFrom(
+		public ClassSpecSuite buildFromClass(
 				@NonNull final ClassStructure classStructure,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
@@ -91,13 +91,13 @@ public class ClassSpecSuite implements ClassVisitor {
 
 			// Make the default specs for the visited class
 			final List<ClassVisitor> visitedClassSpecs = classVisitorFactories.stream()
-					.map(factory -> factory.buildVisitorFrom(classStructure, noncomplianceConsumer))
+					.map(factory -> factory.buildFromClass(classStructure, noncomplianceConsumer))
 					.collect(Collectors.toList());
 			builder.declaringClassSpecs(visitedClassSpecs);
 
 			final CollectionSpecSuiteFactory collectionSpecSuiteFactory = CollectionSpecSuiteFactory.getDefaultInst();
 			// Make the default spec suite for the declared classes of the visited class
-			final CollectionSpecSuite collectionSpecSuite = collectionSpecSuiteFactory.buildVisitorFrom(
+			final CollectionSpecSuite collectionSpecSuite = collectionSpecSuiteFactory.buildFromClass(
 					classStructure,
 					noncomplianceConsumer
 			);

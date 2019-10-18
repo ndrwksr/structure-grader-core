@@ -20,7 +20,7 @@ public interface ClassVisitorFactory<T extends ClassStructure.ClassVisitor> {
 	 * @param noncomplianceConsumer A consumer for any Noncompliances the generated class may create.
 	 * @return a visitor from the provided ClassStructure and Noncompliance consumer.
 	 */
-	T buildVisitorFrom(
+	T buildFromClass(
 			@NonNull final ClassStructure classStructure,
 			@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 	);

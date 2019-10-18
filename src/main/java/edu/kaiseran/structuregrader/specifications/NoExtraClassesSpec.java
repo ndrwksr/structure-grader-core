@@ -36,7 +36,7 @@ public class NoExtraClassesSpec implements CollectionVisitor {
 	private final List<String> expectedNames;
 
 	@Override
-	public void visit(@NonNull final ClassCollection classCollection) {
+	public void visitCollection(@NonNull final ClassCollection classCollection) {
 		MissingExtraHelper.checkForExtra(
 				classCollection.getName(),
 				expectedNames,
@@ -46,8 +46,8 @@ public class NoExtraClassesSpec implements CollectionVisitor {
 	}
 
 	@Override
-	public void visit(@NonNull final ClassStructure classStructure) {
-		visit(classStructure.getClassCollection());
+	public void visitClass(@NonNull final ClassStructure classStructure) {
+		visitCollection(classStructure.getClassCollection());
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class NoExtraClassesSpec implements CollectionVisitor {
 	public static class NoExtraClassesSpecFactory implements CollectionVisitorFactory<NoExtraClassesSpec> {
 
 		@Override
-		public NoExtraClassesSpec buildVisitorFrom(
+		public NoExtraClassesSpec buildFromCollection(
 				@NonNull final ClassCollection classCollection,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
@@ -70,11 +70,11 @@ public class NoExtraClassesSpec implements CollectionVisitor {
 		}
 
 		@Override
-		public NoExtraClassesSpec buildVisitorFrom(
+		public NoExtraClassesSpec buildFromClass(
 				@NonNull final ClassStructure classStructure,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
-			return buildVisitorFrom(classStructure.getClassCollection(), noncomplianceConsumer);
+			return buildFromCollection(classStructure.getClassCollection(), noncomplianceConsumer);
 		}
 	}
 
