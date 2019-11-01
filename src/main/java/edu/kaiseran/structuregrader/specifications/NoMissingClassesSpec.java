@@ -1,79 +1,63 @@
 package edu.kaiseran.structuregrader.specifications;
 
-import edu.kaiseran.structuregrader.ClassCollection;
-import edu.kaiseran.structuregrader.ClassCollection.CollectionVisitor;
-import edu.kaiseran.structuregrader.ClassStructure;
-import edu.kaiseran.structuregrader.ClassStructure.ClassVisitor;
+import edu.kaiseran.structuregrader.wrappers.ClassWrapper;
+import edu.kaiseran.structuregrader.NamedCollection;
 import edu.kaiseran.structuregrader.Noncompliance;
-import lombok.AccessLevel;
-import lombok.Builder;
+import edu.kaiseran.structuregrader.visitors.ClassHierarchyVisitor;
+import edu.kaiseran.structuregrader.visitors.ClassHierarchyVisitorFactory;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import lombok.experimental.SuperBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.CheckForNull;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 
 /**
  * Enforces that the visitee declares all of the classes specified. Can visit classes (which will
  * result in visiting the class's ClassCollection) or ClassCollections directly.
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder(access = AccessLevel.PRIVATE)
-public class NoMissingClassesSpec implements ClassVisitor, CollectionVisitor {
-
-	/**
-	 * Accepts any generated noncompliances, decoupling the consumption of noncompliances from their
-	 * creation.
-	 */
-	@NonNull
-	private final Consumer<Noncompliance> noncomplianceConsumer;
-
-	/**
-	 * The names of the classes which are allowed to exist.
-	 */
-	@NonNull
-	private final List<String> expectedNames;
+@SuperBuilder
+public class NoMissingClassesSpec extends NoMissingSpec<ClassWrapper> implements ClassHierarchyVisitor {
 
 	@Override
-	public void visitCollection(@NonNull final ClassCollection classCollection) {
-		MissingExtraHelper.checkForMissing(
-				classCollection.getName(),
-				expectedNames, classCollection.getDeclaredClasses(),
-				noncomplianceConsumer
-		);
+	public void visit(@CheckForNull final ClassWrapper classWrapper) {
+		super.visit(classWrapper != null ? classWrapper.getClassCollection() : null);
 	}
 
-	@Override
-	public void visitClass(@NonNull final ClassStructure classStructure) {
-		visitCollection(classStructure.getClassCollection());
-	}
+	public static class NoMissingClassesSpecFactory implements ClassHierarchyVisitorFactory<NoMissingClassesSpec> {
 
-	/**
-	 * Factory of NoMissingClassesSpec. Creates a NoMissingClassesSpec whose set of required class names is the set of
-	 * class names in classCollection.
-	 */
-	public static class NoMissingClassesSpecFactory implements CollectionVisitorFactory<NoMissingClassesSpec> {
+		@NonNull
+		public static NoMissingClassesSpecFactory getDefaultInst() {
+			return new NoMissingClassesSpecFactory();
+		}
 
 		@Override
 		public NoMissingClassesSpec buildFromCollection(
-				@NonNull final ClassCollection classCollection,
+				@NonNull final NamedCollection<ClassWrapper> classCollection,
+				@NonNull final String parentName,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
-			final List<String> declaredClassNames = new ArrayList<>(classCollection.getDeclaredClasses().keySet());
+			final Set<String> declaredClassNames = new HashSet<>(classCollection.getItems().keySet());
 
 			return NoMissingClassesSpec.builder()
-					.expectedNames(declaredClassNames)
+					.expected(declaredClassNames)
+					.parentName(parentName)
 					.noncomplianceConsumer(noncomplianceConsumer)
 					.build();
 		}
 
 		@Override
-		public NoMissingClassesSpec buildFromClass(
-				@NonNull final ClassStructure classStructure,
+		public NoMissingClassesSpec buildFromItem(
+				@NonNull final ClassWrapper classWrapper,
+				@NonNull final String parentName,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
-			return buildFromCollection(classStructure.getClassCollection(), noncomplianceConsumer);
+			return buildFromCollection(classWrapper.getClassCollection(), classWrapper.getName(), noncomplianceConsumer);
 		}
 	}
 }

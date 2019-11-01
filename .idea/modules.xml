@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/edu.kaiseran.structuregrader.iml" filepath="$PROJECT_DIR$/.idea/modules/edu.kaiseran.structuregrader.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/edu.kaiseran.structuregrader.main.iml" filepath="$PROJECT_DIR$/.idea/modules/edu.kaiseran.structuregrader.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/edu.kaiseran.structuregrader.test.iml" filepath="$PROJECT_DIR$/.idea/modules/edu.kaiseran.structuregrader.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/structuregrader.iml" filepath="$PROJECT_DIR$/.idea/modules/structuregrader.iml" group="structuregrader" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/structuregrader_main.iml" filepath="$PROJECT_DIR$/.idea/modules/structuregrader_main.iml" group="structuregrader" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/structuregrader_test.iml" filepath="$PROJECT_DIR$/.idea/modules/structuregrader_test.iml" group="structuregrader" />
     </modules>
   </component>
 </project>

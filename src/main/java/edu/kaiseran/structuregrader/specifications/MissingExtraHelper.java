@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ public class MissingExtraHelper {
 	 */
 	public static <T> void checkForExtra(
 			@NonNull final String declaringName,
-			@NonNull final List<String> expectedItemNames,
+			@NonNull final Set<String> expectedItemNames,
 			@NonNull final Map<String, T> items,
 			@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 	) {
@@ -44,7 +45,7 @@ public class MissingExtraHelper {
 			final List<String> actualItemNames = new ArrayList<>(items.keySet());
 
 			noncomplianceConsumer.accept(Noncompliance.builder()
-					.className(declaringName)
+					.parentName(declaringName)
 					.expected(expectedItemNames)
 					.actual(actualItemNames)
 					.explanation("Found extra items!"
@@ -69,7 +70,7 @@ public class MissingExtraHelper {
 	 */
 	public static <T> void checkForMissing(
 			@NonNull final String declaringName,
-			@NonNull final List<String> expectedItemNames,
+			@NonNull final Set<String> expectedItemNames,
 			@NonNull final Map<String, T> items,
 			@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 	) {
@@ -83,7 +84,7 @@ public class MissingExtraHelper {
 			final List<String> actualItemNames = new ArrayList<>(items.keySet());
 
 			noncomplianceConsumer.accept(Noncompliance.builder()
-					.className(declaringName)
+					.parentName(declaringName)
 					.expected(expectedItemNames)
 					.actual(actualItemNames)
 					.explanation("Found missing items!"

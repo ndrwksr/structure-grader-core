@@ -5,10 +5,7 @@ import edu.kaiseran.structuregrader.specifications.MissingExtraHelper;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 @SuppressWarnings("ConstantConditions")
@@ -25,7 +22,7 @@ public class MissingExtraHelperTest {
 	private static final String E_VAL = "E value";
 
 	private final Map<String, Object> items = new HashMap<>();
-	private final List<String> expectedNames = new ArrayList<>();
+	private final Set<String> expectedNames = new HashSet<>();
 	private final List<Noncompliance> noncompliances = new ArrayList<>();
 	private Consumer<Noncompliance> noncomplianceConsumer;
 

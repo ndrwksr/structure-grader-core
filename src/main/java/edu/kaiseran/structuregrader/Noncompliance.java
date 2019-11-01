@@ -20,7 +20,7 @@ public class Noncompliance<T> {
 	 * The name of the parent object the noncompliance is for, used to provide additional context.
 	 */
 	@NonNull
-	private final String className;
+	private final String parentName;
 
 	/**
 	 * The value that the constructing specification expected to find, and the actual value it found.
@@ -38,12 +38,12 @@ public class Noncompliance<T> {
 	private final String explanation;
 
 	private Noncompliance(
-			@NonNull final String className,
+			@NonNull final String parentName,
 			@Nullable final T expected,
 			@Nullable final T actual,
 			@NonNull final String explanation
 	) {
-		this.className = className;
+		this.parentName = parentName;
 		this.expected = expected;
 		this.actual = actual;
 

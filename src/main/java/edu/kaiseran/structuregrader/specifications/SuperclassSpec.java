@@ -1,8 +1,9 @@
 package edu.kaiseran.structuregrader.specifications;
 
-import edu.kaiseran.structuregrader.ClassStructure;
-import edu.kaiseran.structuregrader.ClassStructure.ClassVisitor;
+import edu.kaiseran.structuregrader.wrappers.ClassWrapper;
 import edu.kaiseran.structuregrader.Noncompliance;
+import edu.kaiseran.structuregrader.visitors.ClassVisitor;
+import edu.kaiseran.structuregrader.visitors.ClassVisitorFactory;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -33,31 +34,6 @@ public class SuperclassSpec implements ClassVisitor {
 	@Nullable
 	private final String expectedSuperclassName;
 
-	// These warnings are promoting a structure which is substantially less readable.
-	@SuppressWarnings({"StringConcatenationInsideStringBufferAppend", "StringBufferReplaceableByString"})
-	@Override
-	public void visitClass(@NonNull final ClassStructure classStructure) {
-		final String actualSuperclassName = getNameFromSuperclass(classStructure.getSuperclass());
-
-		if (!Objects.equals(expectedSuperclassName, actualSuperclassName)) {
-			final StringBuilder stringBuilder = new StringBuilder();
-
-			stringBuilder.append("Expected class " + classStructure.getName() + " to have ");
-			stringBuilder.append(expectedSuperclassName == null ? NO_SUPERCLASS : "superclass %E");
-			stringBuilder.append(", but had ");
-			stringBuilder.append(actualSuperclassName == null ? NO_SUPERCLASS : "superclass %A.");
-
-			getNoncomplianceConsumer().accept(
-					Noncompliance.builder()
-							.className(classStructure.getName())
-							.expected(expectedSuperclassName)
-							.actual(actualSuperclassName)
-							.explanation(stringBuilder.toString())
-							.build()
-			);
-		}
-	}
-
 	/**
 	 * Returns the name of the Class. If the Class is Object, null is returned instead.
 	 *
@@ -80,6 +56,33 @@ public class SuperclassSpec implements ClassVisitor {
 		return name;
 	}
 
+	// These warnings are promoting a structure which is substantially less readable.
+	@SuppressWarnings({"StringConcatenationInsideStringBufferAppend", "StringBufferReplaceableByString"})
+	@Override
+	public void visit(@Nullable final ClassWrapper classWrapper) {
+		if (classWrapper != null) {
+			final String actualSuperclassName = getNameFromSuperclass(classWrapper.getSuperclass());
+
+			if (!Objects.equals(expectedSuperclassName, actualSuperclassName)) {
+				final StringBuilder stringBuilder = new StringBuilder();
+
+				stringBuilder.append("Expected class " + classWrapper.getName() + " to have ");
+				stringBuilder.append(expectedSuperclassName == null ? NO_SUPERCLASS : "superclass %E");
+				stringBuilder.append(", but had ");
+				stringBuilder.append(actualSuperclassName == null ? NO_SUPERCLASS : "superclass %A.");
+
+				getNoncomplianceConsumer().accept(
+						Noncompliance.builder()
+								.parentName(classWrapper.getName())
+								.expected(expectedSuperclassName)
+								.actual(actualSuperclassName)
+								.explanation(stringBuilder.toString())
+								.build()
+				);
+			}
+		}
+	}
+
 	/**
 	 * Factory for SuperclassSpec instances. Creates SuperclassSpecs which mandate that the super class of any visited
 	 * ClassStructure instances has the same name as the ClassStructure instance the specification was created from.
@@ -87,11 +90,11 @@ public class SuperclassSpec implements ClassVisitor {
 	public static class SuperclassSpecFactory implements ClassVisitorFactory<SuperclassSpec> {
 
 		@Override
-		public SuperclassSpec buildFromClass(
-				@NonNull final ClassStructure classStructure,
-				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
+		public SuperclassSpec buildFromItem(
+				@NonNull final ClassWrapper classWrapper,
+				final String parentName, @NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
-			final String checkedSuperclassName = getNameFromSuperclass(classStructure.getSuperclass());
+			final String checkedSuperclassName = getNameFromSuperclass(classWrapper.getSuperclass());
 
 			return SuperclassSpec.builder()
 					.expectedSuperclassName(checkedSuperclassName)

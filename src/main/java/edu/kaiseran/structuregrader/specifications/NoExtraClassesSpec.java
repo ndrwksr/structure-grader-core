@@ -1,81 +1,63 @@
 package edu.kaiseran.structuregrader.specifications;
 
-import edu.kaiseran.structuregrader.ClassCollection;
-import edu.kaiseran.structuregrader.ClassCollection.CollectionVisitor;
-import edu.kaiseran.structuregrader.ClassStructure;
+import edu.kaiseran.structuregrader.wrappers.ClassWrapper;
+import edu.kaiseran.structuregrader.NamedCollection;
 import edu.kaiseran.structuregrader.Noncompliance;
-import lombok.AccessLevel;
-import lombok.Builder;
+import edu.kaiseran.structuregrader.visitors.ClassHierarchyVisitor;
+import edu.kaiseran.structuregrader.visitors.ClassHierarchyVisitorFactory;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import lombok.experimental.SuperBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 
 /**
  * Enforces that the visitee has only the classes specified. Can visit classes (which will result
  * in visiting the class's ClassCollection) or ClassCollections directly.
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder(access = AccessLevel.PRIVATE)
-public class NoExtraClassesSpec implements CollectionVisitor {
-
-	/**
-	 * Accepts any generated noncompliances, decoupling the consumption of noncompliances from their
-	 * creation.
-	 */
-	@NonNull
-	private final Consumer<Noncompliance> noncomplianceConsumer;
-
-
-	/**
-	 * The names of the classes which are allowed to exist.
-	 */
-	@NonNull
-	private final List<String> expectedNames;
+@SuperBuilder
+public class NoExtraClassesSpec extends NoExtraSpec<ClassWrapper> implements ClassHierarchyVisitor {
 
 	@Override
-	public void visitCollection(@NonNull final ClassCollection classCollection) {
-		MissingExtraHelper.checkForExtra(
-				classCollection.getName(),
-				expectedNames,
-				classCollection.getDeclaredClasses(),
-				noncomplianceConsumer
-		);
+	public void visit(@Nullable final ClassWrapper classWrapper) {
+		super.visit(classWrapper != null ? classWrapper.getClassCollection() : null);
 	}
 
-	@Override
-	public void visitClass(@NonNull final ClassStructure classStructure) {
-		visitCollection(classStructure.getClassCollection());
-	}
+	public static class NoExtraClassesSpecFactory implements ClassHierarchyVisitorFactory<NoExtraClassesSpec> {
 
-	/**
-	 * Factory of NoExtraClassesSpec. Creates a NoExtraClassesSpec whose set of legal class names is the set of class
-	 * names in classCollection.
-	 */
-	public static class NoExtraClassesSpecFactory implements CollectionVisitorFactory<NoExtraClassesSpec> {
+		@NonNull
+		public static NoExtraClassesSpecFactory getDefaultInst() {
+			return new NoExtraClassesSpecFactory();
+		}
 
 		@Override
 		public NoExtraClassesSpec buildFromCollection(
-				@NonNull final ClassCollection classCollection,
+				@NonNull final NamedCollection<ClassWrapper> classCollection,
+				@NonNull final String parentName,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
-			final List<String> declaredClassNames = new ArrayList<>(classCollection.getDeclaredClasses().keySet());
+			final Set<String> declaredClassNames = new HashSet<>(classCollection.getItems().keySet());
 
 			return NoExtraClassesSpec.builder()
-					.expectedNames(declaredClassNames)
+					.expected(declaredClassNames)
+					.parentName(parentName)
 					.noncomplianceConsumer(noncomplianceConsumer)
 					.build();
 		}
 
 		@Override
-		public NoExtraClassesSpec buildFromClass(
-				@NonNull final ClassStructure classStructure,
+		public NoExtraClassesSpec buildFromItem(
+				@NonNull final ClassWrapper classWrapper,
+				@NonNull final String parentName,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
-			return buildFromCollection(classStructure.getClassCollection(), noncomplianceConsumer);
+			return buildFromCollection(classWrapper.getClassCollection(), classWrapper.getName(), noncomplianceConsumer);
 		}
 	}
-
 }
