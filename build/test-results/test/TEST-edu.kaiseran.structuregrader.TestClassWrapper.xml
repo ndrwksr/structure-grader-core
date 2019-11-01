@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.kaiseran.structuregrader.TestClassWrapper" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-11-01T16:30:43" hostname="DESKTOP-BFS5MVO" time="0.237">
-  <properties/>
-  <testcase name="testSimpleEqualStructureComparison" classname="edu.kaiseran.structuregrader.TestClassWrapper" time="0.168"/>
-  <testcase name="testSimpleSameStructureComparison" classname="edu.kaiseran.structuregrader.TestClassWrapper" time="0.068"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

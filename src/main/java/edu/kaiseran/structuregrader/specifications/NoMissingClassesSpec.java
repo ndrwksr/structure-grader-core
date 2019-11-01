@@ -16,11 +16,9 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * Enforces that the visitee declares all of the classes specified. Can visit classes (which will
- * result in visiting the class's ClassCollection) or ClassCollections directly.
+ * Enforces that the specified collection has all of the classes specified. Can visit ClassWrappers (which will result
+ * in visiting the class's ClassCollection) or ClassCollections directly.
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
 @SuperBuilder
 public class NoMissingClassesSpec extends NoMissingSpec<ClassWrapper> implements ClassHierarchyVisitor {
 
@@ -29,12 +27,10 @@ public class NoMissingClassesSpec extends NoMissingSpec<ClassWrapper> implements
 		super.visit(classWrapper != null ? classWrapper.getClassCollection() : null);
 	}
 
+	/**
+	 * Creates NoMissingClassesSpecs which mandates the presence of the classes in the provided class collection.
+	 */
 	public static class NoMissingClassesSpecFactory implements ClassHierarchyVisitorFactory<NoMissingClassesSpec> {
-
-		@NonNull
-		public static NoMissingClassesSpecFactory getDefaultInst() {
-			return new NoMissingClassesSpecFactory();
-		}
 
 		@Override
 		public NoMissingClassesSpec buildFromCollection(

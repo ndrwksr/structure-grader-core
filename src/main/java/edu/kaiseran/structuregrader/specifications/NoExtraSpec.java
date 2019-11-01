@@ -8,8 +8,11 @@ import lombok.experimental.SuperBuilder;
 
 import javax.annotation.CheckForNull;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+/**
+ * Specifies that no extra items in a collection may exist.
+ *
+ * @param <ITEM> The type of the items in the specified collection.
+ */
 @SuperBuilder
 public class NoExtraSpec<ITEM extends Named> extends CollectionSpec<ITEM, String> {
 

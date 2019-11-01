@@ -4,10 +4,7 @@ import edu.kaiseran.structuregrader.wrappers.ClassWrapper;
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.visitors.ClassVisitor;
 import edu.kaiseran.structuregrader.visitors.ClassVisitorFactory;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
@@ -16,7 +13,6 @@ import java.util.function.Consumer;
 /**
  * Enforces that the name of visitee's superclass matches what is specified.
  */
-@Data
 @Builder(access = AccessLevel.PRIVATE)
 public class SuperclassSpec implements ClassVisitor {
 	public static final String NO_SUPERCLASS = "no superclass";
@@ -25,6 +21,7 @@ public class SuperclassSpec implements ClassVisitor {
 	 * Accepts any generated noncompliances, decoupling the consumption of noncompliances from their
 	 * creation.
 	 */
+	@Getter
 	@NonNull
 	private final Consumer<Noncompliance> noncomplianceConsumer;
 
@@ -56,7 +53,7 @@ public class SuperclassSpec implements ClassVisitor {
 		return name;
 	}
 
-	// These warnings are promoting a structure which is substantially less readable.
+	// These warnings are promoting a structure which is substantially less readable, and thus have been suppressed.
 	@SuppressWarnings({"StringConcatenationInsideStringBufferAppend", "StringBufferReplaceableByString"})
 	@Override
 	public void visit(@Nullable final ClassWrapper classWrapper) {
@@ -92,7 +89,8 @@ public class SuperclassSpec implements ClassVisitor {
 		@Override
 		public SuperclassSpec buildFromItem(
 				@NonNull final ClassWrapper classWrapper,
-				final String parentName, @NonNull final Consumer<Noncompliance> noncomplianceConsumer
+				@NonNull final String parentName,
+				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
 			final String checkedSuperclassName = getNameFromSuperclass(classWrapper.getSuperclass());
 

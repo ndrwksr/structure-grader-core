@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 /**
  * Stores all of the information about a class which can be accessed via reflection at runtime.
  */
-@SuppressWarnings("UnstableApiUsage") // ClassPath is marked as @Beta, so it's fine for applications
 @Data
 @SuperBuilder
 public class ClassWrapper<T> implements Named, AnnotatedElement {

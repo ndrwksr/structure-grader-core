@@ -6,7 +6,7 @@ import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.specifications.ClassSuite.ClassSuiteFactory;
 import edu.kaiseran.structuregrader.visitors.ClassCollectionVisitor;
 import edu.kaiseran.structuregrader.visitors.ClassCollectionVisitorFactory;
-import edu.kaiseran.structuregrader.visitors.ClassVisitor;
+import edu.kaiseran.structuregrader.visitors.ClassHierarchyVisitor;
 import edu.kaiseran.structuregrader.visitors.CollectionVisitor;
 import edu.kaiseran.structuregrader.wrappers.ClassWrapper;
 import lombok.Data;
@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
+import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
 import java.util.AbstractMap;
 import java.util.List;
@@ -22,10 +23,12 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+/**
+ * Contains specifications for a hierarchy of classes, including checking for missing/extra classes and specifications
+ * for each class at the specified level in the hierarchy.
+ */
 @SuperBuilder
-public class ClassCollectionSuite extends CollectionSuite<ClassWrapper, ClassSuite> implements ClassCollectionVisitor, ClassVisitor {
+public class ClassCollectionSuite extends CollectionSuite<ClassWrapper, ClassSuite> implements ClassHierarchyVisitor {
 
 	@Override
 	public void visit(@Nullable final NamedCollection<ClassWrapper> collection) {
@@ -38,55 +41,56 @@ public class ClassCollectionSuite extends CollectionSuite<ClassWrapper, ClassSui
 	}
 
 	/**
-	 * Factory class for ClassSpecSuite. Has a list of CollectionVisitorFactories provided by default to populate
-	 * collectionVisitors, and uses the default ClassVisitorFactory to populate classSpecSuites.
+	 * Factory class for ClassCollectionSuite. Has a list of CollectionVisitorFactories provided by default to populate
+	 * collectionSpecs, and uses the default ClassVisitorFactory to populate itemSuites.
 	 */
 	public static class ClassCollectionSuiteFactory implements ClassCollectionVisitorFactory<ClassCollectionSuite> {
-		private static ImmutableList<ClassCollectionVisitorFactory<? extends ClassCollectionVisitor>>
-		getDefaultVisitorFactories() {
+		/**
+		 * @return an immutable list of the default ClassCollectionVisitorFactories.
+		 */
+		private static ImmutableList<ClassCollectionVisitorFactory<?>> getDefaultVisitorFactories() {
 			return ImmutableList.of(
-					NoExtraClassesSpec.NoExtraClassesSpecFactory.getDefaultInst(),
-					NoMissingClassesSpec.NoMissingClassesSpecFactory.getDefaultInst()
+					new NoExtraClassesSpec.NoExtraClassesSpecFactory(),
+					new NoMissingClassesSpec.NoMissingClassesSpecFactory()
 			);
 		}
 
 		/**
-		 * A pre-made, default instance for consumers of CollectionSpecSuiteFactory to use.
+		 * A pre-made, default instance for consumers of ClassCollectionVisitorFactory to use.
 		 */
 		@Getter
-		private static final ClassCollectionSuiteFactory defaultInst = new ClassCollectionSuiteFactory(
-				getDefaultVisitorFactories(),
-				ClassSuiteFactory.getDefaultInst()
-		);
+		private static final ClassCollectionSuiteFactory defaultInst = new ClassCollectionSuiteFactory(null, null);
 
 		/**
-		 * The ClassVisitorFactory instances that this factory uses to populate collectionVisitors with specs.
+		 * The ClassCollectionVisitorFactory instances that this factory uses to populate collectionVisitors with specs.
 		 */
-		private final ImmutableList<ClassCollectionVisitorFactory<? extends ClassCollectionVisitor>> collectionVisitorFactories;
+		@NonNull
+		private final ImmutableList<ClassCollectionVisitorFactory<?>> collectionVisitorFactories;
 
 		/**
-		 * The ClassSpecSuiteFactory used to populate classSpecSuites with specs.
+		 * The ClassSuiteFactory used to populate classSpecSuites with specs.
 		 */
-		private final ClassSuiteFactory classSpecSuiteFactory;
+		@NonNull
+		private final ClassSuiteFactory classSuiteFactory;
 
 		/**
-		 * Constructor which takes an array of CollectionVisitorFactory instances and a ClassSpecSuiteFactory which will
-		 * be used to create specifications to fill the instances of CollectionSpecSuite that this class builds.
+		 * Constructor which takes an array of ClassCollectionVisitorFactories and a ClassSuiteFactory which will
+		 * be used to create specifications to fill collectionSpecs and itemSuites.
 		 *
 		 * @param collectionVisitorFactories The ClassVisitorFactory instances that this factory uses to populate
 		 *                                   collectionVisitors with specs.
-		 * @param classSpecSuiteFactory      The ClassSpecSuiteFactory used to populate classSpecSuites with specs.
+		 * @param classSuiteFactory          The ClassSpecSuiteFactory used to populate classSpecSuites with specs.
 		 */
 		public ClassCollectionSuiteFactory(
-				@NonNull final ImmutableList<ClassCollectionVisitorFactory<? extends ClassCollectionVisitor>> collectionVisitorFactories,
-				@NonNull final ClassSuiteFactory classSpecSuiteFactory
+				@CheckForNull final ImmutableList<ClassCollectionVisitorFactory<?>> collectionVisitorFactories,
+				@CheckForNull final ClassSuiteFactory classSuiteFactory
 		) {
 			this.collectionVisitorFactories = collectionVisitorFactories == null || collectionVisitorFactories.isEmpty() ?
 					getDefaultVisitorFactories() :
 					ImmutableList.copyOf(collectionVisitorFactories);
-			this.classSpecSuiteFactory = classSpecSuiteFactory == null ?
-					ClassSuiteFactory.getDefaultInst() :
-					classSpecSuiteFactory;
+			this.classSuiteFactory = classSuiteFactory == null ?
+					ClassSuiteFactory.getDefaultInst(this) :
+					classSuiteFactory;
 		}
 
 		@Override
@@ -101,7 +105,7 @@ public class ClassCollectionSuite extends CollectionSuite<ClassWrapper, ClassSui
 			final Map<String, ClassSuite> classSpecSuites = declaredClasses.entrySet().stream()
 					.map(entry -> new AbstractMap.SimpleEntry<>(
 							entry.getKey(),
-							classSpecSuiteFactory.buildFromItem(entry.getValue(), classCollection.getName(), noncomplianceConsumer)
+							classSuiteFactory.buildFromItem(entry.getValue(), classCollection.getName(), noncomplianceConsumer)
 					))
 					.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 

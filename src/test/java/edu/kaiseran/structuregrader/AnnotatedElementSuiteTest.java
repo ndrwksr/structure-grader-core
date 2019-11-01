@@ -38,11 +38,11 @@ public class AnnotatedElementSuiteTest {
 		System.out.println(noncompliance);
 	};
 
-	private final AnnotatedElementSuiteFactory factory = new AnnotatedElementSuiteFactory();
+	private final AnnotatedElementSuiteFactory<Method> factory = new AnnotatedElementSuiteFactory<>();
 
 	private final List<Method> testMethods = Arrays.asList(AnnotationTestClass.class.getDeclaredMethods());
 
-	private AnnotatedElementSuite buildFromMethodAtIndex(final int index) {
+	private AnnotatedElementSuite<Method> buildFromMethodAtIndex(final int index) {
 		Method testMethod = testMethods.get(index);
 		return factory.buildFromItem(testMethod, testMethod.getName(), noncomplianceConsumer);
 	}
@@ -54,63 +54,63 @@ public class AnnotatedElementSuiteTest {
 
 	@Test
 	public void noneWhereNoneExpected() {
-		final AnnotatedElementSuite suite = buildFromMethodAtIndex(0);
+		final AnnotatedElementSuite<Method> suite = buildFromMethodAtIndex(0);
 		suite.visit(testMethods.get(0));
 		assert noncompliances.isEmpty();
 	}
 
 	@Test
 	public void oneWhereOneExpected() {
-		final AnnotatedElementSuite suite = buildFromMethodAtIndex(1);
+		final AnnotatedElementSuite<Method> suite = buildFromMethodAtIndex(1);
 		suite.visit(testMethods.get(1));
 		assert noncompliances.isEmpty();
 	}
 
 	@Test
 	public void manyWhereManyExpected() {
-		final AnnotatedElementSuite suite = buildFromMethodAtIndex(2);
+		final AnnotatedElementSuite<Method> suite = buildFromMethodAtIndex(2);
 		suite.visit(testMethods.get(2));
 		assert noncompliances.isEmpty();
 	}
 
 	@Test
 	public void oneWhereNoneExpected() {
-		final AnnotatedElementSuite suite = buildFromMethodAtIndex(0);
+		final AnnotatedElementSuite<Method> suite = buildFromMethodAtIndex(0);
 		suite.visit(testMethods.get(1));
 		assert noncompliances.size() == 1;
 	}
 
 	@Test
 	public void manyWhereNoneExpected() {
-		final AnnotatedElementSuite suite = buildFromMethodAtIndex(0);
+		final AnnotatedElementSuite<Method> suite = buildFromMethodAtIndex(0);
 		suite.visit(testMethods.get(2));
 		assert noncompliances.size() == 1;
 	}
 
 	@Test
 	public void noneWhereOneExpected() {
-		final AnnotatedElementSuite suite = buildFromMethodAtIndex(1);
+		final AnnotatedElementSuite<Method> suite = buildFromMethodAtIndex(1);
 		suite.visit(testMethods.get(0));
 		assert noncompliances.size() == 1;
 	}
 
 	@Test
 	public void manyWhereOneExpected() {
-		final AnnotatedElementSuite suite = buildFromMethodAtIndex(1);
+		final AnnotatedElementSuite<Method> suite = buildFromMethodAtIndex(1);
 		suite.visit(testMethods.get(2));
 		assert noncompliances.size() == 1;
 	}
 
 	@Test
 	public void noneWhereManyExpected() {
-		final AnnotatedElementSuite suite = buildFromMethodAtIndex(2);
+		final AnnotatedElementSuite<Method> suite = buildFromMethodAtIndex(2);
 		suite.visit(testMethods.get(0));
 		assert noncompliances.size() == 1;
 	}
 
 	@Test
 	public void oneWhereManyExpected() {
-		final AnnotatedElementSuite suite = buildFromMethodAtIndex(2);
+		final AnnotatedElementSuite<Method> suite = buildFromMethodAtIndex(2);
 		suite.visit(testMethods.get(1));
 		assert noncompliances.size() == 1;
 	}

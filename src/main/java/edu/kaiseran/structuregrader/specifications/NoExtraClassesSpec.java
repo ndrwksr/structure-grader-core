@@ -16,11 +16,9 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * Enforces that the visitee has only the classes specified. Can visit classes (which will result
+ * Enforces that the specified collection has only the classes specified. Can visit ClassWrappers (which will result
  * in visiting the class's ClassCollection) or ClassCollections directly.
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
 @SuperBuilder
 public class NoExtraClassesSpec extends NoExtraSpec<ClassWrapper> implements ClassHierarchyVisitor {
 
@@ -29,12 +27,10 @@ public class NoExtraClassesSpec extends NoExtraSpec<ClassWrapper> implements Cla
 		super.visit(classWrapper != null ? classWrapper.getClassCollection() : null);
 	}
 
+	/**
+	 * Creates NoExtraClassesSpecs which only permits the classes present in the provided class collection.
+	 */
 	public static class NoExtraClassesSpecFactory implements ClassHierarchyVisitorFactory<NoExtraClassesSpec> {
-
-		@NonNull
-		public static NoExtraClassesSpecFactory getDefaultInst() {
-			return new NoExtraClassesSpecFactory();
-		}
 
 		@Override
 		public NoExtraClassesSpec buildFromCollection(

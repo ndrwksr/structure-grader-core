@@ -11,9 +11,14 @@ import javax.annotation.CheckForNull;
 import java.lang.reflect.Member;
 import java.util.function.Consumer;
 
-@Data
+/**
+ * A specification for Members, checks the modifiers of the specified Member against those which were expected.
+ */
 @Builder
 public class MemberSpec implements ItemVisitor<Member> {
+	/**
+	 * The expected value of the modifiers.
+	 */
 	private final int expectedModifiers;
 
 	/**
@@ -23,11 +28,11 @@ public class MemberSpec implements ItemVisitor<Member> {
 	@NonNull
 	private final Consumer<Noncompliance> noncomplianceConsumer;
 
-
 	@Override
 	public void visit(@CheckForNull final Member member) {
 		if (member != null) {
 			final int actualModifiers = member.getModifiers();
+
 			if (actualModifiers != expectedModifiers) {
 				noncomplianceConsumer.accept(
 						Noncompliance.builder()
@@ -41,6 +46,9 @@ public class MemberSpec implements ItemVisitor<Member> {
 		}
 	}
 
+	/**
+	 * Creates MemberSpecs from a Member where the modifiers must match those of member exactly.
+	 */
 	public static class MemberSpecFactory implements ItemVisitorFactory<Member, MemberSpec> {
 
 		@Override
