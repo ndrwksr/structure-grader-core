@@ -11,9 +11,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * A data type which represents an Annotation and implements Named.
+ */
 @Data
 @Builder
 public class AnnotationWrapper implements Named {
+	/**
+	 * The annotation this wrapper represents.
+	 */
 	@NonNull
 	final Annotation annotation;
 
@@ -23,6 +29,12 @@ public class AnnotationWrapper implements Named {
 		return annotation.annotationType().getSimpleName();
 	}
 
+	/**
+	 * Builds and returns a new AnnotationWrapper from a source Annotation.
+	 *
+	 * @param annotation The source annotation to build a wrapper from.
+	 * @return a new AnnotationWrapper from a source Annotation.
+	 */
 	@NonNull
 	public static AnnotationWrapper buildFrom(
 			@NonNull final Annotation annotation
@@ -30,6 +42,14 @@ public class AnnotationWrapper implements Named {
 		return AnnotationWrapper.builder().annotation(annotation).build();
 	}
 
+	/**
+	 * Builds and returns a new collection of AnnotationWrappers from an array of Annotations.
+	 *
+	 * @param parentName  The name of the parent of the annotations, such as the name of the AnnotatedElement
+	 *                    they came from.
+	 * @param annotations The array of Annotations to build the collection from.
+	 * @return a new collection of AnnotationWrappers from an array of Annotations.
+	 */
 	@NonNull
 	public static NamedCollection<AnnotationWrapper> buildCollectionFrom(
 			@NonNull final String parentName,

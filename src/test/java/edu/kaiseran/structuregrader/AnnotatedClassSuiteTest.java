@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class AnnotatedClassElementSuiteTest {
+public class AnnotatedClassSuiteTest {
 	private final List<Noncompliance> noncompliances = new ArrayList<>();
 
 	private final Consumer<Noncompliance> noncomplianceConsumer = (noncompliance) -> {

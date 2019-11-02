@@ -37,6 +37,12 @@ public class Noncompliance<T> {
 	@NonNull
 	private final String explanation;
 
+	/**
+	 * @param parentName The name of the parent element this noncompliance was generated from. Used to provide context.
+	 * @param expected The expected value of the specified element.
+	 * @param actual The actual value of the specified element.
+	 * @param explanation An explanation of why the noncompliance was generated.
+	 */
 	private Noncompliance(
 			@NonNull final String parentName,
 			@Nullable final T expected,
