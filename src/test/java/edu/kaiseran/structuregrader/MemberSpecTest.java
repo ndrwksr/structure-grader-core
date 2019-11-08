@@ -14,13 +14,13 @@ import java.util.function.Consumer;
 public class MemberSpecTest {
 	private Member publicMember;
 	private Member privateMember;
-	private MemberSpecFactory factory;
+	private MemberSpecFactory<Member> factory;
 
 	@Before
 	public void setup() {
 		publicMember = SuperClass.class.getDeclaredMethods()[0];
 		privateMember = SuperClass.class.getDeclaredFields()[0];
-		factory = new MemberSpecFactory();
+		factory = new MemberSpecFactory<>();
 		noncompliances.clear();
 	}
 
@@ -28,7 +28,7 @@ public class MemberSpecTest {
 
 	private final Consumer<Noncompliance> noncomplianceConsumer = (noncompliance) -> {
 		noncompliances.add(noncompliance);
-		System.out.println(noncompliance);
+		System.out.println(this.getClass().getSimpleName() + ": " + noncompliance);
 	};
 
 	@Test

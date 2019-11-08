@@ -1,6 +1,7 @@
 package edu.kaiseran.structuregrader.specifications;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.specifications.ClassCollectionSuite.ClassCollectionSuiteFactory;
 import edu.kaiseran.structuregrader.visitors.ClassVisitor;
@@ -28,6 +29,13 @@ public class ClassSuite implements ClassVisitor {
 	 */
 	@NonNull
 	private final List<ClassVisitor> specifiedClassVisitors;
+
+	/**
+	 * The name of the parent of the specified element.
+	 */
+	@NonNull
+	@Getter
+	private final String parentName;
 
 	@Override
 	public void visit(@Nullable final ClassWrapper classWrapper) {
@@ -66,19 +74,19 @@ public class ClassSuite implements ClassVisitor {
 		/**
 		 * The ClassVisitorFactories that this factory uses to populate declaringClassSpecs with specs.
 		 */
-		private final ImmutableList<ClassVisitorFactory<?>> classVisitorFactories;
+		private final ImmutableSet<ClassVisitorFactory<?>> classVisitorFactories;
 
 		/**
 		 * @param classVisitorFactories The ClassVisitorFactory instances this factory will use to populate
 		 *                              specifiedClassVisitors with specs and suites.
 		 */
 		public ClassSuiteFactory(
-				@CheckForNull final ImmutableList<ClassVisitorFactory<?>> classVisitorFactories,
+				@CheckForNull final ImmutableSet<ClassVisitorFactory<?>> classVisitorFactories,
 				@CheckForNull final ClassCollectionSuiteFactory classCollectionSuiteFactory
 		) {
 			this.classVisitorFactories = classVisitorFactories == null || classVisitorFactories.isEmpty() ?
-					ImmutableList.copyOf(getDefaultVisitorFactories()) :
-					ImmutableList.copyOf(classVisitorFactories);
+					ImmutableSet.copyOf(getDefaultVisitorFactories()) :
+					ImmutableSet.copyOf(classVisitorFactories);
 			this.classCollectionSuiteFactory = classCollectionSuiteFactory == null ?
 					ClassCollectionSuiteFactory.getDefaultInst() :
 					classCollectionSuiteFactory;
@@ -105,7 +113,10 @@ public class ClassSuite implements ClassVisitor {
 
 			specifiedClassVisitors.add(classCollectionSuite);
 
-			return ClassSuite.builder().specifiedClassVisitors(specifiedClassVisitors).build();
+			return ClassSuite.builder()
+					.specifiedClassVisitors(specifiedClassVisitors)
+					.parentName(parentName)
+					.build();
 		}
 	}
 }

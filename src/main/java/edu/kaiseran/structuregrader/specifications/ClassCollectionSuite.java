@@ -115,11 +115,13 @@ public class ClassCollectionSuite extends CollectionSuite<ClassWrapper, ClassSui
 					.map(factory -> factory.buildFromCollection(classCollection, classCollection.getName(), noncomplianceConsumer))
 					.collect(Collectors.toList());
 
-			return ClassCollectionSuite.builder()
+			final ClassCollectionSuiteBuilder classCollectionSuiteBuilder = ClassCollectionSuite.builder()
 					.itemSuites(classSpecSuites)
 					.collectionSpecs(collectionVisitors)
 					.nameMapper(ClassWrapper::getName)
-					.build();
+					.parentName(parentName);
+
+			return classCollectionSuiteBuilder.build();
 		}
 	}
 }

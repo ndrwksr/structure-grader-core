@@ -16,13 +16,13 @@ public class SpecificationTester {
 
 	public static List<Noncompliance> getNoncompliancesForStructures(
 			@NonNull final String expectedPkg,
-			@NonNull final String actualPkg
+			@NonNull final String actualPkg,
+			@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 	) throws IOException {
 		final ClassCollection expectedCollection = ClassCollection.buildFromPackage(expectedPkg);
 		final ClassCollection actualCollection = ClassCollection.buildFromPackage(actualPkg);
 
 		final List<Noncompliance> noncompliances = new ArrayList<>();
-		final Consumer<Noncompliance> noncomplianceConsumer = noncompliances::add;
 
 		final ClassCollectionSuite specSuite = ClassCollectionSuiteFactory.getDefaultInst()
 				.buildFromCollection(expectedCollection, expectedCollection.getName(), noncomplianceConsumer);

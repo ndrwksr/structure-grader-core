@@ -20,7 +20,7 @@ public class AnnotatedClassSuiteTest {
 
 	private final Consumer<Noncompliance> noncomplianceConsumer = (noncompliance) -> {
 		noncompliances.add(noncompliance);
-		System.out.println(noncompliance);
+		System.out.println(this.getClass().getSimpleName() + ": " + noncompliance);
 	};
 
 	private final AnnotatedClassSuiteFactory factory = new AnnotatedClassSuiteFactory();

@@ -3,6 +3,7 @@ package edu.kaiseran.structuregrader.specifications;
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.visitors.CollectionVisitor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
@@ -28,7 +29,7 @@ public abstract class CollectionSpec<ITEM, EXPECTED> implements CollectionVisito
 	protected final Consumer<Noncompliance> noncomplianceConsumer;
 
 	/**
-	 * The name of the collection this suite specifies.
+	 * The name of the parent of the specified element.
 	 */
 	@NonNull
 	protected final String parentName;

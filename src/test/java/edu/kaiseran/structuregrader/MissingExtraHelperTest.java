@@ -24,7 +24,10 @@ public class MissingExtraHelperTest {
 	private final Map<String, Object> items = new HashMap<>();
 	private final Set<String> expectedNames = new HashSet<>();
 	private final List<Noncompliance> noncompliances = new ArrayList<>();
-	private Consumer<Noncompliance> noncomplianceConsumer;
+	private final Consumer<Noncompliance> noncomplianceConsumer = (noncompliance) -> {
+		noncompliances.add(noncompliance);
+		System.out.println(this.getClass().getSimpleName() + ": " + noncompliance);
+	};
 
 	@Before
 	public void setup() {
@@ -32,7 +35,6 @@ public class MissingExtraHelperTest {
 		expectedNames.clear();
 
 		noncompliances.clear();
-		noncomplianceConsumer = noncompliances::add;
 	}
 
 	@Test

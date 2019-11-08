@@ -3,6 +3,7 @@ package edu.kaiseran.structuregrader.specifications;
 import edu.kaiseran.structuregrader.visitors.CollectionVisitor;
 import edu.kaiseran.structuregrader.visitors.ItemVisitor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
@@ -32,9 +33,10 @@ public abstract class CollectionSuite<ITEM, SUITE extends ItemVisitor<ITEM>> imp
 	protected final Map<String, SUITE> itemSuites;
 
 	/**
-	 * The name of the collection this suite specifies.
+	 * The name of the parent of the specified element.
 	 */
 	@NonNull
+	@Getter
 	protected final String parentName;
 
 	/**

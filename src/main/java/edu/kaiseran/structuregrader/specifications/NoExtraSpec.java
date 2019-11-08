@@ -4,6 +4,8 @@ import edu.kaiseran.structuregrader.Named;
 import edu.kaiseran.structuregrader.NamedCollection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
 import javax.annotation.CheckForNull;

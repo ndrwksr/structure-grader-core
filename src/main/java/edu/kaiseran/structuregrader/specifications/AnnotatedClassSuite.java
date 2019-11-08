@@ -8,6 +8,7 @@ import edu.kaiseran.structuregrader.wrappers.AnnotationWrapper;
 import edu.kaiseran.structuregrader.wrappers.ClassWrapper;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
 
 import javax.annotation.CheckForNull;
@@ -34,9 +35,10 @@ public class AnnotatedClassSuite implements ClassVisitor {
 	private final NoExtraSpec<AnnotationWrapper> noExtraSpec;
 
 	/**
-	 * The name of the class this suite specifies.
+	 * The name of the parent of the specified element.
 	 */
 	@NonNull
+	@Getter
 	private final String parentName;
 
 	/**

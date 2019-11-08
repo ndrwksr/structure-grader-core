@@ -6,7 +6,7 @@ import edu.kaiseran.structuregrader.visitors.ItemVisitor;
 import edu.kaiseran.structuregrader.visitors.ItemVisitorFactory;
 import edu.kaiseran.structuregrader.wrappers.AnnotationWrapper;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
 
 import javax.annotation.CheckForNull;
@@ -38,9 +38,10 @@ public class AnnotatedElementSuite<ITEM extends AnnotatedElement> implements Ite
 	private final NoExtraSpec<AnnotationWrapper> noExtraSpec;
 
 	/**
-	 * The name of the AnnotatedElement this suite specifies.
+	 * The name of the parent of the specified element.
 	 */
 	@NonNull
+	@Getter
 	private final String parentName;
 
 	/**
@@ -55,9 +56,9 @@ public class AnnotatedElementSuite<ITEM extends AnnotatedElement> implements Ite
 	 * visits those AnnotationWrappers with noMissingSpec and noExtraSpec.
 	 *
 	 * @param annotatedElement The specified AnnotatedElement.
-	 * @param parentName The name of the AnnotatedElement, used to provide context in Noncompliances.
-	 * @param noMissingSpec The NoMissingSpec to apply to annotatedElement's annotations.
-	 * @param noExtraSpec The NoExtraSpec to apply to annotatedElement's annotations.
+	 * @param parentName       The name of the AnnotatedElement, used to provide context in Noncompliances.
+	 * @param noMissingSpec    The NoMissingSpec to apply to annotatedElement's annotations.
+	 * @param noExtraSpec      The NoExtraSpec to apply to annotatedElement's annotations.
 	 */
 	static void visitAnnotatedElement(
 			@CheckForNull final AnnotatedElement annotatedElement,
@@ -84,16 +85,33 @@ public class AnnotatedElementSuite<ITEM extends AnnotatedElement> implements Ite
 	@Override
 	public void visit(@CheckForNull final ITEM annotatedElement) {
 		visitAnnotatedElement(
-				annotatedElement, 
+				annotatedElement,
 				parentName,
 				noMissingSpec,
 				noExtraSpec
 		);
 	}
 
+	/**
+	 * Factory for AnnotatedElementSuites. Ensures that there are no missing/extra annotations.
+	 *
+	 * @param <ITEM> The type of the annotated element.
+	 */
 	public static class AnnotatedElementSuiteFactory<ITEM extends AnnotatedElement>
 			implements ItemVisitorFactory<ITEM, ItemVisitor<ITEM>> {
 
+		public static <ITEM extends AnnotatedElement> AnnotatedElementSuiteFactory<ITEM> getDefaultInst() {
+			return new AnnotatedElementSuiteFactory<>();
+		}
+
+		/**
+		 * Builds and returns a NoMissingSpec which checks for all of the annotations present on AnnotatedElement.
+		 *
+		 * @param annotatedElement      The annotated element whose annotations should be used as reference.
+		 * @param parentName            The name of the parent of the annotated element.
+		 * @param noncomplianceConsumer A Consumer for any noncompliances generated.
+		 * @return a NoMissingSpec which checks for all of the annotations present on AnnotatedElement.
+		 */
 		static NoMissingSpec<AnnotationWrapper> buildNoMissingSpecFromElement(
 				@NonNull final AnnotatedElement annotatedElement,
 				@NonNull final String parentName,
@@ -112,6 +130,14 @@ public class AnnotatedElementSuite<ITEM extends AnnotatedElement> implements Ite
 					.build();
 		}
 
+		/**
+		 * Builds and returns a NoExtraSpec which checks for all of the annotations present on AnnotatedElement.
+		 *
+		 * @param annotatedElement      The annotated element whose annotations should be used as reference.
+		 * @param parentName            The name of the parent of the annotated element.
+		 * @param noncomplianceConsumer A Consumer for any noncompliances generated.
+		 * @return a NoExtraSpec which checks for all of the annotations present on AnnotatedElement.
+		 */
 		static NoExtraSpec<AnnotationWrapper> buildNoExtraSpecFromElement(
 				@NonNull final AnnotatedElement annotatedElement,
 				@NonNull final String parentName,
@@ -129,7 +155,7 @@ public class AnnotatedElementSuite<ITEM extends AnnotatedElement> implements Ite
 					.noncomplianceConsumer(noncomplianceConsumer)
 					.build();
 		}
-		
+
 		@Override
 		public AnnotatedElementSuite<ITEM> buildFromItem(
 				@NonNull final ITEM annotatedElement,
@@ -138,7 +164,7 @@ public class AnnotatedElementSuite<ITEM extends AnnotatedElement> implements Ite
 		) {
 			final NoMissingSpec<AnnotationWrapper> noMissingSpec = buildNoMissingSpecFromElement(
 					annotatedElement,
-					parentName, 
+					parentName,
 					noncomplianceConsumer
 			);
 

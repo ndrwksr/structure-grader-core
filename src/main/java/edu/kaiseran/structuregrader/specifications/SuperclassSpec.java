@@ -18,18 +18,24 @@ public class SuperclassSpec implements ClassVisitor {
 	public static final String NO_SUPERCLASS = "no superclass";
 
 	/**
-	 * Accepts any generated noncompliances, decoupling the consumption of noncompliances from their
-	 * creation.
-	 */
-	@Getter
-	@NonNull
-	private final Consumer<Noncompliance> noncomplianceConsumer;
-
-	/**
 	 * The expected name of the visitee's superclass.
 	 */
 	@Nullable
 	private final String expectedSuperclassName;
+
+	/**
+	 * The name of the parent of the specified element.
+	 */
+	@NonNull
+	@Getter
+	private final String parentName;
+
+	/**
+	 * Accepts any generated noncompliances, decoupling the consumption of noncompliances from their
+	 * creation.
+	 */
+	@NonNull
+	private final Consumer<Noncompliance> noncomplianceConsumer;
 
 	/**
 	 * Returns the name of the Class. If the Class is Object, null is returned instead.
@@ -68,7 +74,7 @@ public class SuperclassSpec implements ClassVisitor {
 				stringBuilder.append(", but had ");
 				stringBuilder.append(actualSuperclassName == null ? NO_SUPERCLASS : "superclass %A.");
 
-				getNoncomplianceConsumer().accept(
+				noncomplianceConsumer.accept(
 						Noncompliance.builder()
 								.parentName(classWrapper.getName())
 								.expected(expectedSuperclassName)
@@ -97,6 +103,7 @@ public class SuperclassSpec implements ClassVisitor {
 			return SuperclassSpec.builder()
 					.expectedSuperclassName(checkedSuperclassName)
 					.noncomplianceConsumer(noncomplianceConsumer)
+					.parentName(parentName)
 					.build();
 		}
 	}

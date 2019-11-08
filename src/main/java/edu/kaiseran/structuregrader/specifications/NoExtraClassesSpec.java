@@ -7,6 +7,7 @@ import edu.kaiseran.structuregrader.visitors.ClassHierarchyVisitor;
 import edu.kaiseran.structuregrader.visitors.ClassHierarchyVisitorFactory;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
