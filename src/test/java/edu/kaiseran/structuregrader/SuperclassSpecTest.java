@@ -1,8 +1,8 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.specifications.SuperclassSpec;
-import edu.kaiseran.structuregrader.specifications.SuperclassSpec.SuperclassSpecFactory;
-import edu.kaiseran.structuregrader.wrappers.ClassWrapper;
+import edu.kaiseran.structuregrader.specification.clazz.SuperclassSpec;
+import edu.kaiseran.structuregrader.specification.clazz.SuperclassSpec.SuperclassSpecFactory;
+import edu.kaiseran.structuregrader.wrapper.ClassWrapper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,11 +15,11 @@ public class SuperclassSpecTest {
 
 	private final SuperclassSpecFactory superclassSpecFactory = new SuperclassSpecFactory();
 
-	private final ClassWrapper noSuperStructure = ClassWrapper.buildFrom(
+	private final ClassWrapper noSuperStructure = new ClassWrapper(
 			edu.test.proj1.NoSuperClass.class
 	);
 
-	private final ClassWrapper subStructure = ClassWrapper.buildFrom(
+	private final ClassWrapper subStructure = new ClassWrapper(
 			edu.test.proj1.SubClass.class
 	);
 
@@ -56,7 +56,7 @@ public class SuperclassSpecTest {
 	@Test
 	public void noSuperExpectedAndExtendsObjectExplicitly() {
 		final SuperclassSpec superclassSpec = superclassSpecFactory.buildFromItem(noSuperStructure, TEST_NAME, noncomplianceConsumer);
-		superclassSpec.visit(ClassWrapper.buildFrom(ExplicitlyExtendsObject.class));
+		superclassSpec.visit(new ClassWrapper(ExplicitlyExtendsObject.class));
 		assert noncompliances.size() == 0;
 	}
 
@@ -84,7 +84,7 @@ public class SuperclassSpecTest {
 	@Test
 	public void superExpectedButHadWrongSuper() {
 		final SuperclassSpec superclassSpec = superclassSpecFactory.buildFromItem(subStructure, TEST_NAME, noncomplianceConsumer);
-		superclassSpec.visit(ClassWrapper.buildFrom(SubClassOfWrongSuper.class));
+		superclassSpec.visit(new ClassWrapper(SubClassOfWrongSuper.class));
 		assert noncompliances.size() == 1;
 	}
 }

@@ -1,11 +1,8 @@
 package edu.kaiseran.structuregrader;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import edu.kaiseran.structuregrader.specifications.FieldSuite;
-import edu.kaiseran.structuregrader.specifications.FieldSuite.FieldSuiteFactory;
-import edu.kaiseran.structuregrader.wrappers.FieldWrapper;
-import edu.test.proj1.FieldClass;
+import edu.kaiseran.structuregrader.specification.variable.FieldSuite;
+import edu.kaiseran.structuregrader.specification.variable.FieldSuite.FieldSuiteFactory;
+import edu.kaiseran.structuregrader.wrapper.FieldWrapper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +10,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Consumer;
 
 public class FieldSuiteTest {
@@ -67,12 +63,12 @@ public class FieldSuiteTest {
 	private void runArrayTestIteration(final int fields1Index, final int fields2Index, final boolean shouldFail) {
 		final FieldSuiteFactory factory = FieldSuiteFactory.getDefaultInst();
 		final FieldSuite fieldSuite = factory.buildFromItem(
-				FieldWrapper.buildFrom(fields_1.get(fields1Index)),
+				new FieldWrapper(fields_1.get(fields1Index)),
 				PARENT_NAME,
 				noncomplianceConsumer
 		);
 
-		final FieldWrapper fieldWrapper = FieldWrapper.buildFrom(fields_2.get(fields2Index));
+		final FieldWrapper fieldWrapper = new FieldWrapper(fields_2.get(fields2Index));
 		fieldSuite.visit(fieldWrapper);
 		assert shouldFail ? noncompliances.size() >= 1 : noncompliances.isEmpty();
 

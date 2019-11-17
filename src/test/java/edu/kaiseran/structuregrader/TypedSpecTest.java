@@ -1,8 +1,9 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.specifications.TypedSpec;
-import edu.kaiseran.structuregrader.specifications.TypedSpec.TypedSpecFactory;
-import edu.kaiseran.structuregrader.wrappers.FieldWrapper;
+import edu.kaiseran.structuregrader.property.Variable;
+import edu.kaiseran.structuregrader.specification.TypedSpec;
+import edu.kaiseran.structuregrader.specification.TypedSpec.TypedSpecFactory;
+import edu.kaiseran.structuregrader.wrapper.FieldWrapper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+// TODO [ndrwksr | 11/17/19]: Revisit for correctness after field/variable refactor
 public class TypedSpecTest {
 	private static final String PARENT_NAME = "parent name";
 
@@ -37,7 +39,7 @@ public class TypedSpecTest {
 
 	@Test
 	public void intVisitsIntFieldTest() throws NoSuchFieldException {
-		FieldWrapper intWrapper = FieldWrapper.buildFrom(
+		Variable intWrapper = new FieldWrapper(
 				TypedSpecTestClass.class.getDeclaredField("intField")
 		);
 
@@ -54,7 +56,7 @@ public class TypedSpecTest {
 
 	@Test
 	public void untypedListVisitsUntypedListFieldTest()  throws NoSuchFieldException {
-		FieldWrapper untypedListWrapper = FieldWrapper.buildFrom(
+		Variable untypedListWrapper = new FieldWrapper(
 				TypedSpecTestClass.class.getDeclaredField("untypedListField")
 		);
 
@@ -71,7 +73,7 @@ public class TypedSpecTest {
 
 	@Test
 	public void typedListVisitsTypedListFieldTest() throws NoSuchFieldException {
-		FieldWrapper typedListWrapper = FieldWrapper.buildFrom(
+		Variable typedListWrapper = new FieldWrapper(
 				TypedSpecTestClass.class.getDeclaredField("typedListField")
 		);
 
@@ -88,12 +90,12 @@ public class TypedSpecTest {
 
 	@Test
 	public void typedListVisitsUntypedListWithGenericFlagFalseFieldTest() throws NoSuchFieldException {
-		FieldWrapper typedListWrapper = FieldWrapper.buildFrom(
+		Variable typedListWrapper = new FieldWrapper(
 				TypedSpecTestClass.class.getDeclaredField("typedListField")
 		);
 
-		final TypedSpecFactory<FieldWrapper> genericIgnoringTypeCheckFactory =
-				TypedSpecFactory.<FieldWrapper>builder().useGenericTypeName(false).build();
+		final TypedSpecFactory<Variable> genericIgnoringTypeCheckFactory =
+				TypedSpecFactory.<Variable>builder().useGenericTypeName(false).build();
 
 		TypedSpec typedSpec = genericIgnoringTypeCheckFactory.buildFromItem(
 				typedListWrapper,
@@ -101,7 +103,7 @@ public class TypedSpecTest {
 				noncomplianceConsumer
 		);
 
-		FieldWrapper untypedListWrapper = FieldWrapper.buildFrom(
+		Variable untypedListWrapper = new FieldWrapper(
 				TypedSpecTestClass.class.getDeclaredField("untypedListField")
 		);
 
@@ -112,7 +114,7 @@ public class TypedSpecTest {
 
 	@Test
 	public void typedListVisitsUntypedListWithGenericFlagTrueFieldTest() throws NoSuchFieldException {
-		FieldWrapper typedListWrapper = FieldWrapper.buildFrom(
+		Variable typedListWrapper = new FieldWrapper(
 				TypedSpecTestClass.class.getDeclaredField("typedListField")
 		);
 
@@ -122,7 +124,7 @@ public class TypedSpecTest {
 				noncomplianceConsumer
 		);
 
-		FieldWrapper untypedListWrapper = FieldWrapper.buildFrom(
+		Variable untypedListWrapper = new FieldWrapper(
 				TypedSpecTestClass.class.getDeclaredField("untypedListField")
 		);
 
@@ -133,7 +135,7 @@ public class TypedSpecTest {
 
 	@Test
 	public void typedListVisitsIntFieldTest() throws NoSuchFieldException {
-		FieldWrapper typedListWrapper = FieldWrapper.buildFrom(
+		Variable typedListWrapper = new FieldWrapper(
 				TypedSpecTestClass.class.getDeclaredField("typedListField")
 		);
 
@@ -143,7 +145,7 @@ public class TypedSpecTest {
 				noncomplianceConsumer
 		);
 
-		FieldWrapper intWrapper = FieldWrapper.buildFrom(
+		Variable intWrapper = new FieldWrapper(
 				TypedSpecTestClass.class.getDeclaredField("intField")
 		);
 

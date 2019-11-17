@@ -1,7 +1,7 @@
 package edu.kaiseran.structuregrader;
 
 
-import edu.kaiseran.structuregrader.specifications.MissingExtraHelper;
+import edu.kaiseran.structuregrader.specification.quantity.MissingExtraHelper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,7 +52,6 @@ public class MissingExtraHelperTest {
 				noncomplianceConsumer
 		);
 
-		noncompliances.forEach(System.out::println);
 		assert noncompliances.size() == 0;
 	}
 
@@ -71,7 +70,6 @@ public class MissingExtraHelperTest {
 				noncomplianceConsumer
 		);
 
-		noncompliances.forEach(System.out::println);
 		assert noncompliances.size() == 0;
 	}
 
@@ -93,7 +91,6 @@ public class MissingExtraHelperTest {
 				noncomplianceConsumer
 		);
 
-		noncompliances.forEach(System.out::println);
 		assert noncompliances.size() == 1;
 
 		final Noncompliance extraNoncompliance = noncompliances.get(0);
@@ -132,7 +129,6 @@ public class MissingExtraHelperTest {
 				noncomplianceConsumer
 		);
 
-		noncompliances.forEach(System.out::println);
 		assert noncompliances.size() == 1;
 
 		final Noncompliance extraNoncompliance = noncompliances.get(0);
@@ -164,7 +160,6 @@ public class MissingExtraHelperTest {
 				noncomplianceConsumer
 		);
 
-		noncompliances.forEach(System.out::println);
 		assert noncompliances.size() == 0;
 	}
 
@@ -183,7 +178,6 @@ public class MissingExtraHelperTest {
 				noncomplianceConsumer
 		);
 
-		noncompliances.forEach(System.out::println);
 		assert noncompliances.size() == 0;
 	}
 
@@ -205,7 +199,6 @@ public class MissingExtraHelperTest {
 				noncomplianceConsumer
 		);
 
-		noncompliances.forEach(System.out::println);
 		assert noncompliances.size() == 1;
 
 		final Noncompliance missingNoncompliance = noncompliances.get(0);
@@ -244,7 +237,6 @@ public class MissingExtraHelperTest {
 				noncomplianceConsumer
 		);
 
-		noncompliances.forEach(System.out::println);
 		assert noncompliances.size() == 1;
 
 		final Noncompliance missingNoncompliance = noncompliances.get(0);
