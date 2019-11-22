@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.experimental.SuperBuilder;
 
 import javax.annotation.CheckForNull;
 import java.lang.reflect.Type;
@@ -62,10 +63,10 @@ public class TypedSpec<TYPED extends Typed> implements ItemVisitor<TYPED> {
 				// Compare types
 				//noinspection ConstantConditions -- typed.typeName can't be null, else useGenericTypeName would be true
 				if (!typeName.equals(typed.getType().getTypeName())) {
-					noncomplianceConsumer.accept(Noncompliance.builder()
+					noncomplianceConsumer.accept(TypedNoncompliance.builder()
 							.parentName(parentName)
 							.expected(typeName)
-							.actual(typed.getType())
+							.actual(typed.getType().getTypeName())
 							.explanation("Expected " + typed.getName() + " to have type %E, but had type %A.")
 							.build());
 				}
@@ -76,7 +77,7 @@ public class TypedSpec<TYPED extends Typed> implements ItemVisitor<TYPED> {
 						.map(Type::getTypeName);
 
 				if (!expectedGenericTypeName.equals(actualGenericTypeName)) {
-					noncomplianceConsumer.accept(Noncompliance.builder()
+					noncomplianceConsumer.accept(TypedNoncompliance.builder()
 							.parentName(parentName)
 							.expected(genericTypeName)
 							.actual(typed.getGenericType().getTypeName())
@@ -86,6 +87,14 @@ public class TypedSpec<TYPED extends Typed> implements ItemVisitor<TYPED> {
 			}
 		}
 	}
+
+	/**
+	 * A Noncompliance for when a Typed has the wrong type.
+	 */
+	@SuperBuilder
+	public static class TypedNoncompliance extends Noncompliance<String> {
+	}
+
 
 	/**
 	 * A class for creating new TypedSpecs. Can be configured to produce TypedSpecs which consider or ignore generic type

@@ -36,6 +36,14 @@ public class NoMissingSpec<ITEM extends Named> extends MapSpec<ITEM, String> {
 	}
 
 	/**
+	 * A noncompliance for when a NoMissingSpec encounters missing elements.
+	 */
+	@SuperBuilder
+	public static class MissingNoncompliance extends Noncompliance<Set> {
+
+	}
+
+	/**
 	 * Factory for NoMissingSpecs. Has no state/configuration.
 	 *
 	 * @param <ITEM> The type of the items in the maps this factory specifies.

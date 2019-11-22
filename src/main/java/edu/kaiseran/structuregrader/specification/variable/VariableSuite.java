@@ -4,9 +4,11 @@ import com.google.common.collect.ImmutableSet;
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.property.Variable;
 import edu.kaiseran.structuregrader.specification.AnnotatedSuite.AnnotatedSuiteFactory;
+import edu.kaiseran.structuregrader.specification.ModifiedSpec.ModifiedSpecFactory;
 import edu.kaiseran.structuregrader.specification.TypedSpec.TypedSpecFactory;
 import edu.kaiseran.structuregrader.visitor.ItemVisitor;
 import edu.kaiseran.structuregrader.visitor.ItemVisitorFactory;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
@@ -22,7 +24,7 @@ import java.util.stream.Collectors;
  * modifiers and type of a variable.
  */
 @Data
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class VariableSuite<ITEM extends Variable> implements ItemVisitor<ITEM> {
 	/**
 	 * The sub-specifications that make up this suite.
@@ -49,14 +51,26 @@ public class VariableSuite<ITEM extends Variable> implements ItemVisitor<ITEM> {
 	 */
 	public static class VariableSuiteFactory<ITEM extends Variable>
 			implements ItemVisitorFactory<ITEM, VariableSuite<ITEM>> {
-		protected final ImmutableSet<ItemVisitorFactory<ITEM, ?>> visitorFactories;
+		/**
+		 * The factories for populating VariableSuite.specs.
+		 */
+		private final ImmutableSet<ItemVisitorFactory<ITEM, ?>> visitorFactories;
 
+		/**
+		 * @param <ITEM> The type of the Variable which the VariableSuite is for.
+		 * @return a pre-configured instance for consumers of VariableSuiteFactory to use.
+		 */
 		public static <ITEM extends Variable> VariableSuiteFactory<ITEM> getDefaultInst() {
 			return new VariableSuiteFactory<>(null);
 		}
 
+		/**
+		 * @param <ITEM> The type of the Variable which the VariableSuite is for.
+		 * @return the default ItemVisitorFactories to be used to populate VariableSuite.specs.
+		 */
 		private static <ITEM extends Variable> ImmutableSet<ItemVisitorFactory<ITEM, ?>> getDefaultVisitorFactories() {
 			return ImmutableSet.of(
+					ModifiedSpecFactory.getDefaultInst(),
 					AnnotatedSuiteFactory.getDefaultInst(),
 					TypedSpecFactory.getDefaultInst()
 			);
@@ -65,6 +79,7 @@ public class VariableSuite<ITEM extends Variable> implements ItemVisitor<ITEM> {
 		/**
 		 * @param visitorFactories The set of factories to be used for making sub-specifications.
 		 */
+		@Builder
 		public VariableSuiteFactory(
 				@CheckForNull final Set<ItemVisitorFactory<ITEM, ?>> visitorFactories
 		) {
@@ -73,14 +88,19 @@ public class VariableSuite<ITEM extends Variable> implements ItemVisitor<ITEM> {
 					getDefaultVisitorFactories();
 		}
 
+		@Override
 		public VariableSuite<ITEM> buildFromItem(
 				@NonNull final ITEM item,
 				@NonNull final String parentName,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
 			final Set<ItemVisitor<ITEM>> specs = visitorFactories.stream()
-			.map(factory -> factory.buildFromItem(item, parentName, noncomplianceConsumer))
-			.collect(Collectors.toSet());
+					.map(factory -> factory.buildFromItem(
+							item,
+							parentName + "#" + item.getName(),
+							noncomplianceConsumer
+					))
+					.collect(Collectors.toSet());
 
 			return VariableSuite.<ITEM>builder()
 					.specs(specs)

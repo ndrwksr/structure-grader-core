@@ -36,6 +36,14 @@ public class NoExtraSpec<ITEM extends Named> extends MapSpec<ITEM, String> {
 	}
 
 	/**
+	 * A noncompliance for when a NoExtraSpec encounters extra elements.
+	 */
+	@SuperBuilder
+	public static class ExtraNoncompliance extends Noncompliance<Set> {
+
+	}
+
+	/**
 	 * Factory for NoExtraSpecs. Has no state/configuration.
 	 *
 	 * @param <ITEM> The type of the items in the maps this factory specifies.

@@ -1,14 +1,13 @@
 package edu.kaiseran.structuregrader;
 
 import edu.kaiseran.structuregrader.specification.clazz.ClassMapSuite;
+import edu.kaiseran.structuregrader.specification.clazz.ClassMapSuite.ClassMapSuiteFactory;
 import lombok.NonNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-
-import static edu.kaiseran.structuregrader.specification.clazz.ClassMapSuite.ClassMapSuiteFactory;
 
 // TODO [ndrwksr | 10/15/19]: Document or discard.
 //  This class currently only exists for testing, and will be discarded or entirely rewritten later.

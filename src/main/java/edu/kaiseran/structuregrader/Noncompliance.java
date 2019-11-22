@@ -1,8 +1,8 @@
 package edu.kaiseran.structuregrader;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
+import lombok.experimental.SuperBuilder;
 
 import javax.annotation.Nullable;
 
@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
  * @param <T> The type of expected and actual.
  */
 @Data
-@Builder
+@SuperBuilder
 public class Noncompliance<T> {
 
 	/**

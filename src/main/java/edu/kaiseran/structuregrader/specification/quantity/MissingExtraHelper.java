@@ -1,10 +1,10 @@
 package edu.kaiseran.structuregrader.specification.quantity;
 
+import com.google.common.collect.Sets;
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.TemplateKeys;
 import lombok.NonNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -42,9 +42,9 @@ public class MissingExtraHelper {
 
 		// If any such entries remain,
 		if (extraItems.size() > 0) {
-			final List<String> actualItemNames = new ArrayList<>(items.keySet());
+			final Set<String> actualItemNames = Sets.newHashSet(items.keySet());
 
-			noncomplianceConsumer.accept(Noncompliance.builder()
+			noncomplianceConsumer.accept(NoExtraSpec.ExtraNoncompliance.builder()
 					.parentName(declaringName)
 					.expected(expectedItemNames)
 					.actual(actualItemNames)
@@ -81,9 +81,9 @@ public class MissingExtraHelper {
 
 		// If any such names found,
 		if (missingItemNames.size() > 0) {
-			final List<String> actualItemNames = new ArrayList<>(items.keySet());
+			final Set<String> actualItemNames = Sets.newHashSet(items.keySet());
 
-			noncomplianceConsumer.accept(Noncompliance.builder()
+			noncomplianceConsumer.accept(NoMissingSpec.MissingNoncompliance.builder()
 					.parentName(declaringName)
 					.expected(expectedItemNames)
 					.actual(actualItemNames)

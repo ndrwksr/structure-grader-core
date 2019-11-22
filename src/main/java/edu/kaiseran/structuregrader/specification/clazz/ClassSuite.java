@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.specification.clazz.ClassMapSuite.ClassMapSuiteFactory;
 import edu.kaiseran.structuregrader.specification.quantity.NoExtraClassesSpec.NoExtraClassesSpecFactory;
+import edu.kaiseran.structuregrader.specification.variable.FieldMapSuite.FieldMapSuiteFactory;
 import edu.kaiseran.structuregrader.visitor.ClassVisitor;
 import edu.kaiseran.structuregrader.visitor.ClassVisitorFactory;
 import edu.kaiseran.structuregrader.wrapper.ClassWrapper;
@@ -23,7 +24,6 @@ import java.util.function.Consumer;
 import static edu.kaiseran.structuregrader.specification.clazz.AnnotatedClassSuite.AnnotatedClassSuiteFactory;
 import static edu.kaiseran.structuregrader.specification.clazz.SuperclassSpec.SuperclassSpecFactory;
 import static edu.kaiseran.structuregrader.specification.quantity.NoMissingClassesSpec.NoMissingClassesSpecFactory;
-import static edu.kaiseran.structuregrader.specification.variable.FieldMapSuite.FieldMapSuiteFactory;
 
 /**
  * Contains specifications for a single class (the "specified" class), possibly including a ClassMapSuite to specify
@@ -56,10 +56,13 @@ public class ClassSuite implements ClassVisitor {
 	 */
 	public static class ClassSuiteFactory implements ClassVisitorFactory<ClassSuite> {
 
+		/**
+		 * The ClassMapSuiteFactory to be used to make a ClassMapSuite for the specified class's inner classes.
+		 */
 		private ClassMapSuiteFactory classMapSuiteFactory;
 
 		/**
-		 * The ClassVisitorFactories provided by default for populating declaringClassSpecs from classStructure.
+		 * The ClassVisitorFactories provided by default for populating specifiedClassVisitors from classStructure.
 		 */
 		private static ImmutableList<ClassVisitorFactory<?>> getDefaultVisitorFactories() {
 			return ImmutableList.of(
@@ -72,10 +75,12 @@ public class ClassSuite implements ClassVisitor {
 		}
 
 		/**
-		 * @return a pre-made, default instance for consumers of ClassSpecSuiteFactory to use.
+		 * @return a pre-made, default instance for consumers of ClassSuiteFactory to use.
+		 *
+		 * @param classCollectionSuiteFactory The factory to be used to provide a suite for a class's inner classes.
 		 */
 		public static ClassSuiteFactory getDefaultInst(
-				@NonNull final ClassMapSuite.ClassMapSuiteFactory classCollectionSuiteFactory
+				@NonNull final ClassMapSuiteFactory classCollectionSuiteFactory
 		) {
 			return new ClassSuiteFactory(null, classCollectionSuiteFactory);
 		}

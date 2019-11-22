@@ -1,7 +1,6 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.specification.variable.FieldSuite;
-import edu.kaiseran.structuregrader.specification.variable.FieldSuite.FieldSuiteFactory;
+import edu.kaiseran.structuregrader.specification.variable.VariableSuite;
 import edu.kaiseran.structuregrader.wrapper.FieldWrapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+
+import static edu.kaiseran.structuregrader.specification.variable.VariableSuite.*;
 
 public class FieldSuiteTest {
 	private static final String PARENT_NAME = "parent name";
@@ -61,8 +62,8 @@ public class FieldSuiteTest {
 	}
 
 	private void runArrayTestIteration(final int fields1Index, final int fields2Index, final boolean shouldFail) {
-		final FieldSuiteFactory factory = FieldSuiteFactory.getDefaultInst();
-		final FieldSuite fieldSuite = factory.buildFromItem(
+		final VariableSuiteFactory<FieldWrapper> factory = VariableSuiteFactory.getDefaultInst();
+		final VariableSuite<FieldWrapper> fieldSuite = factory.buildFromItem(
 				new FieldWrapper(fields_1.get(fields1Index)),
 				PARENT_NAME,
 				noncomplianceConsumer

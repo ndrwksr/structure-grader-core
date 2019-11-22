@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.experimental.SuperBuilder;
 
 import javax.annotation.CheckForNull;
 import java.util.function.Consumer;
@@ -46,7 +47,7 @@ public class ModifiedSpec<MODIFIED extends Modified> implements ItemVisitor<MODI
 
 			if (actualModifiers != expectedModifiers) {
 				noncomplianceConsumer.accept(
-						Noncompliance.builder()
+						ModifiedNoncompliance.builder()
 								.parentName(modified.getName())
 								.actual(actualModifiers)
 								.expected(expectedModifiers)
@@ -84,5 +85,13 @@ public class ModifiedSpec<MODIFIED extends Modified> implements ItemVisitor<MODI
 					.parentName(parentName)
 					.build();
 		}
+	}
+
+	/**
+	 * A Noncompliance for when a Modified has the wrong modifiers.
+	 */
+	@SuperBuilder
+	public static class ModifiedNoncompliance extends Noncompliance<Integer> {
+
 	}
 }
