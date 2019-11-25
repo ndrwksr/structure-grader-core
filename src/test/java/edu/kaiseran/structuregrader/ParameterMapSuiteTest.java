@@ -34,6 +34,12 @@ public class ParameterMapSuiteTest {
 		noncompliances.clear();
 	}
 
+	private boolean noncomplianceOfTypeWasMade(
+			final Class<? extends Noncompliance> noncomplianceClass
+	) {
+		return noncompliances.stream().anyMatch(noncomplianceClass::isInstance);
+	}
+
 	private final Method intMethod1 = ParameterSuiteTest.ParamsTestObject.class.getDeclaredMethod(
 			"intMethod1", int.class, int.class, int.class
 	);
@@ -46,12 +52,6 @@ public class ParameterMapSuiteTest {
 	private final Method intMethod4 = ParameterSuiteTest.ParamsTestObject.class.getDeclaredMethod(
 			"intMethod4", int.class, int.class, int.class
 	);
-
-	private boolean noncomplianceOfTypeWasMade(
-			final Class<? extends Noncompliance> noncomplianceClass
-	) {
-		return noncompliances.stream().anyMatch(noncomplianceClass::isInstance);
-	}
 
 	private final ParameterMapSuiteFactory orderSpecificFactory = ParameterMapSuiteFactory.getDefaultInst();
 

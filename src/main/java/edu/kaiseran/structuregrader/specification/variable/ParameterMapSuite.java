@@ -3,6 +3,8 @@ package edu.kaiseran.structuregrader.specification.variable;
 import com.google.common.collect.ImmutableSet;
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.specification.MapSuite;
+import edu.kaiseran.structuregrader.specification.quantity.NoExtraSpec.NoExtraSpecFactory;
+import edu.kaiseran.structuregrader.specification.quantity.NoMissingSpec.NoMissingSpecFactory;
 import edu.kaiseran.structuregrader.specification.variable.VariableSuite.VariableSuiteFactory;
 import edu.kaiseran.structuregrader.visitor.ItemVisitor;
 import edu.kaiseran.structuregrader.visitor.ItemVisitorFactory;
@@ -74,7 +76,9 @@ public class ParameterMapSuite extends VariableMapSuite<ParameterWrapper> implem
 		 */
 		private static ImmutableSet<MapVisitorFactory<ParameterWrapper, ?>> getDefaultCollectionVisitorFactories() {
 			return ImmutableSet.of(
-					OrderedListSpecFactory.getDefaultInst()
+					OrderedListSpecFactory.getDefaultInst(),
+					NoMissingSpecFactory.getDefaultInst(),
+					NoExtraSpecFactory.getDefaultInst()
 			);
 		}
 

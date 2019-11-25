@@ -13,7 +13,6 @@ import lombok.experimental.SuperBuilder;
 import javax.annotation.CheckForNull;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -48,30 +47,20 @@ public class OrderedListSpec<ITEM extends Ordinal> implements MapVisitor<ITEM> {
 		if (namedMap != null) {
 			final Map<String, ITEM> items = namedMap.getItems();
 
-			// Ensure items was the same length as expected
-			if (items.size() != expectedOrder.size()) {
-				noncomplianceConsumer.accept(OrdinalNoncompliance.builder()
-						.expected(expectedOrder.size())
-						.actual(items.size())
-						.parentName(parentName)
-						.explanation("Expected items to have length %E but had %A")
-						.build());
-			} else {
-				final Map<String, Integer> actualNameToIndexMap = items.entrySet().stream()
-						.collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getIndex()));
-				items.forEach((expectedNameAtIndex, item) -> {
-					final String actualNameAtIndex = this.expectedOrder.get(item.getIndex());
+			final Map<String, Integer> actualNameToIndexMap = items.entrySet().stream()
+					.collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getIndex()));
 
-					if (!Objects.equals(actualNameAtIndex, expectedNameAtIndex)) {
-						noncomplianceConsumer.accept(OrdinalNoncompliance.builder()
-								.expected(expectedNameAtIndex)
-								.actual(actualNameAtIndex)
-								.parentName(parentName)
-								.explanation("Expected item at index " + expectedOrder.indexOf(expectedNameAtIndex) +
-										" to have value %E but had %A")
-								.build());
-					}
-				});
+			for (int expectedIndex = 0; expectedIndex < expectedOrder.size(); expectedIndex++) {
+				final String expectedName = expectedOrder.get(expectedIndex);
+				final Integer actualIndex = actualNameToIndexMap.get(expectedName);
+				if (actualIndex != null && actualIndex != expectedIndex) {
+					noncomplianceConsumer.accept(OrdinalNoncompliance.builder()
+							.expected(expectedIndex)
+							.actual(actualIndex)
+							.parentName(parentName)
+							.explanation("Expected item with name " + expectedName + " to be at index %E, but was at index %A")
+							.build());
+				}
 			}
 		}
 	}
