@@ -5,8 +5,8 @@
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="structuregrader_main" target="1.8" />
-      <module name="structuregrader_test" target="1.8" />
+      <module name="structuregrader.main" target="13" />
+      <module name="structuregrader.test" target="13" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

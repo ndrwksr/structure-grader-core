@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 
 
 /**
- * A suite for a map of fields. Contains specifications for the map of suites as a whole, and suites for the individual
+ * A suite for a map of fields. Contains specifications for the map of fields as a whole, and suites for the individual
  * fields in the map.
  */
 public class FieldMapSuite extends VariableMapSuite<FieldWrapper> implements ClassVisitor {

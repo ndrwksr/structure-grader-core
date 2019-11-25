@@ -36,6 +36,9 @@ public class ClassWrapper implements Named, Annotated, Modified {
 		return (A) sourceClass.getAnnotation(annotationClass);
 	}
 
+	/**
+	 * @return a NamedMap of the classes within this class.
+	 */
 	public NamedMap<ClassWrapper> getDeclaredClasses() {
 		final Map<String, ClassWrapper> declaredClasses = Arrays.stream(sourceClass.getDeclaredClasses())
 				.map(ClassWrapper::new)
@@ -65,6 +68,9 @@ public class ClassWrapper implements Named, Annotated, Modified {
 				.build();
 	}
 
+	/**
+	 * @return this class's superclass.
+	 */
 	public Class getSuperclass() {
 		return sourceClass.getSuperclass();
 	}

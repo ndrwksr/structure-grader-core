@@ -2,6 +2,7 @@ package edu.kaiseran.structuregrader;
 
 import edu.kaiseran.structuregrader.property.Named;
 import edu.kaiseran.structuregrader.specification.ModifiedSpec;
+import edu.kaiseran.structuregrader.specification.TypedSpec;
 import edu.kaiseran.structuregrader.specification.quantity.NoExtraSpec;
 import edu.kaiseran.structuregrader.specification.quantity.NoMissingSpec;
 import edu.kaiseran.structuregrader.specification.variable.VariableSuite;
@@ -29,7 +30,7 @@ public class ParameterSuiteTest {
 		noncompliances.add(noncompliance);
 		System.out.println(this.getClass().getSimpleName() + ": " + noncompliance);
 	};
-	
+
 	public ParameterSuiteTest() throws NoSuchMethodException {
 	}
 
@@ -59,15 +60,19 @@ public class ParameterSuiteTest {
 
 		}
 
-		private void objMethod1(Object obj1, List obj2, List<Integer> obj3, Object... objects) {
+		private void objMethod1(Object obj0, List obj1, List<Integer> obj2, Object... objects) {
 
 		}
 
-		private void objMethod2(Object obj1, List obj2, List<Integer> obj3, Object... objects) {
+		private void objMethod2(Object obj0, List obj1, List<Integer> obj2, Object... objects) {
 
 		}
 
-		private void objMethod3(Object obj0, Object obj1, List obj2, List<Integer> obj3, Object... objects) {
+		private void objMethod3(Object obj0, List obj1, List<Integer> obj2, Object[] objects) {
+
+		}
+
+		private void objMethod4(Object obj0, List obj1, List obj2, Object... objects) {
 
 		}
 	}
@@ -86,6 +91,22 @@ public class ParameterSuiteTest {
 	);
 	private final Method intMethod5 = ParamsTestObject.class.getDeclaredMethod(
 			"intMethod5", int.class, int.class, int.class
+	);
+
+	private final Method objMethod1 = ParamsTestObject.class.getDeclaredMethod(
+			"objMethod1", Object.class, List.class, List.class, Object[].class
+	);
+
+	private final Method objMethod2 = ParamsTestObject.class.getDeclaredMethod(
+			"objMethod2", Object.class, List.class, List.class, Object[].class
+	);
+
+	private final Method objMethod3 = ParamsTestObject.class.getDeclaredMethod(
+			"objMethod3", Object.class, List.class, List.class, Object[].class
+	);
+
+	private final Method objMethod4 = ParamsTestObject.class.getDeclaredMethod(
+			"objMethod4", Object.class, List.class, List.class, Object[].class
 	);
 
 	private final VariableSuiteFactory<ParameterWrapper> factory = VariableSuiteFactory.getDefaultInst();
@@ -180,11 +201,35 @@ public class ParameterSuiteTest {
 
 	@Test
 	public void objsShouldMatch() {
-
+		final Map<String, ParameterWrapper> wrappers = getWrapperMapFrom(objMethod1);
+		final Map<String, VariableSuite<ParameterWrapper>> suites = getSuiteMapFrom(objMethod2, factory);
+		runSuitesAgainstWrappers(
+				wrappers,
+				suites
+		);
+		assert noncompliances.isEmpty();
 	}
 
 	@Test
-	public void objsShouldNotMatch() {
+	public void objsArrayVersusVariadic() {
+		final Map<String, ParameterWrapper> wrappers = getWrapperMapFrom(objMethod1);
+		final Map<String, VariableSuite<ParameterWrapper>> suites = getSuiteMapFrom(objMethod3, factory);
+		runSuitesAgainstWrappers(
+				wrappers,
+				suites
+		);
+		assert noncompliances.isEmpty();
+	}
 
+	@Test
+	public void objsListNotTyped() {
+		final Map<String, ParameterWrapper> wrappers = getWrapperMapFrom(objMethod1);
+		final Map<String, VariableSuite<ParameterWrapper>> suites = getSuiteMapFrom(objMethod4, factory);
+		runSuitesAgainstWrappers(
+				wrappers,
+				suites
+		);
+		assert !noncompliances.isEmpty();
+		assert noncomplianceOfTypeWasMade(TypedSpec.TypedNoncompliance.class);
 	}
 }
