@@ -13,7 +13,6 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-<<<<<<< HEAD
 /**
  * A wrapper for Method so that Method can implement Variable, and Method can be extended (see getParameters()).
  */
@@ -23,11 +22,6 @@ public class MethodWrapper implements Variable {
 	/**
 	 * The Method this wrapper represents.
 	 */
-=======
-@Data
-public class MethodWrapper implements Variable {
-
->>>>>>> a4d1db17f6f2a31706932a6803bdb764a5b87e15
 	private final Method sourceMethod;
 
 	@Override
