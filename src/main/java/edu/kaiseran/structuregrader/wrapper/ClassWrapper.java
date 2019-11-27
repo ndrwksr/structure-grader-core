@@ -12,6 +12,7 @@ import lombok.ToString.Exclude;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
@@ -50,8 +51,9 @@ public class ClassWrapper implements Named, Annotated, Modified {
 				.build();
 	}
 
+
 	/**
-	 * @return the fields array as a NamedCollection of FieldWrappers.
+	 * @return the fields of this class as a NamedMap of FieldWrappers.
 	 */
 	@NonNull
 	public NamedMap<FieldWrapper> getFields() {
@@ -64,6 +66,24 @@ public class ClassWrapper implements Named, Annotated, Modified {
 
 		return NamedMap.<FieldWrapper>builder()
 				.items(fieldWrappers)
+				.name(collectionName)
+				.build();
+	}
+
+	/**
+	 * @return the methods of this class as a NamedMap of MethodWrappers.
+	 */
+	@NonNull
+	public NamedMap<MethodWrapper> getMethods() {
+		final Method[] methods = sourceClass.getDeclaredMethods();
+		final Map<String, MethodWrapper> methodWrappers = Arrays.stream(methods)
+				.map(MethodWrapper::new)
+				.collect(Collectors.toMap(MethodWrapper::getName, Function.identity()));
+
+		final String collectionName = getName() + "%methods";
+
+		return NamedMap.<MethodWrapper>builder()
+				.items(methodWrappers)
 				.name(collectionName)
 				.build();
 	}

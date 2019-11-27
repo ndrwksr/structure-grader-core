@@ -1,4 +1,4 @@
-package edu.kaiseran.structuregrader.specification.quantity;
+package edu.kaiseran.structuregrader.specification.collection;
 
 import edu.kaiseran.structuregrader.wrapper.ClassWrapper;
 import edu.kaiseran.structuregrader.NamedMap;

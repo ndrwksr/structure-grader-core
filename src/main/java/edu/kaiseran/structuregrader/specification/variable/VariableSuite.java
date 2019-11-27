@@ -6,8 +6,10 @@ import edu.kaiseran.structuregrader.property.Variable;
 import edu.kaiseran.structuregrader.specification.AnnotatedSuite.AnnotatedSuiteFactory;
 import edu.kaiseran.structuregrader.specification.ModifiedSpec.ModifiedSpecFactory;
 import edu.kaiseran.structuregrader.specification.TypedSpec.TypedSpecFactory;
+import edu.kaiseran.structuregrader.specification.variable.ParameterMapSuite.ParameterMapSuiteFactory;
 import edu.kaiseran.structuregrader.visitor.ItemVisitor;
 import edu.kaiseran.structuregrader.visitor.ItemVisitorFactory;
+import edu.kaiseran.structuregrader.wrapper.MethodWrapper;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -62,6 +64,15 @@ public class VariableSuite<ITEM extends Variable> implements ItemVisitor<ITEM> {
 		 */
 		public static <ITEM extends Variable> VariableSuiteFactory<ITEM> getDefaultInst() {
 			return new VariableSuiteFactory<>(null);
+		}
+
+		public static VariableSuiteFactory<MethodWrapper> getDefaultMethodSuiteFactoryInst() {
+			return new VariableSuiteFactory<>(ImmutableSet.of(
+					ModifiedSpecFactory.getDefaultInst(),
+					AnnotatedSuiteFactory.getDefaultInst(),
+					TypedSpecFactory.getDefaultInst(),
+					ParameterMapSuiteFactory.getDefaultInst()
+			));
 		}
 
 		/**

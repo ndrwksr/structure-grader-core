@@ -1,9 +1,9 @@
 package edu.kaiseran.structuregrader;
 
 import edu.kaiseran.structuregrader.property.Ordinal;
-import edu.kaiseran.structuregrader.specification.quantity.OrderedListSpec;
-import edu.kaiseran.structuregrader.specification.quantity.OrderedListSpec.OrderedListSpecFactory;
-import edu.kaiseran.structuregrader.specification.quantity.OrderedListSpec.OrdinalNoncompliance;
+import edu.kaiseran.structuregrader.specification.collection.OrderedListSpec;
+import edu.kaiseran.structuregrader.specification.collection.OrderedListSpec.OrderedListSpecFactory;
+import edu.kaiseran.structuregrader.specification.collection.OrderedListSpec.OrdinalNoncompliance;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.junit.Before;

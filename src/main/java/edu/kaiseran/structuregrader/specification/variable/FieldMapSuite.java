@@ -82,5 +82,4 @@ public class FieldMapSuite extends VariableMapSuite<FieldWrapper> implements Cla
 			return new FieldMapSuite(superSuite.getCollectionSpecs(), superSuite.getItemSuites(), parentName);
 		}
 	}
-
 }

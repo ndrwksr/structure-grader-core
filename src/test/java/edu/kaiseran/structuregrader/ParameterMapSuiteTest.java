@@ -1,9 +1,9 @@
 package edu.kaiseran.structuregrader;
 
 import com.google.common.collect.ImmutableSet;
-import edu.kaiseran.structuregrader.specification.quantity.NoExtraSpec;
-import edu.kaiseran.structuregrader.specification.quantity.NoMissingSpec;
-import edu.kaiseran.structuregrader.specification.quantity.OrderedListSpec;
+import edu.kaiseran.structuregrader.specification.collection.NoExtraSpec;
+import edu.kaiseran.structuregrader.specification.collection.NoMissingSpec;
+import edu.kaiseran.structuregrader.specification.collection.OrderedListSpec;
 import edu.kaiseran.structuregrader.specification.variable.ParameterMapSuite;
 import edu.kaiseran.structuregrader.specification.variable.ParameterMapSuite.ParameterMapSuiteFactory;
 import edu.kaiseran.structuregrader.specification.variable.VariableSuite;

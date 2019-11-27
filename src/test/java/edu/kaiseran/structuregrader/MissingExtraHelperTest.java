@@ -1,7 +1,7 @@
 package edu.kaiseran.structuregrader;
 
 
-import edu.kaiseran.structuregrader.specification.quantity.MissingExtraHelper;
+import edu.kaiseran.structuregrader.specification.collection.MissingExtraHelper;
 import org.junit.Before;
 import org.junit.Test;
 

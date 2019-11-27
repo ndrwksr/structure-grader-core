@@ -4,8 +4,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.specification.clazz.ClassMapSuite.ClassMapSuiteFactory;
-import edu.kaiseran.structuregrader.specification.quantity.NoExtraClassesSpec.NoExtraClassesSpecFactory;
+import edu.kaiseran.structuregrader.specification.collection.NoExtraClassesSpec.NoExtraClassesSpecFactory;
 import edu.kaiseran.structuregrader.specification.variable.FieldMapSuite.FieldMapSuiteFactory;
+import edu.kaiseran.structuregrader.specification.executable.MethodMapSuite.MethodMapSuiteFactory;
 import edu.kaiseran.structuregrader.visitor.ClassVisitor;
 import edu.kaiseran.structuregrader.visitor.ClassVisitorFactory;
 import edu.kaiseran.structuregrader.wrapper.ClassWrapper;
@@ -23,7 +24,7 @@ import java.util.function.Consumer;
 
 import static edu.kaiseran.structuregrader.specification.clazz.AnnotatedClassSuite.AnnotatedClassSuiteFactory;
 import static edu.kaiseran.structuregrader.specification.clazz.SuperclassSpec.SuperclassSpecFactory;
-import static edu.kaiseran.structuregrader.specification.quantity.NoMissingClassesSpec.NoMissingClassesSpecFactory;
+import static edu.kaiseran.structuregrader.specification.collection.NoMissingClassesSpec.NoMissingClassesSpecFactory;
 
 /**
  * Contains specifications for a single class (the "specified" class), possibly including a ClassMapSuite to specify
@@ -70,7 +71,8 @@ public class ClassSuite implements ClassVisitor {
 					NoMissingClassesSpecFactory.getDefaultInst(),
 					SuperclassSpecFactory.getDefaultInst(),
 					AnnotatedClassSuiteFactory.getDefaultInst(),
-					FieldMapSuiteFactory.getDefaultInst()
+					FieldMapSuiteFactory.getDefaultInst(),
+					MethodMapSuiteFactory.getDefaultInst()
 			);
 		}
 

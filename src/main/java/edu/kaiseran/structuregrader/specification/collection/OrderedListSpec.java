@@ -1,4 +1,4 @@
-package edu.kaiseran.structuregrader.specification.quantity;
+package edu.kaiseran.structuregrader.specification.collection;
 
 import com.google.common.collect.ImmutableList;
 import edu.kaiseran.structuregrader.NamedMap;

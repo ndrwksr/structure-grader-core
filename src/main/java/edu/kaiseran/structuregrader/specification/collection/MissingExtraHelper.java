@@ -1,4 +1,4 @@
-package edu.kaiseran.structuregrader.specification.quantity;
+package edu.kaiseran.structuregrader.specification.collection;
 
 import com.google.common.collect.Sets;
 import edu.kaiseran.structuregrader.Noncompliance;
