@@ -2,7 +2,6 @@ package edu.test.proj1;
 
 import edu.test.annotations.TestAnnotation1;
 import edu.test.annotations.TestAnnotation2;
-import edu.test.proj2.Interface;
 
 public class SuperClass implements Interface {
 	@TestAnnotation1

@@ -1,6 +1,7 @@
 package edu.kaiseran.structuregrader.wrapper;
 
 import edu.kaiseran.structuregrader.ClassMap;
+import edu.kaiseran.structuregrader.NamedList;
 import edu.kaiseran.structuregrader.NamedMap;
 import edu.kaiseran.structuregrader.property.Annotated;
 import edu.kaiseran.structuregrader.property.Modified;
@@ -11,9 +12,11 @@ import lombok.NonNull;
 import lombok.ToString.Exclude;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -80,10 +83,28 @@ public class ClassWrapper implements Named, Annotated, Modified {
 				.map(MethodWrapper::new)
 				.collect(Collectors.toMap(MethodWrapper::getName, Function.identity()));
 
-		final String collectionName = getName() + "%methods";
+		final String collectionName = getName();
 
 		return NamedMap.<MethodWrapper>builder()
 				.items(methodWrappers)
+				.name(collectionName)
+				.build();
+	}
+
+	/**
+	 * @return the constructors of this class as a NamedList of ConstructorWrappers.
+	 */
+	@NonNull
+	public NamedList<ConstructorWrapper> getConstructors() {
+		final Constructor[] constructors = sourceClass.getDeclaredConstructors();
+		final List<ConstructorWrapper> wrappers = Arrays.stream(constructors)
+				.map(ConstructorWrapper::new)
+				.collect(Collectors.toList());
+
+		final String collectionName = getName();
+
+		return NamedList.<ConstructorWrapper>builder()
+				.items(wrappers)
 				.name(collectionName)
 				.build();
 	}

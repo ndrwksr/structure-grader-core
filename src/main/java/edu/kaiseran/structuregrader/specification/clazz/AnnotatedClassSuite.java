@@ -1,9 +1,9 @@
 package edu.kaiseran.structuregrader.specification.clazz;
 
 import edu.kaiseran.structuregrader.Noncompliance;
-import edu.kaiseran.structuregrader.specification.AnnotatedSuite;
-import edu.kaiseran.structuregrader.specification.AnnotatedSuite.AnnotatedSuiteFactory;
-import edu.kaiseran.structuregrader.specification.MapSpec;
+import edu.kaiseran.structuregrader.specification.common.AnnotatedSuite;
+import edu.kaiseran.structuregrader.specification.common.AnnotatedSuite.AnnotatedSuiteFactory;
+import edu.kaiseran.structuregrader.specification.base.MapSpec;
 import edu.kaiseran.structuregrader.visitor.ClassVisitor;
 import edu.kaiseran.structuregrader.visitor.ClassVisitorFactory;
 import edu.kaiseran.structuregrader.wrapper.AnnotationWrapper;

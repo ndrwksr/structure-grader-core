@@ -1,4 +1,4 @@
-package edu.kaiseran.structuregrader.specification;
+package edu.kaiseran.structuregrader.specification.common;
 
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.property.Modified;

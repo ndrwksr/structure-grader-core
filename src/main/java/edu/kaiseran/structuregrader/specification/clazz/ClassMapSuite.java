@@ -3,7 +3,7 @@ package edu.kaiseran.structuregrader.specification.clazz;
 import com.google.common.collect.ImmutableSet;
 import edu.kaiseran.structuregrader.NamedMap;
 import edu.kaiseran.structuregrader.Noncompliance;
-import edu.kaiseran.structuregrader.specification.MapSuite;
+import edu.kaiseran.structuregrader.specification.base.MapSuite;
 import edu.kaiseran.structuregrader.visitor.ClassHierarchyVisitor;
 import edu.kaiseran.structuregrader.visitor.ItemVisitorFactory;
 import edu.kaiseran.structuregrader.visitor.MapVisitor;

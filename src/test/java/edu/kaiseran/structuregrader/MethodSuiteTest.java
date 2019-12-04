@@ -1,7 +1,7 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.specification.ModifiedSpec;
-import edu.kaiseran.structuregrader.specification.TypedSpec;
+import edu.kaiseran.structuregrader.specification.common.ModifiedSpec;
+import edu.kaiseran.structuregrader.specification.common.TypedSpec;
 import edu.kaiseran.structuregrader.specification.collection.NoExtraSpec;
 import edu.kaiseran.structuregrader.specification.collection.NoMissingSpec;
 import edu.kaiseran.structuregrader.specification.collection.OrderedListSpec;

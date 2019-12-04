@@ -1,7 +1,7 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.specification.AnnotatedSuite;
-import edu.kaiseran.structuregrader.specification.AnnotatedSuite.AnnotatedSuiteFactory;
+import edu.kaiseran.structuregrader.specification.common.AnnotatedSuite;
+import edu.kaiseran.structuregrader.specification.common.AnnotatedSuite.AnnotatedSuiteFactory;
 import edu.kaiseran.structuregrader.wrapper.FieldWrapper;
 import edu.test.annotations.TestAnnotation1;
 import edu.test.annotations.TestAnnotation2;

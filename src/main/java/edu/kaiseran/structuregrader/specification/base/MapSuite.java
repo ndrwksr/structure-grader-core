@@ -1,4 +1,4 @@
-package edu.kaiseran.structuregrader.specification;
+package edu.kaiseran.structuregrader.specification.base;
 
 import com.google.common.collect.ImmutableSet;
 import edu.kaiseran.structuregrader.NamedMap;

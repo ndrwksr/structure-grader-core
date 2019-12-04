@@ -1,4 +1,4 @@
-package edu.kaiseran.structuregrader.specification;
+package edu.kaiseran.structuregrader.specification.base;
 
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.visitor.MapVisitor;

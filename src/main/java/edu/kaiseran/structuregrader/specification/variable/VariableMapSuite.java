@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import edu.kaiseran.structuregrader.NamedMap;
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.property.Variable;
-import edu.kaiseran.structuregrader.specification.MapSuite;
+import edu.kaiseran.structuregrader.specification.base.MapSuite;
 import edu.kaiseran.structuregrader.visitor.ItemVisitorFactory;
 import edu.kaiseran.structuregrader.visitor.MapVisitor;
 import edu.kaiseran.structuregrader.visitor.MapVisitorFactory;

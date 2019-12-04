@@ -4,7 +4,7 @@ import com.google.common.collect.Sets;
 import edu.kaiseran.structuregrader.property.Named;
 import edu.kaiseran.structuregrader.NamedMap;
 import edu.kaiseran.structuregrader.Noncompliance;
-import edu.kaiseran.structuregrader.specification.MapSpec;
+import edu.kaiseran.structuregrader.specification.base.MapSpec;
 import edu.kaiseran.structuregrader.visitor.MapVisitorFactory;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;

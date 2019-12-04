@@ -3,7 +3,7 @@ package edu.kaiseran.structuregrader.specification.variable;
 import com.google.common.collect.ImmutableSet;
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.property.Parameterized;
-import edu.kaiseran.structuregrader.specification.MapSuite;
+import edu.kaiseran.structuregrader.specification.base.MapSuite;
 import edu.kaiseran.structuregrader.specification.collection.NoExtraSpec.NoExtraSpecFactory;
 import edu.kaiseran.structuregrader.specification.collection.NoMissingSpec.NoMissingSpecFactory;
 import edu.kaiseran.structuregrader.specification.variable.VariableSuite.VariableSuiteFactory;

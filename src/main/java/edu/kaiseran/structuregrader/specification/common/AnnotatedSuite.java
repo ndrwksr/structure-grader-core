@@ -1,8 +1,9 @@
-package edu.kaiseran.structuregrader.specification;
+package edu.kaiseran.structuregrader.specification.common;
 
 import edu.kaiseran.structuregrader.NamedMap;
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.property.Annotated;
+import edu.kaiseran.structuregrader.specification.base.MapSpec;
 import edu.kaiseran.structuregrader.specification.collection.NoExtraSpec;
 import edu.kaiseran.structuregrader.specification.collection.NoMissingSpec;
 import edu.kaiseran.structuregrader.visitor.ItemVisitor;

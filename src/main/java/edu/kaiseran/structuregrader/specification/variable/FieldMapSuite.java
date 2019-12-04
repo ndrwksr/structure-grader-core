@@ -2,7 +2,7 @@ package edu.kaiseran.structuregrader.specification.variable;
 
 import com.google.common.collect.ImmutableSet;
 import edu.kaiseran.structuregrader.Noncompliance;
-import edu.kaiseran.structuregrader.specification.MapSuite;
+import edu.kaiseran.structuregrader.specification.base.MapSuite;
 import edu.kaiseran.structuregrader.visitor.*;
 import edu.kaiseran.structuregrader.wrapper.ClassWrapper;
 import edu.kaiseran.structuregrader.wrapper.FieldWrapper;
