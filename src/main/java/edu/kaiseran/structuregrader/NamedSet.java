@@ -5,16 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
-import java.util.List;
+import java.util.Set;
 
 /**
- * A list of type ITEM which has a name.
+ * A set of type ITEM which has a name.
  *
- * @param <ITEM> The type of the items in the list.
+ * @param <ITEM> The type of the items in the set.
  */
 @Data
 @Builder
-public class NamedList<ITEM> implements Named {
+public class NamedSet<ITEM> implements Named {
 	/**
 	 * The name of the collection.
 	 */
@@ -25,5 +25,5 @@ public class NamedList<ITEM> implements Named {
 	 * The items in the collection.
 	 */
 	@NonNull
-	protected final List<ITEM> items;
+	protected final Set<ITEM> items;
 }

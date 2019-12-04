@@ -20,7 +20,7 @@ import java.util.function.Consumer;
  */
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-public class NoExtraClassesSpec extends NoExtraSpec<ClassWrapper> implements ClassHierarchyVisitor {
+public class NoExtraClassesMapSpec extends NoExtraMapSpec<ClassWrapper> implements ClassHierarchyVisitor {
 
 	@Override
 	public void visit(@Nullable final ClassWrapper classWrapper) {
@@ -30,7 +30,7 @@ public class NoExtraClassesSpec extends NoExtraSpec<ClassWrapper> implements Cla
 	/**
 	 * Creates NoExtraClassesSpecs which only permits the classes present in the provided class collection.
 	 */
-	public static class NoExtraClassesSpecFactory implements ClassHierarchyVisitorFactory<NoExtraClassesSpec> {
+	public static class NoExtraClassesSpecFactory implements ClassHierarchyVisitorFactory<NoExtraClassesMapSpec> {
 
 		/**
 		 * @return a pre-configured instance for consumers of NoExtraClassesSpecFactory to use.
@@ -40,14 +40,14 @@ public class NoExtraClassesSpec extends NoExtraSpec<ClassWrapper> implements Cla
 		}
 
 		@Override
-		public NoExtraClassesSpec buildFromCollection(
+		public NoExtraClassesMapSpec buildFromCollection(
 				@NonNull final NamedMap<ClassWrapper> classCollection,
 				@NonNull final String parentName,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
 			final Set<String> declaredClassNames = new HashSet<>(classCollection.getItems().keySet());
 
-			return NoExtraClassesSpec.builder()
+			return NoExtraClassesMapSpec.builder()
 					.expected(declaredClassNames)
 					.parentName(parentName)
 					.noncomplianceConsumer(noncomplianceConsumer)
@@ -55,7 +55,7 @@ public class NoExtraClassesSpec extends NoExtraSpec<ClassWrapper> implements Cla
 		}
 
 		@Override
-		public NoExtraClassesSpec buildFromItem(
+		public NoExtraClassesMapSpec buildFromItem(
 				@NonNull final ClassWrapper classWrapper,
 				@NonNull final String parentName,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer

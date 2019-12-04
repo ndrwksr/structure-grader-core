@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.TemplateKeys;
 import lombok.NonNull;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,23 @@ import java.util.stream.Collectors;
 public class MissingExtraHelper {
 
 	/**
+	 * A noncompliance for when a NoExtraSpec encounters extra elements.
+	 */
+	@SuperBuilder
+	public static class ExtraNoncompliance extends Noncompliance<Set> {
+
+	}
+
+
+	/**
+	 * A noncompliance for when a NoMissingSpec encounters missing elements.
+	 */
+	@SuperBuilder
+	public static class MissingNoncompliance extends Noncompliance<Set> {
+
+	}
+
+	/**
 	 * Checks the items map for any entries whose keys aren't in expectedItemNames. If any extra keys
 	 * are found, noncompliances are created and fed into the provided Consumer.
 	 *
@@ -29,7 +47,7 @@ public class MissingExtraHelper {
 	 * @param noncomplianceConsumer The consumer for any generated Noncompliances.
 	 * @param <T>                   The type of the elements in items.
 	 */
-	public static <T> void checkForExtra(
+	public static <T> void checkMapForExtra(
 			@NonNull final String declaringName,
 			@NonNull final Set<String> expectedItemNames,
 			@NonNull final Map<String, T> items,
@@ -44,7 +62,7 @@ public class MissingExtraHelper {
 		if (extraItems.size() > 0) {
 			final Set<String> actualItemNames = Sets.newHashSet(items.keySet());
 
-			noncomplianceConsumer.accept(NoExtraSpec.ExtraNoncompliance.builder()
+			noncomplianceConsumer.accept(ExtraNoncompliance.builder()
 					.parentName(declaringName)
 					.expected(expectedItemNames)
 					.actual(actualItemNames)
@@ -68,7 +86,7 @@ public class MissingExtraHelper {
 	 * @param noncomplianceConsumer The consumer for any generated Noncompliances.
 	 * @param <T>                   The type of the elements in items.
 	 */
-	public static <T> void checkForMissing(
+	public static <T> void checkMapForMissing(
 			@NonNull final String declaringName,
 			@NonNull final Set<String> expectedItemNames,
 			@NonNull final Map<String, T> items,
@@ -83,7 +101,7 @@ public class MissingExtraHelper {
 		if (missingItemNames.size() > 0) {
 			final Set<String> actualItemNames = Sets.newHashSet(items.keySet());
 
-			noncomplianceConsumer.accept(NoMissingSpec.MissingNoncompliance.builder()
+			noncomplianceConsumer.accept(MissingNoncompliance.builder()
 					.parentName(declaringName)
 					.expected(expectedItemNames)
 					.actual(actualItemNames)
@@ -93,5 +111,69 @@ public class MissingExtraHelper {
 					.build()
 			);
 		}
+	}
+
+	/**
+	 * Checks the actualValues set for any items which don't appear in expectedValues. If any
+	 * extra items are found, noncompliances are created and fed into the provided Consumer.
+	 *
+	 * @param declaringName         The name of the parent of the set. Used to provide additional
+	 *                              context for Noncompliances.
+	 * @param expectedValues        The expected items.
+	 * @param actualValues          The set to check for extra items.
+	 * @param noncomplianceConsumer The consumer for any generated Noncompliances.
+	 * @param <T>                   The type of the items in the sets.
+	 */
+	public static <T> void checkSetForExtra(
+			@NonNull final String declaringName,
+			@NonNull final Set<T> expectedValues,
+			@NonNull final Set<T> actualValues,
+			@NonNull final Consumer<Noncompliance> noncomplianceConsumer
+	) {
+		actualValues.forEach(actualValue -> {
+			if (!expectedValues.contains(actualValue)) {
+				noncomplianceConsumer.accept(
+						ExtraNoncompliance.builder()
+								.expected(expectedValues)
+								.actual(actualValues)
+								.explanation("Found extra items!"
+										+ " Expected to have items " + TemplateKeys.EXPECTED_TEMPLATE
+										+ ", but got " + TemplateKeys.ACTUAL_TEMPLATE)
+								.parentName(declaringName).build()
+				);
+			}
+		});
+	}
+
+	/**
+	 * Checks the expectedValues set for any items which don't appear in actualValues. If any
+	 * missing items are found, noncompliances are created and fed into the provided Consumer.
+	 *
+	 * @param declaringName         The name of the parent of the set. Used to provide additional
+	 *                              context for Noncompliances.
+	 * @param expectedValues        The expected items.
+	 * @param actualValues          The set to check for missing items.
+	 * @param noncomplianceConsumer The consumer for any generated Noncompliances.
+	 * @param <T>                   The type of the items in the sets.
+	 */
+	public static <T> void checkSetForMissing(
+			@NonNull final String declaringName,
+			@NonNull final Set<T> expectedValues,
+			@NonNull final Set<T> actualValues,
+			@NonNull final Consumer<Noncompliance> noncomplianceConsumer
+	) {
+		expectedValues.forEach(actualValue -> {
+			if (!actualValues.contains(actualValue)) {
+				noncomplianceConsumer.accept(
+						MissingNoncompliance.builder()
+								.expected(expectedValues)
+								.actual(actualValues)
+								.explanation("Found extra items!"
+										+ " Expected to have items " + TemplateKeys.EXPECTED_TEMPLATE
+										+ ", but got " + TemplateKeys.ACTUAL_TEMPLATE)
+								.parentName(declaringName).build()
+				);
+			}
+		});
 	}
 }

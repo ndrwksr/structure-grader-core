@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class TestClassWrapper {
+public class IntegrationTest {
 	private final String PKG1 = "edu.test.proj1";
 	private final String PKG2 = "edu.test.proj2";
 
@@ -25,7 +25,7 @@ public class TestClassWrapper {
 	};
 
 	@Test
-	public void testSimpleSameStructureComparison() throws IOException {
+	public void testSame() throws IOException {
 		final List<Noncompliance> noncompliances = SpecificationTester.getNoncompliancesForStructures(
 				PKG1,
 				PKG1,
@@ -35,7 +35,7 @@ public class TestClassWrapper {
 	}
 
 	@Test
-	public void testSimpleEqualStructureComparison() throws IOException {
+	public void testIdentical() throws IOException {
 		final List<Noncompliance> noncompliances = SpecificationTester.getNoncompliancesForStructures(
 				PKG1,
 				PKG2,

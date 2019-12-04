@@ -1,8 +1,8 @@
 package edu.kaiseran.structuregrader.wrapper;
 
 import edu.kaiseran.structuregrader.ClassMap;
-import edu.kaiseran.structuregrader.NamedList;
 import edu.kaiseran.structuregrader.NamedMap;
+import edu.kaiseran.structuregrader.NamedSet;
 import edu.kaiseran.structuregrader.property.Annotated;
 import edu.kaiseran.structuregrader.property.Modified;
 import edu.kaiseran.structuregrader.property.Named;
@@ -16,8 +16,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -92,18 +92,36 @@ public class ClassWrapper implements Named, Annotated, Modified {
 	}
 
 	/**
-	 * @return the constructors of this class as a NamedList of ConstructorWrappers.
+	 * @return the constructors of this class as a NamedSet of ConstructorWrappers.
 	 */
 	@NonNull
-	public NamedList<ConstructorWrapper> getConstructors() {
+	public NamedSet<ConstructorWrapper> getConstructors() {
 		final Constructor[] constructors = sourceClass.getDeclaredConstructors();
-		final List<ConstructorWrapper> wrappers = Arrays.stream(constructors)
+		final Set<ConstructorWrapper> wrappers = Arrays.stream(constructors)
 				.map(ConstructorWrapper::new)
-				.collect(Collectors.toList());
+				.collect(Collectors.toSet());
 
 		final String collectionName = getName();
 
-		return NamedList.<ConstructorWrapper>builder()
+		return NamedSet.<ConstructorWrapper>builder()
+				.items(wrappers)
+				.name(collectionName)
+				.build();
+	}
+
+	/**
+	 * @return the interfaces this class implements as a NamedSet of ClassWrapper.
+	 */
+	@NonNull
+	public NamedSet<ClassWrapper> getInterfaces() {
+		final Class[] interfaces = sourceClass.getInterfaces();
+		final Set<ClassWrapper> wrappers = Arrays.stream(interfaces)
+				.map(ClassWrapper::new)
+				.collect(Collectors.toSet());
+
+		final String collectionName = getName();
+
+		return NamedSet.<ClassWrapper>builder()
 				.items(wrappers)
 				.name(collectionName)
 				.build();

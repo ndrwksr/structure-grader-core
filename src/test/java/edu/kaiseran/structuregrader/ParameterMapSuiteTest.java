@@ -1,8 +1,9 @@
 package edu.kaiseran.structuregrader;
 
 import com.google.common.collect.ImmutableSet;
-import edu.kaiseran.structuregrader.specification.collection.NoExtraSpec;
-import edu.kaiseran.structuregrader.specification.collection.NoMissingSpec;
+import edu.kaiseran.structuregrader.specification.collection.MissingExtraHelper;
+import edu.kaiseran.structuregrader.specification.collection.NoExtraMapSpec;
+import edu.kaiseran.structuregrader.specification.collection.NoMissingMapSpec;
 import edu.kaiseran.structuregrader.specification.collection.OrderedListSpec;
 import edu.kaiseran.structuregrader.specification.variable.ParameterMapSuite;
 import edu.kaiseran.structuregrader.specification.variable.ParameterMapSuite.ParameterMapSuiteFactory;
@@ -58,8 +59,8 @@ public class ParameterMapSuiteTest {
 	private final ParameterMapSuiteFactory orderAgnosticFactory = ParameterMapSuiteFactory.builder()
 			.itemSuiteFactory(VariableSuite.VariableSuiteFactory.getDefaultInst())
 			.collectionVisitorFactories(ImmutableSet.of(
-					NoMissingSpec.NoMissingSpecFactory.getDefaultInst(),
-					NoExtraSpec.NoExtraSpecFactory.getDefaultInst()
+					NoMissingMapSpec.NoMissingSpecFactory.getDefaultInst(),
+					NoExtraMapSpec.NoExtraSpecFactory.getDefaultInst()
 			))
 			.build();
 
@@ -130,6 +131,6 @@ public class ParameterMapSuiteTest {
 		final MethodWrapper intWrapper3 = new MethodWrapper(intMethod3);
 		orderAgnosticFactory.buildFromItem(intWrapper1, PARENT_NAME, noncomplianceConsumer).visit(intWrapper3);
 		assert !noncompliances.isEmpty();
-		assert noncomplianceOfTypeWasMade(NoExtraSpec.ExtraNoncompliance.class);
+		assert noncomplianceOfTypeWasMade(MissingExtraHelper.ExtraNoncompliance.class);
 	}
 }

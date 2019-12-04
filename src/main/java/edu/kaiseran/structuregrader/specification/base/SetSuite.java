@@ -1,8 +1,8 @@
 package edu.kaiseran.structuregrader.specification.base;
 
-import edu.kaiseran.structuregrader.NamedList;
+import edu.kaiseran.structuregrader.NamedSet;
 import edu.kaiseran.structuregrader.NamedMap;
-import edu.kaiseran.structuregrader.visitor.ListVisitor;
+import edu.kaiseran.structuregrader.visitor.SetVisitor;
 import edu.kaiseran.structuregrader.visitor.MapVisitor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 @Data
 @SuperBuilder
-public abstract class ListSuite<ITEM> implements ListVisitor<ITEM> {
+public abstract class SetSuite<ITEM> implements SetVisitor<ITEM> {
 	/**
 	 * The function to map items to their value strings.
 	 */
@@ -33,7 +33,7 @@ public abstract class ListSuite<ITEM> implements ListVisitor<ITEM> {
 	private final Set<MapVisitor<ITEM>> mapVisitors;
 
 	@Override
-	public void visit(@CheckForNull final NamedList<ITEM> collection) {
+	public void visit(@CheckForNull final NamedSet<ITEM> collection) {
 		if (collection != null) {
 			final Map<String, ITEM> itemValuesMap = collection.getItems().stream()
 					.collect(Collectors.toMap(itemValueFunction, Function.identity()));

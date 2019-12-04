@@ -20,7 +20,7 @@ import java.util.function.Consumer;
  */
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-public class NoMissingClassesSpec extends NoMissingSpec<ClassWrapper> implements ClassHierarchyVisitor {
+public class NoMissingClassesMapSpec extends NoMissingMapSpec<ClassWrapper> implements ClassHierarchyVisitor {
 
 	@Override
 	public void visit(@CheckForNull final ClassWrapper classWrapper) {
@@ -30,7 +30,7 @@ public class NoMissingClassesSpec extends NoMissingSpec<ClassWrapper> implements
 	/**
 	 * Creates NoMissingClassesSpecs which mandate the presence of the classes in the specified class map.
 	 */
-	public static class NoMissingClassesSpecFactory implements ClassHierarchyVisitorFactory<NoMissingClassesSpec> {
+	public static class NoMissingClassesSpecFactory implements ClassHierarchyVisitorFactory<NoMissingClassesMapSpec> {
 
 		/**
 		 * @return a pre-configured instance for consumers of NoMissingClassesSpecFactory to use.
@@ -40,14 +40,14 @@ public class NoMissingClassesSpec extends NoMissingSpec<ClassWrapper> implements
 		}
 
 		@Override
-		public NoMissingClassesSpec buildFromCollection(
+		public NoMissingClassesMapSpec buildFromCollection(
 				@NonNull final NamedMap<ClassWrapper> namedMap,
 				@NonNull final String parentName,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
 			final Set<String> declaredClassNames = new HashSet<>(namedMap.getItems().keySet());
 
-			return NoMissingClassesSpec.builder()
+			return NoMissingClassesMapSpec.builder()
 					.expected(declaredClassNames)
 					.parentName(parentName)
 					.noncomplianceConsumer(noncomplianceConsumer)
@@ -55,7 +55,7 @@ public class NoMissingClassesSpec extends NoMissingSpec<ClassWrapper> implements
 		}
 
 		@Override
-		public NoMissingClassesSpec buildFromItem(
+		public NoMissingClassesMapSpec buildFromItem(
 				@NonNull final ClassWrapper classWrapper,
 				@NonNull final String parentName,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer

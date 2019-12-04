@@ -1,6 +1,6 @@
 package edu.kaiseran.structuregrader.visitor;
 
-import edu.kaiseran.structuregrader.NamedList;
+import edu.kaiseran.structuregrader.NamedSet;
 
 import javax.annotation.CheckForNull;
 
@@ -9,9 +9,9 @@ import javax.annotation.CheckForNull;
  *
  * @param <ITEM> The type of the NamedList that implementors can visit.
  */
-public interface ListVisitor<ITEM> {
+public interface SetVisitor<ITEM> {
 	/**
 	 * @param collection The NamedList of type ITEM being visited.
 	 */
-	void visit(@CheckForNull final NamedList<ITEM> collection);
+	void visit(@CheckForNull final NamedSet<ITEM> collection);
 }

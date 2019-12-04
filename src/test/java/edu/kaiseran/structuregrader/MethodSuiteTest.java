@@ -1,10 +1,9 @@
 package edu.kaiseran.structuregrader;
 
+import edu.kaiseran.structuregrader.specification.collection.MissingExtraHelper;
+import edu.kaiseran.structuregrader.specification.collection.OrderedListSpec;
 import edu.kaiseran.structuregrader.specification.common.ModifiedSpec;
 import edu.kaiseran.structuregrader.specification.common.TypedSpec;
-import edu.kaiseran.structuregrader.specification.collection.NoExtraSpec;
-import edu.kaiseran.structuregrader.specification.collection.NoMissingSpec;
-import edu.kaiseran.structuregrader.specification.collection.OrderedListSpec;
 import edu.kaiseran.structuregrader.specification.variable.VariableSuite.VariableSuiteFactory;
 import edu.kaiseran.structuregrader.wrapper.MethodWrapper;
 import edu.test.proj1.MethodClass;
@@ -73,8 +72,8 @@ public class MethodSuiteTest {
 		factory.buildFromItem(methodWrapper1, PARENT_NAME, noncomplianceConsumer).visit(methodWrapper5);
 		assert noncomplianceOfTypeWasMade(ModifiedSpec.ModifiedNoncompliance.class);
 		assert noncomplianceOfTypeWasMade(TypedSpec.TypedNoncompliance.class);
-		assert noncomplianceOfTypeWasMade(NoExtraSpec.ExtraNoncompliance.class);
-		assert noncomplianceOfTypeWasMade(NoMissingSpec.MissingNoncompliance.class);
+		assert noncomplianceOfTypeWasMade(MissingExtraHelper.ExtraNoncompliance.class);
+		assert noncomplianceOfTypeWasMade(MissingExtraHelper.MissingNoncompliance.class);
 	}
 
 	@Test

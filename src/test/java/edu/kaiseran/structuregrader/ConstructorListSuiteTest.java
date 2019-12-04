@@ -1,6 +1,6 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.specification.executable.ConstructorListSuite.ConstructorListSuiteFactory;
+import edu.kaiseran.structuregrader.specification.executable.ConstructorSetSuite.ConstructorSetSuiteFactory;
 import edu.kaiseran.structuregrader.wrapper.ClassWrapper;
 import edu.kaiseran.structuregrader.wrapper.ConstructorWrapper;
 import org.junit.Before;
@@ -24,21 +24,21 @@ public class ConstructorListSuiteTest {
 		noncompliances.clear();
 	}
 
-	private final ConstructorListSuiteFactory factory = ConstructorListSuiteFactory.getDefaultInst();
+	private final ConstructorSetSuiteFactory factory = ConstructorSetSuiteFactory.getDefaultInst();
 
 	private static class ConstructorTest {
 		ConstructorTest(){}
 	}
 
-	private final NamedList<ConstructorWrapper> easyConstructors1 =
+	private final NamedSet<ConstructorWrapper> easyConstructors1 =
 			new ClassWrapper(edu.test.proj1.MethodClass.class).getConstructors();
-	private final NamedList<ConstructorWrapper> easyConstructors2 =
+	private final NamedSet<ConstructorWrapper> easyConstructors2 =
 			new ClassWrapper(edu.test.proj2.MethodClass.class).getConstructors();
-	private final NamedList<ConstructorWrapper> complexConstructors1 =
+	private final NamedSet<ConstructorWrapper> complexConstructors1 =
 			new ClassWrapper(edu.test.proj1.ConstructorClass.class).getConstructors();
-	private final NamedList<ConstructorWrapper> complexConstructors2 =
+	private final NamedSet<ConstructorWrapper> complexConstructors2 =
 			new ClassWrapper(edu.test.proj2.ConstructorClass.class).getConstructors();
-	private final NamedList<ConstructorWrapper> mismatchConstructor =
+	private final NamedSet<ConstructorWrapper> mismatchConstructor =
 			new ClassWrapper(ConstructorTest.class).getConstructors();
 
 	@Test

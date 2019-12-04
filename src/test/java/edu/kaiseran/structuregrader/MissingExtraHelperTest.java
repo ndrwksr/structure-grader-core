@@ -45,7 +45,7 @@ public class MissingExtraHelperTest {
 		// b key and b val not put in items
 		expectedNames.add(B_KEY);
 
-		MissingExtraHelper.checkForExtra(
+		MissingExtraHelper.checkMapForExtra(
 				"testExtraWhereOneMissing",
 				expectedNames,
 				items,
@@ -63,7 +63,7 @@ public class MissingExtraHelperTest {
 		items.put(B_KEY, B_VAL);
 		expectedNames.add(B_KEY);
 
-		MissingExtraHelper.checkForExtra(
+		MissingExtraHelper.checkMapForExtra(
 				"testExtraWhereNoExtra",
 				expectedNames,
 				items,
@@ -84,7 +84,7 @@ public class MissingExtraHelperTest {
 		items.put(C_KEY, C_VAL);
 		// C key not added to expectedNames
 
-		MissingExtraHelper.checkForExtra(
+		MissingExtraHelper.checkMapForExtra(
 				"testExtraWhereOneExtra",
 				expectedNames,
 				items,
@@ -122,7 +122,7 @@ public class MissingExtraHelperTest {
 		items.put(E_KEY, E_VAL);
 		// E key not added to expectedNames
 
-		MissingExtraHelper.checkForExtra(
+		MissingExtraHelper.checkMapForExtra(
 				"testExtraWhereThreeExtra",
 				expectedNames,
 				items,
@@ -153,7 +153,7 @@ public class MissingExtraHelperTest {
 		items.put(B_KEY, B_VAL);
 		// B key not added to expectedNames
 
-		MissingExtraHelper.checkForMissing(
+		MissingExtraHelper.checkMapForMissing(
 				"testMissingWhereOneExtra",
 				expectedNames,
 				items,
@@ -171,7 +171,7 @@ public class MissingExtraHelperTest {
 		items.put(B_KEY, B_VAL);
 		expectedNames.add(B_KEY);
 
-		MissingExtraHelper.checkForMissing(
+		MissingExtraHelper.checkMapForMissing(
 				"testMissingWhereNoMissing",
 				expectedNames,
 				items,
@@ -192,7 +192,7 @@ public class MissingExtraHelperTest {
 		// c key and c val not put in items
 		expectedNames.add(C_KEY);
 
-		MissingExtraHelper.checkForMissing(
+		MissingExtraHelper.checkMapForMissing(
 				"testMissingWhereOneMissing",
 				expectedNames,
 				items,
@@ -230,7 +230,7 @@ public class MissingExtraHelperTest {
 		// e key and e val not put in items
 		expectedNames.add(E_KEY);
 
-		MissingExtraHelper.checkForMissing(
+		MissingExtraHelper.checkMapForMissing(
 				"testMissingWhereThreeMissing",
 				expectedNames,
 				items,

@@ -4,8 +4,8 @@ import edu.kaiseran.structuregrader.NamedMap;
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.property.Annotated;
 import edu.kaiseran.structuregrader.specification.base.MapSpec;
-import edu.kaiseran.structuregrader.specification.collection.NoExtraSpec;
-import edu.kaiseran.structuregrader.specification.collection.NoMissingSpec;
+import edu.kaiseran.structuregrader.specification.collection.NoExtraMapSpec;
+import edu.kaiseran.structuregrader.specification.collection.NoMissingMapSpec;
 import edu.kaiseran.structuregrader.visitor.ItemVisitor;
 import edu.kaiseran.structuregrader.visitor.ItemVisitorFactory;
 import edu.kaiseran.structuregrader.wrapper.AnnotationWrapper;
@@ -104,7 +104,7 @@ public class AnnotatedSuite<ITEM extends Annotated> implements ItemVisitor<ITEM>
 		 * @param noncomplianceConsumer A Consumer for any noncompliances generated.
 		 * @return a NoMissingSpec which checks for all of the annotations present on AnnotatedElement.
 		 */
-		public static NoMissingSpec<AnnotationWrapper> buildNoMissingSpecFromElement(
+		public static NoMissingMapSpec<AnnotationWrapper> buildNoMissingSpecFromElement(
 				@NonNull final Annotated annotated,
 				@NonNull final String parentName,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
@@ -115,7 +115,7 @@ public class AnnotatedSuite<ITEM extends Annotated> implements ItemVisitor<ITEM>
 			);
 			final Set<String> expectedNames = new HashSet<>(namedAnnotations.getItems().keySet());
 
-			return NoMissingSpec.<AnnotationWrapper>builder()
+			return NoMissingMapSpec.<AnnotationWrapper>builder()
 					.expected(expectedNames)
 					.parentName(parentName)
 					.noncomplianceConsumer(noncomplianceConsumer)
@@ -131,7 +131,7 @@ public class AnnotatedSuite<ITEM extends Annotated> implements ItemVisitor<ITEM>
 		 * @param noncomplianceConsumer A Consumer for any noncompliances generated.
 		 * @return a NoExtraSpec which checks for all of the annotations present on AnnotatedElement.
 		 */
-		public static NoExtraSpec<AnnotationWrapper> buildNoExtraSpecFromElement(
+		public static NoExtraMapSpec<AnnotationWrapper> buildNoExtraSpecFromElement(
 				@NonNull final Annotated annotated,
 				@NonNull final String parentName,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
@@ -142,7 +142,7 @@ public class AnnotatedSuite<ITEM extends Annotated> implements ItemVisitor<ITEM>
 			);
 			final Set<String> expectedNames = new HashSet<>(namedAnnotations.getItems().keySet());
 
-			return NoExtraSpec.<AnnotationWrapper>builder()
+			return NoExtraMapSpec.<AnnotationWrapper>builder()
 					.expected(expectedNames)
 					.parentName(parentName)
 					.noncomplianceConsumer(noncomplianceConsumer)
@@ -155,20 +155,20 @@ public class AnnotatedSuite<ITEM extends Annotated> implements ItemVisitor<ITEM>
 				@NonNull final String parentName,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
-			final NoMissingSpec<AnnotationWrapper> noMissingSpec = buildNoMissingSpecFromElement(
+			final NoMissingMapSpec<AnnotationWrapper> noMissingMapSpec = buildNoMissingSpecFromElement(
 					annotatedElement,
 					parentName,
 					noncomplianceConsumer
 			);
 
-			final NoExtraSpec<AnnotationWrapper> noExtraSpec = buildNoExtraSpecFromElement(
+			final NoExtraMapSpec<AnnotationWrapper> noExtraMapSpec = buildNoExtraSpecFromElement(
 					annotatedElement,
 					parentName,
 					noncomplianceConsumer
 			);
 
 			return AnnotatedSuite.<ITEM>builder()
-					.collectionSpecs(new HashSet<>(Arrays.asList(noMissingSpec, noExtraSpec)))
+					.collectionSpecs(new HashSet<>(Arrays.asList(noMissingMapSpec, noExtraMapSpec)))
 					.parentName(parentName)
 					.noncomplianceConsumer(noncomplianceConsumer)
 					.build();

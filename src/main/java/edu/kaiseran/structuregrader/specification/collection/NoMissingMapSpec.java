@@ -15,18 +15,18 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 /**
- * Specifies that no extra items in a map may exist.
+ * Specifies the minimum set of entries that a map must contain.
  *
- * @param <ITEM> The type of the items in the specified collection.
+ * @param <ITEM> The type of the values in the specified map.
  */
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-public class NoExtraSpec<ITEM extends Named> extends MapSpec<ITEM, String> {
+public class NoMissingMapSpec<ITEM extends Named> extends MapSpec<ITEM, String> {
 
 	@Override
 	public void visit(@CheckForNull final NamedMap<ITEM> namedMap) {
 		if (namedMap != null) {
-			MissingExtraHelper.checkForExtra(
+			MissingExtraHelper.checkMapForMissing(
 					namedMap.getName(),
 					getExpected(),
 					namedMap.getItems(),
@@ -36,38 +36,30 @@ public class NoExtraSpec<ITEM extends Named> extends MapSpec<ITEM, String> {
 	}
 
 	/**
-	 * A noncompliance for when a NoExtraSpec encounters extra elements.
-	 */
-	@SuperBuilder
-	public static class ExtraNoncompliance extends Noncompliance<Set> {
-
-	}
-
-	/**
-	 * Factory for NoExtraSpecs. Has no state/configuration.
+	 * Factory for NoMissingSpecs. Has no state/configuration.
 	 *
 	 * @param <ITEM> The type of the items in the maps this factory specifies.
 	 */
-	public static class NoExtraSpecFactory<ITEM extends Named>
-			implements MapVisitorFactory<ITEM, NoExtraSpec<ITEM>> {
+	public static class NoMissingSpecFactory<ITEM extends Named>
+			implements MapVisitorFactory<ITEM, NoMissingMapSpec<ITEM>> {
 
 		/**
 		 * @param <ITEM> The type of the items in the maps this factory specifies.
-		 * @return a pre-configured instance for consumers of NoExtraSpecFactory to use.
+		 * @return a pre-configured instance for consumers of NoMissingSpecFactory to use.
 		 */
-		public static <ITEM extends Named> NoExtraSpecFactory<ITEM> getDefaultInst() {
-			return new NoExtraSpecFactory<>();
+		public static <ITEM extends Named> NoMissingSpecFactory<ITEM> getDefaultInst() {
+			return new NoMissingSpecFactory<>();
 		}
 
 		@Override
-		public NoExtraSpec<ITEM> buildFromCollection(
+		public NoMissingMapSpec<ITEM> buildFromCollection(
 				@NonNull final NamedMap<ITEM> namedMap,
 				@NonNull final String parentName,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
 			final Set<String> declaredItemNames = Sets.newHashSet(namedMap.getItems().keySet());
 
-			return NoExtraSpec.<ITEM>builder()
+			return NoMissingMapSpec.<ITEM>builder()
 					.expected(declaredItemNames)
 					.parentName(parentName)
 					.noncomplianceConsumer(noncomplianceConsumer)

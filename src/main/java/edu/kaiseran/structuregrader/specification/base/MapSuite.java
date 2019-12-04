@@ -4,8 +4,8 @@ import com.google.common.collect.ImmutableSet;
 import edu.kaiseran.structuregrader.NamedMap;
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.property.Named;
-import edu.kaiseran.structuregrader.specification.collection.NoExtraSpec;
-import edu.kaiseran.structuregrader.specification.collection.NoMissingSpec;
+import edu.kaiseran.structuregrader.specification.collection.NoExtraMapSpec;
+import edu.kaiseran.structuregrader.specification.collection.NoMissingMapSpec;
 import edu.kaiseran.structuregrader.visitor.ItemVisitor;
 import edu.kaiseran.structuregrader.visitor.ItemVisitorFactory;
 import edu.kaiseran.structuregrader.visitor.MapVisitor;
@@ -90,8 +90,8 @@ public class MapSuite<ITEM, SUITE extends ItemVisitor<ITEM>> implements MapVisit
 		 */
 		private static <ITEM extends Named> ImmutableSet<MapVisitorFactory<ITEM, ?>> getDefaultVisitorFactories() {
 			return ImmutableSet.of(
-					NoExtraSpec.NoExtraSpecFactory.getDefaultInst(),
-					NoMissingSpec.NoMissingSpecFactory.getDefaultInst()
+					NoExtraMapSpec.NoExtraSpecFactory.getDefaultInst(),
+					NoMissingMapSpec.NoMissingSpecFactory.getDefaultInst()
 			);
 		}
 

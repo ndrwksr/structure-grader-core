@@ -1,10 +1,9 @@
 package edu.kaiseran.structuregrader;
 
 import edu.kaiseran.structuregrader.property.Named;
+import edu.kaiseran.structuregrader.specification.collection.MissingExtraHelper;
 import edu.kaiseran.structuregrader.specification.common.ModifiedSpec;
 import edu.kaiseran.structuregrader.specification.common.TypedSpec;
-import edu.kaiseran.structuregrader.specification.collection.NoExtraSpec;
-import edu.kaiseran.structuregrader.specification.collection.NoMissingSpec;
 import edu.kaiseran.structuregrader.specification.variable.VariableSuite;
 import edu.kaiseran.structuregrader.specification.variable.VariableSuite.VariableSuiteFactory;
 import edu.kaiseran.structuregrader.wrapper.ParameterWrapper;
@@ -195,8 +194,8 @@ public class ParameterSuiteTest {
 		);
 		assert !noncompliances.isEmpty();
 		assert noncomplianceOfTypeWasMade(ModifiedSpec.ModifiedNoncompliance.class);
-		assert noncomplianceOfTypeWasMade(NoExtraSpec.ExtraNoncompliance.class);
-		assert noncomplianceOfTypeWasMade(NoMissingSpec.MissingNoncompliance.class);
+		assert noncomplianceOfTypeWasMade(MissingExtraHelper.ExtraNoncompliance.class);
+		assert noncomplianceOfTypeWasMade(MissingExtraHelper.MissingNoncompliance.class);
 	}
 
 	@Test

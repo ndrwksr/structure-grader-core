@@ -1,13 +1,13 @@
 package edu.kaiseran.structuregrader.specification.executable;
 
 import com.google.common.collect.ImmutableSet;
-import edu.kaiseran.structuregrader.NamedList;
+import edu.kaiseran.structuregrader.NamedSet;
 import edu.kaiseran.structuregrader.NamedMap;
 import edu.kaiseran.structuregrader.Noncompliance;
-import edu.kaiseran.structuregrader.specification.base.ListSuite;
-import edu.kaiseran.structuregrader.specification.collection.NoExtraSpec.NoExtraSpecFactory;
-import edu.kaiseran.structuregrader.specification.collection.NoMissingSpec.NoMissingSpecFactory;
-import edu.kaiseran.structuregrader.visitor.ListVisitorFactory;
+import edu.kaiseran.structuregrader.specification.base.SetSuite;
+import edu.kaiseran.structuregrader.specification.collection.NoExtraMapSpec.NoExtraSpecFactory;
+import edu.kaiseran.structuregrader.specification.collection.NoMissingMapSpec.NoMissingSpecFactory;
+import edu.kaiseran.structuregrader.visitor.SetVisitorFactory;
 import edu.kaiseran.structuregrader.visitor.MapVisitor;
 import edu.kaiseran.structuregrader.visitor.MapVisitorFactory;
 import edu.kaiseran.structuregrader.wrapper.ConstructorWrapper;
@@ -26,12 +26,14 @@ import java.util.stream.Collectors;
  * Specifies a list of constructors using MapVisitors and a function which maps the items in said list to strings.
  */
 @SuperBuilder
-public class ConstructorListSuite extends ListSuite<ConstructorWrapper> {
+public class ConstructorSetSuite extends SetSuite<ConstructorWrapper> {
+	// TODO [ndrwksr | 12/4/19]: Refactor to use NamedSet and Set instead of maps
+
 	/**
 	 * Creates new ConstructorListSuites from NamedLists of ConstructorWrappers.
 	 */
-	public static class ConstructorListSuiteFactory
-			implements ListVisitorFactory<ConstructorWrapper, ConstructorListSuite> {
+	public static class ConstructorSetSuiteFactory
+			implements SetVisitorFactory<ConstructorWrapper, ConstructorSetSuite> {
 
 		/**
 		 * The factories used to make MapVisitors to visit the map that results from applying the item value function to all
@@ -44,7 +46,7 @@ public class ConstructorListSuite extends ListSuite<ConstructorWrapper> {
 		 *                            be used.
 		 */
 		@Builder
-		public ConstructorListSuiteFactory(
+		public ConstructorSetSuiteFactory(
 				@Nullable final ImmutableSet<MapVisitorFactory<ConstructorWrapper, ?>> mapVisitorFactories
 		) {
 			this.mapVisitorFactories = mapVisitorFactories != null ?
@@ -55,8 +57,8 @@ public class ConstructorListSuite extends ListSuite<ConstructorWrapper> {
 		/**
 		 * @return a pre-configured instance for consumers of ConstructorListSuiteFactory to use.
 		 */
-		public static ConstructorListSuiteFactory getDefaultInst() {
-			return new ConstructorListSuiteFactory(null);
+		public static ConstructorSetSuiteFactory getDefaultInst() {
+			return new ConstructorSetSuiteFactory(null);
 		}
 
 		/**
@@ -70,17 +72,17 @@ public class ConstructorListSuite extends ListSuite<ConstructorWrapper> {
 		}
 
 		@Override
-		public ConstructorListSuite buildFromCollection(
-				@NonNull final NamedList<ConstructorWrapper> namedList,
+		public ConstructorSetSuite buildFromCollection(
+				@NonNull final NamedSet<ConstructorWrapper> namedSet,
 				@NonNull final String parentName,
 				@NonNull final Consumer<Noncompliance> noncomplianceConsumer
 		) {
 			// Make a map where the keys are the signatures of the constructors,
 			// and the values are the constructors themselves.
-			final Map<String, ConstructorWrapper> valueToConstructorMap = namedList.getItems().stream()
+			final Map<String, ConstructorWrapper> valueToConstructorMap = namedSet.getItems().stream()
 					.collect(Collectors.toMap(ConstructorWrapper::getSignature, Function.identity()));
 			final NamedMap<ConstructorWrapper> namedMap = NamedMap.<ConstructorWrapper>builder()
-					.name(namedList.getName())
+					.name(namedSet.getName())
 					.items(valueToConstructorMap)
 					.build();
 
@@ -88,7 +90,7 @@ public class ConstructorListSuite extends ListSuite<ConstructorWrapper> {
 					.map(factory -> factory.buildFromCollection(namedMap, parentName, noncomplianceConsumer))
 					.collect(Collectors.toSet());
 
-			return ConstructorListSuite.builder()
+			return ConstructorSetSuite.builder()
 					.mapVisitors(mapVisitorSet)
 					.itemValueFunction(ConstructorWrapper::getSignature)
 					.build();

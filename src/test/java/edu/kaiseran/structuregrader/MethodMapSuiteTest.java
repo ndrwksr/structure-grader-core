@@ -1,7 +1,6 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.specification.collection.NoExtraSpec;
-import edu.kaiseran.structuregrader.specification.collection.NoMissingSpec;
+import edu.kaiseran.structuregrader.specification.collection.MissingExtraHelper;
 import edu.kaiseran.structuregrader.specification.executable.MethodMapSuite;
 import edu.kaiseran.structuregrader.wrapper.ClassWrapper;
 import edu.test.proj1.MethodClass;
@@ -57,7 +56,7 @@ public class MethodMapSuiteTest {
 
 		methodMapSuite.visit(new ClassWrapper(ClassWrapper.class));
 
-		assert noncomplianceOfTypeWasMade(NoExtraSpec.ExtraNoncompliance.class);
-		assert noncomplianceOfTypeWasMade(NoMissingSpec.MissingNoncompliance.class);
+		assert noncomplianceOfTypeWasMade(MissingExtraHelper.ExtraNoncompliance.class);
+		assert noncomplianceOfTypeWasMade(MissingExtraHelper.MissingNoncompliance.class);
 	}
 }
