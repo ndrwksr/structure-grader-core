@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableSet;
 import edu.kaiseran.structuregrader.Noncompliance;
 import edu.kaiseran.structuregrader.specification.clazz.ClassMapSuite.ClassMapSuiteFactory;
 import edu.kaiseran.structuregrader.specification.collection.NoExtraClassesMapSpec.NoExtraClassesSpecFactory;
+import edu.kaiseran.structuregrader.specification.executable.ConstructorSetSuite;
 import edu.kaiseran.structuregrader.specification.variable.FieldMapSuite.FieldMapSuiteFactory;
 import edu.kaiseran.structuregrader.specification.executable.MethodMapSuite.MethodMapSuiteFactory;
 import edu.kaiseran.structuregrader.visitor.ClassVisitor;
@@ -72,7 +73,9 @@ public class ClassSuite implements ClassVisitor {
 					SuperclassSpecFactory.getDefaultInst(),
 					AnnotatedClassSuiteFactory.getDefaultInst(),
 					FieldMapSuiteFactory.getDefaultInst(),
-					MethodMapSuiteFactory.getDefaultInst()
+					MethodMapSuiteFactory.getDefaultInst(),
+					InterfaceMapSuite.InterfaceMapSuiteFactory.getDefaultInst(),
+					ConstructorSetSuite.ConstructorSetSuiteFactory.getDefaultInst()
 			);
 		}
 
