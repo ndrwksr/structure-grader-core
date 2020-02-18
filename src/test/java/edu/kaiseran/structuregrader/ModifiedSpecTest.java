@@ -1,8 +1,9 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.property.Modified;
-import edu.kaiseran.structuregrader.specification.common.ModifiedSpec;
-import edu.kaiseran.structuregrader.specification.common.ModifiedSpec.ModifiedSpecFactory;
+import edu.kaiseran.structuregrader.core.Noncompliance;
+import edu.kaiseran.structuregrader.core.property.Modified;
+import edu.kaiseran.structuregrader.core.specification.common.ModifiedSpec;
+import edu.kaiseran.structuregrader.core.specification.common.ModifiedSpec.ModifiedSpecFactory;
 import edu.test.proj1.SuperClass;
 import lombok.NonNull;
 import org.junit.Before;

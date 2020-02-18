@@ -1,8 +1,9 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.specification.common.AnnotatedSuite;
-import edu.kaiseran.structuregrader.specification.common.AnnotatedSuite.AnnotatedSuiteFactory;
-import edu.kaiseran.structuregrader.wrapper.FieldWrapper;
+import edu.kaiseran.structuregrader.core.Noncompliance;
+import edu.kaiseran.structuregrader.core.specification.common.AnnotatedSuite;
+import edu.kaiseran.structuregrader.core.specification.common.AnnotatedSuite.AnnotatedSuiteFactory;
+import edu.kaiseran.structuregrader.core.wrapper.FieldWrapper;
 import edu.test.annotations.TestAnnotation1;
 import edu.test.annotations.TestAnnotation2;
 import org.junit.Before;
@@ -36,7 +37,7 @@ public class AnnotatedSuiteTest {
 		System.out.println(this.getClass().getSimpleName() + ": " + noncompliance);
 	};
 
-	private final AnnotatedSuiteFactory<FieldWrapper> factory = new AnnotatedSuiteFactory<>();
+	private final AnnotatedSuiteFactory<FieldWrapper> factory = new AnnotatedSuiteFactory<>(null);
 
 	private final List<FieldWrapper> testFields = Arrays.stream(AnnotationTestClass.class.getDeclaredFields())
 			.map(FieldWrapper::new)

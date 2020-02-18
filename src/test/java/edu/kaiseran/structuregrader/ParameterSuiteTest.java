@@ -1,12 +1,13 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.property.Named;
-import edu.kaiseran.structuregrader.specification.collection.MissingExtraHelper;
-import edu.kaiseran.structuregrader.specification.common.ModifiedSpec;
-import edu.kaiseran.structuregrader.specification.common.TypedSpec;
-import edu.kaiseran.structuregrader.specification.variable.VariableSuite;
-import edu.kaiseran.structuregrader.specification.variable.VariableSuite.VariableSuiteFactory;
-import edu.kaiseran.structuregrader.wrapper.ParameterWrapper;
+import edu.kaiseran.structuregrader.core.Noncompliance;
+import edu.kaiseran.structuregrader.core.property.Named;
+import edu.kaiseran.structuregrader.core.specification.collection.MissingExtraHelper;
+import edu.kaiseran.structuregrader.core.specification.common.ModifiedSpec;
+import edu.kaiseran.structuregrader.core.specification.common.TypedSpec;
+import edu.kaiseran.structuregrader.core.specification.variable.VariableSuite;
+import edu.kaiseran.structuregrader.core.specification.variable.VariableSuite.VariableSuiteFactory;
+import edu.kaiseran.structuregrader.core.wrapper.ParameterWrapper;
 import edu.test.annotations.TestAnnotation1;
 import edu.test.annotations.TestAnnotation2;
 import lombok.NonNull;

@@ -1,14 +1,15 @@
 package edu.kaiseran.structuregrader;
 
 import com.google.common.collect.ImmutableSet;
-import edu.kaiseran.structuregrader.specification.collection.MissingExtraHelper;
-import edu.kaiseran.structuregrader.specification.collection.NoExtraMapSpec;
-import edu.kaiseran.structuregrader.specification.collection.NoMissingMapSpec;
-import edu.kaiseran.structuregrader.specification.collection.OrderedListSpec;
-import edu.kaiseran.structuregrader.specification.variable.ParameterMapSuite;
-import edu.kaiseran.structuregrader.specification.variable.ParameterMapSuite.ParameterMapSuiteFactory;
-import edu.kaiseran.structuregrader.specification.variable.VariableSuite;
-import edu.kaiseran.structuregrader.wrapper.MethodWrapper;
+import edu.kaiseran.structuregrader.core.Noncompliance;
+import edu.kaiseran.structuregrader.core.specification.collection.MissingExtraHelper;
+import edu.kaiseran.structuregrader.core.specification.collection.NoExtraMapSpec;
+import edu.kaiseran.structuregrader.core.specification.collection.NoMissingMapSpec;
+import edu.kaiseran.structuregrader.core.specification.collection.OrderedListSpec;
+import edu.kaiseran.structuregrader.core.specification.variable.ParameterMapSuite;
+import edu.kaiseran.structuregrader.core.specification.variable.ParameterMapSuite.ParameterMapSuiteFactory;
+import edu.kaiseran.structuregrader.core.specification.variable.VariableSuite;
+import edu.kaiseran.structuregrader.core.wrapper.MethodWrapper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,8 +60,8 @@ public class ParameterMapSuiteTest {
 	private final ParameterMapSuiteFactory orderAgnosticFactory = ParameterMapSuiteFactory.builder()
 			.itemSuiteFactory(VariableSuite.VariableSuiteFactory.getDefaultInst())
 			.collectionVisitorFactories(ImmutableSet.of(
-					NoMissingMapSpec.NoMissingSpecFactory.getDefaultInst(),
-					NoExtraMapSpec.NoExtraSpecFactory.getDefaultInst()
+					NoMissingMapSpec.NoMissingMapSpecFactory.getDefaultInst("parameters"),
+					NoExtraMapSpec.NoExtraSpecFactory.getDefaultInst("parameters")
 			))
 			.build();
 

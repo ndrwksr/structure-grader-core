@@ -11,7 +11,7 @@
         <module name="structuregrader.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="13">
       <module name="structuregrader.main" target="13" />
       <module name="structuregrader.test" target="13" />
     </bytecodeTargetLevel>

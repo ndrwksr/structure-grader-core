@@ -1,7 +1,8 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.specification.variable.VariableSuite;
-import edu.kaiseran.structuregrader.wrapper.FieldWrapper;
+import edu.kaiseran.structuregrader.core.Noncompliance;
+import edu.kaiseran.structuregrader.core.specification.variable.VariableSuite;
+import edu.kaiseran.structuregrader.core.wrapper.FieldWrapper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-import static edu.kaiseran.structuregrader.specification.variable.VariableSuite.*;
+import static edu.kaiseran.structuregrader.core.specification.variable.VariableSuite.*;
 
 public class FieldSuiteTest {
 	private static final String PARENT_NAME = "parent name";

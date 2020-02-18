@@ -1,5 +1,8 @@
 package edu.kaiseran.structuregrader;
 
+import edu.kaiseran.structuregrader.core.Noncompliance;
+import edu.kaiseran.structuregrader.core.SpecificationTester;
+import edu.kaiseran.structuregrader.core.specification.clazz.ClassMapSuite;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,22 +29,23 @@ public class IntegrationTest {
 
 	@Test
 	public void testSame() throws IOException {
-		final List<Noncompliance> noncompliances = SpecificationTester.getNoncompliancesForStructures(
+		SpecificationTester.getNoncompliancesForStructures(
 				PKG1,
 				PKG1,
-				noncomplianceConsumer
+				noncomplianceConsumer,
+				ClassMapSuite.ClassMapSuiteFactory.getDefaultInst()
 		);
 		assert noncompliances.size() == 0;
 	}
 
 	@Test
 	public void testIdentical() throws IOException {
-		final List<Noncompliance> noncompliances = SpecificationTester.getNoncompliancesForStructures(
+		SpecificationTester.getNoncompliancesForStructures(
 				PKG1,
 				PKG2,
-				noncomplianceConsumer
+				noncomplianceConsumer,
+				ClassMapSuite.ClassMapSuiteFactory.getDefaultInst()
 		);
-		noncompliances.forEach(System.out::println);
 		assert noncompliances.size() == 0;
 	}
 }

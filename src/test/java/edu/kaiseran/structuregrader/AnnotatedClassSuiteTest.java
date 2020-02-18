@@ -1,8 +1,8 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.specification.clazz.AnnotatedClassSuite;
-import edu.kaiseran.structuregrader.specification.clazz.AnnotatedClassSuite.AnnotatedClassSuiteFactory;
-import edu.kaiseran.structuregrader.wrapper.ClassWrapper;
+import edu.kaiseran.structuregrader.core.Noncompliance;
+import edu.kaiseran.structuregrader.core.specification.clazz.AnnotatedClassSuite;
+import edu.kaiseran.structuregrader.core.wrapper.ClassWrapper;
 import edu.test.proj1.Interface1;
 import edu.test.proj1.NoSuperClass;
 import edu.test.proj1.SubClass;
@@ -23,7 +23,8 @@ public class AnnotatedClassSuiteTest {
 		System.out.println(this.getClass().getSimpleName() + ": " + noncompliance);
 	};
 
-	private final AnnotatedClassSuiteFactory factory = new AnnotatedClassSuiteFactory(true, true);
+	private final AnnotatedClassSuite.AnnotatedClassSuiteFactory factory =
+			AnnotatedClassSuite.AnnotatedClassSuiteFactory.getDefaultInst();
 
 	private final List<ClassWrapper> testClassWrappers = Stream.of(SubClass.class, Interface1.class, NoSuperClass.class)
 			.map(ClassWrapper::new)

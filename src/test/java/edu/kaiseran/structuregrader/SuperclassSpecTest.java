@@ -1,8 +1,9 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.specification.clazz.SuperclassSpec;
-import edu.kaiseran.structuregrader.specification.clazz.SuperclassSpec.SuperclassSpecFactory;
-import edu.kaiseran.structuregrader.wrapper.ClassWrapper;
+import edu.kaiseran.structuregrader.core.Noncompliance;
+import edu.kaiseran.structuregrader.core.specification.clazz.SuperclassSpec;
+import edu.kaiseran.structuregrader.core.specification.clazz.SuperclassSpec.SuperclassSpecFactory;
+import edu.kaiseran.structuregrader.core.wrapper.ClassWrapper;
 import org.junit.Before;
 import org.junit.Test;
 

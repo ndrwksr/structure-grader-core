@@ -1,9 +1,10 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.property.Variable;
-import edu.kaiseran.structuregrader.specification.common.TypedSpec;
-import edu.kaiseran.structuregrader.specification.common.TypedSpec.TypedSpecFactory;
-import edu.kaiseran.structuregrader.wrapper.FieldWrapper;
+import edu.kaiseran.structuregrader.core.Noncompliance;
+import edu.kaiseran.structuregrader.core.property.Variable;
+import edu.kaiseran.structuregrader.core.specification.common.TypedSpec;
+import edu.kaiseran.structuregrader.core.specification.common.TypedSpec.TypedSpecFactory;
+import edu.kaiseran.structuregrader.core.wrapper.FieldWrapper;
 import org.junit.Before;
 import org.junit.Test;
 

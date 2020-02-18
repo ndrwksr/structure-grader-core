@@ -1,8 +1,9 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.specification.collection.MissingExtraHelper;
-import edu.kaiseran.structuregrader.specification.executable.MethodMapSuite;
-import edu.kaiseran.structuregrader.wrapper.ClassWrapper;
+import edu.kaiseran.structuregrader.core.Noncompliance;
+import edu.kaiseran.structuregrader.core.specification.collection.MissingExtraHelper;
+import edu.kaiseran.structuregrader.core.specification.executable.MethodMapSuite;
+import edu.kaiseran.structuregrader.core.wrapper.ClassWrapper;
 import edu.test.proj1.MethodClass;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,9 +1,10 @@
 plugins {
-    id 'java'
+    id 'java-library'
 
     // https://plugins.gradle.org/plugin/io.freefair.lombok
-    id "io.freefair.lombok" version "4.1.5"
+    id "io.freefair.lombok" version "4.1.6"
 
+    id 'maven-publish'
 }
 
 group 'edu.kaiseran'
@@ -16,22 +17,50 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.10.2'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.2'
+
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-guava
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-guava', version: '2.1.2'
 
     // https://mvnrepository.com/artifact/com.google.guava/guava
     // https://github.com/google/guava
-    compile group: 'com.google.guava', name: 'guava', version: '28.1-jre'
-
-    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.9'
+    implementation group: 'com.google.guava', name: 'guava', version: '28.1-jre'
 
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
 
     // https://mvnrepository.com/artifact/junit/junit
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+}
+
+java {
+    disableAutoTargetJvm()
 }
 
 tasks.withType(JavaCompile) {
     options.compilerArgs << '-parameters'
+}
+
+lombok {
+    config['lombok.anyConstructor.addConstructorProperties'] = 'true'
+}
+
+publishing {
+    publications {
+        structureGraderCore(MavenPublication) {
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
 }

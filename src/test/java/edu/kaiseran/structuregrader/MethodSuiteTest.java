@@ -1,11 +1,12 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.specification.collection.MissingExtraHelper;
-import edu.kaiseran.structuregrader.specification.collection.OrderedListSpec;
-import edu.kaiseran.structuregrader.specification.common.ModifiedSpec;
-import edu.kaiseran.structuregrader.specification.common.TypedSpec;
-import edu.kaiseran.structuregrader.specification.variable.VariableSuite.VariableSuiteFactory;
-import edu.kaiseran.structuregrader.wrapper.MethodWrapper;
+import edu.kaiseran.structuregrader.core.Noncompliance;
+import edu.kaiseran.structuregrader.core.specification.collection.MissingExtraHelper;
+import edu.kaiseran.structuregrader.core.specification.collection.OrderedListSpec;
+import edu.kaiseran.structuregrader.core.specification.common.ModifiedSpec;
+import edu.kaiseran.structuregrader.core.specification.common.TypedSpec;
+import edu.kaiseran.structuregrader.core.specification.variable.VariableSuite.VariableSuiteFactory;
+import edu.kaiseran.structuregrader.core.wrapper.MethodWrapper;
 import edu.test.proj1.MethodClass;
 import org.junit.Before;
 import org.junit.Test;

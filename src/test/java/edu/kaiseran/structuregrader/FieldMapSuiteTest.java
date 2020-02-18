@@ -1,10 +1,11 @@
 package edu.kaiseran.structuregrader;
 
-import edu.kaiseran.structuregrader.specification.variable.FieldMapSuite;
-import edu.kaiseran.structuregrader.specification.variable.FieldMapSuite.FieldMapSuiteFactory;
-import edu.kaiseran.structuregrader.specification.variable.VariableSuite;
-import edu.kaiseran.structuregrader.wrapper.ClassWrapper;
-import edu.kaiseran.structuregrader.wrapper.FieldWrapper;
+import edu.kaiseran.structuregrader.core.Noncompliance;
+import edu.kaiseran.structuregrader.core.specification.variable.FieldMapSuite;
+import edu.kaiseran.structuregrader.core.specification.variable.FieldMapSuite.FieldMapSuiteFactory;
+import edu.kaiseran.structuregrader.core.specification.variable.VariableSuite;
+import edu.kaiseran.structuregrader.core.wrapper.ClassWrapper;
+import edu.kaiseran.structuregrader.core.wrapper.FieldWrapper;
 import edu.test.proj1.FieldClass;
 import org.junit.Before;
 import org.junit.Test;

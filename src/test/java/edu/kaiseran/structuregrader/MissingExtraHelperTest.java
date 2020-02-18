@@ -1,7 +1,8 @@
 package edu.kaiseran.structuregrader;
 
 
-import edu.kaiseran.structuregrader.specification.collection.MissingExtraHelper;
+import edu.kaiseran.structuregrader.core.Noncompliance;
+import edu.kaiseran.structuregrader.core.specification.collection.MissingExtraHelper;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,6 +21,7 @@ public class MissingExtraHelperTest {
 	private static final String D_VAL = "D value";
 	private static final String E_KEY = "E key";
 	private static final String E_VAL = "E value";
+	public static final String TEST_ITEM_PLURAL = "TestItemPlural";
 
 	private final Map<String, Object> items = new HashMap<>();
 	private final Set<String> expectedNames = new HashSet<>();
@@ -49,6 +51,7 @@ public class MissingExtraHelperTest {
 				"testExtraWhereOneMissing",
 				expectedNames,
 				items,
+				TEST_ITEM_PLURAL,
 				noncomplianceConsumer
 		);
 
@@ -67,6 +70,7 @@ public class MissingExtraHelperTest {
 				"testExtraWhereNoExtra",
 				expectedNames,
 				items,
+				TEST_ITEM_PLURAL,
 				noncomplianceConsumer
 		);
 
@@ -88,6 +92,7 @@ public class MissingExtraHelperTest {
 				"testExtraWhereOneExtra",
 				expectedNames,
 				items,
+				TEST_ITEM_PLURAL,
 				noncomplianceConsumer
 		);
 
@@ -126,6 +131,7 @@ public class MissingExtraHelperTest {
 				"testExtraWhereThreeExtra",
 				expectedNames,
 				items,
+				TEST_ITEM_PLURAL,
 				noncomplianceConsumer
 		);
 
@@ -157,6 +163,7 @@ public class MissingExtraHelperTest {
 				"testMissingWhereOneExtra",
 				expectedNames,
 				items,
+				TEST_ITEM_PLURAL,
 				noncomplianceConsumer
 		);
 
@@ -175,6 +182,7 @@ public class MissingExtraHelperTest {
 				"testMissingWhereNoMissing",
 				expectedNames,
 				items,
+				TEST_ITEM_PLURAL,
 				noncomplianceConsumer
 		);
 
@@ -196,6 +204,7 @@ public class MissingExtraHelperTest {
 				"testMissingWhereOneMissing",
 				expectedNames,
 				items,
+				TEST_ITEM_PLURAL,
 				noncomplianceConsumer
 		);
 
@@ -234,6 +243,7 @@ public class MissingExtraHelperTest {
 				"testMissingWhereThreeMissing",
 				expectedNames,
 				items,
+				TEST_ITEM_PLURAL,
 				noncomplianceConsumer
 		);
 
