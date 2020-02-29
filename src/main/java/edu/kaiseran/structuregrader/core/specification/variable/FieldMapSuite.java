@@ -49,6 +49,8 @@ public class FieldMapSuite extends VariableMapSuite<FieldWrapper> implements Cla
 	public static class FieldMapSuiteFactory extends VariableMapSuiteFactory<FieldWrapper>
 			implements ClassVisitorFactory<FieldMapSuite> {
 
+		public static final String ITEM_TYPE_PLURAL = "fields";
+
 		/**
 		 * @param collectionVisitorFactories The factories to be used to populate FieldMapSuite.collectionSpecs.
 		 * @param itemSuiteFactory The factories to be used to populate FieldMapSuite.itemSpecs.

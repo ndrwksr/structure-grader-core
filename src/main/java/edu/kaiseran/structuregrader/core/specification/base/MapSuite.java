@@ -10,6 +10,7 @@ import edu.kaiseran.structuregrader.core.visitor.ItemVisitorFactory;
 import edu.kaiseran.structuregrader.core.visitor.MapVisitor;
 import edu.kaiseran.structuregrader.core.visitor.MapVisitorFactory;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
 
 import javax.annotation.CheckForNull;
@@ -114,12 +115,14 @@ public class MapSuite<ITEM, SUITE extends ItemVisitor<ITEM>> implements MapVisit
 		 * The MapVisitorFactories that this factory uses to populate collectionSpecs with specs.
 		 */
 		@NonNull
+		@Getter
 		protected final ImmutableSet<MapVisitorFactory<ITEM, ?>> collectionVisitorFactories;
 
 		/**
 		 * The ItemVisitorFactory used to populate itemSuites with specs.
 		 */
 		@NonNull
+		@Getter
 		protected final ItemVisitorFactory<ITEM, SUITE> itemSuiteFactory;
 
 		/**

@@ -15,10 +15,7 @@ import edu.kaiseran.structuregrader.core.specification.variable.FieldMapSuite.Fi
 import edu.kaiseran.structuregrader.core.visitor.ClassVisitor;
 import edu.kaiseran.structuregrader.core.visitor.ClassVisitorFactory;
 import edu.kaiseran.structuregrader.core.wrapper.ClassWrapper;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.*;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
@@ -79,6 +76,7 @@ public class ClassSuite implements ClassVisitor, HasChildSet {
 		/**
 		 * The ClassMapSuiteFactory to be used to make a ClassMapSuite for the specified class's inner classes.
 		 */
+		@Setter
 		private ClassMapSuiteFactory classMapSuiteFactory;
 
 		/**

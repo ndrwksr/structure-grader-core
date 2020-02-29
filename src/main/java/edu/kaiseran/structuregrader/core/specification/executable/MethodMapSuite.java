@@ -52,6 +52,8 @@ public class MethodMapSuite extends VariableMapSuite<MethodWrapper> implements C
 	public static class MethodMapSuiteFactory extends VariableMapSuiteFactory<MethodWrapper>
 			implements ClassVisitorFactory<MethodMapSuite> {
 
+		public static final String ITEM_TYPE_PLURAL = "methods";
+
 		/**
 		 * @param collectionVisitorFactories The factories to be used to populate MethodMapSuite.collectionSpecs.
 		 * @param itemSuiteFactory           The factories to be used to populate MethodMapSuite.itemSpecs.
