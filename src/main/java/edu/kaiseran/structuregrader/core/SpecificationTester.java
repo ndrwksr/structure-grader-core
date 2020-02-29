@@ -23,12 +23,11 @@ public class SpecificationTester {
 				noncomplianceConsumer
 		);
 
-
-
 		final String classMapJson = ClassMapSuite.JsonHelper.toJson(classMapSuite);
 		//System.out.println(classMapJson);
 
 		final ClassMapSuite desClassMapSuite = ClassMapSuite.JsonHelper.fromJson(classMapJson, noncomplianceConsumer);
+		//System.out.println(desClassMapSuite);
 
 		desClassMapSuite.visit(actualCollection);
 	}

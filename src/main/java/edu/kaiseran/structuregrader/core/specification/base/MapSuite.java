@@ -1,8 +1,7 @@
 package edu.kaiseran.structuregrader.core.specification.base;
 
 import com.google.common.collect.ImmutableSet;
-import edu.kaiseran.structuregrader.core.NamedMap;
-import edu.kaiseran.structuregrader.core.Noncompliance;
+import edu.kaiseran.structuregrader.core.*;
 import edu.kaiseran.structuregrader.core.property.Named;
 import edu.kaiseran.structuregrader.core.specification.collection.NoExtraMapSpec;
 import edu.kaiseran.structuregrader.core.specification.collection.NoMissingMapSpec;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
  */
 
 @Data
-public class MapSuite<ITEM, SUITE extends ItemVisitor<ITEM>> implements MapVisitor<ITEM> {
+public class MapSuite<ITEM, SUITE extends ItemVisitor<ITEM>> implements MapVisitor<ITEM>, HasChildSet, HasChildMap {
 
 	/**
 	 * The specifications to be applied to the collection as a whole.
@@ -75,6 +74,22 @@ public class MapSuite<ITEM, SUITE extends ItemVisitor<ITEM>> implements MapVisit
 		}
 	}
 
+	@Override
+	public NamedSpecSet getChildSet() {
+		return NamedSpecSet.<MapVisitor<ITEM>>builder()
+				.items(collectionSpecs)
+				.name(".collectionSpecs")
+				.build();
+	}
+
+	@Override
+	public NamedSpecMap<String, SUITE> getChildMap() {
+		return NamedSpecMap.<String, SUITE>builder()
+				.items(itemSuites)
+				.name(".itemSuites")
+				.build();
+	}
+
 	/**
 	 * Factory for MapSuites. Has a set of default visitor factories that will be used to populate collectionSpecs.
 	 *
@@ -87,7 +102,8 @@ public class MapSuite<ITEM, SUITE extends ItemVisitor<ITEM>> implements MapVisit
 		/**
 		 * @return an immutable list of the default MapVisitorFactories.
 		 */
-		private static <ITEM extends Named> ImmutableSet<MapVisitorFactory<ITEM, ?>> getDefaultVisitorFactories(@NonNull final String itemTypePlural) {
+		private static <ITEM extends Named> ImmutableSet<MapVisitorFactory<ITEM, ?>>
+		getDefaultVisitorFactories(@NonNull final String itemTypePlural) {
 			return ImmutableSet.of(
 					NoExtraMapSpec.NoExtraSpecFactory.getDefaultInst(itemTypePlural),
 					NoMissingMapSpec.NoMissingMapSpecFactory.getDefaultInst(itemTypePlural)
@@ -141,7 +157,7 @@ public class MapSuite<ITEM, SUITE extends ItemVisitor<ITEM>> implements MapVisit
 							Map.Entry::getKey,
 							entry -> itemSuiteFactory.buildFromItem(
 									entry.getValue(),
-									namedMap.getName(),
+									entry.getValue().getName(),
 									noncomplianceConsumer
 							)
 					));

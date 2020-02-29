@@ -3,7 +3,9 @@ package edu.kaiseran.structuregrader.core.specification.common;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableSet;
+import edu.kaiseran.structuregrader.core.HasChildSet;
 import edu.kaiseran.structuregrader.core.NamedMap;
+import edu.kaiseran.structuregrader.core.NamedSpecSet;
 import edu.kaiseran.structuregrader.core.Noncompliance;
 import edu.kaiseran.structuregrader.core.property.Annotated;
 import edu.kaiseran.structuregrader.core.specification.base.MapSpec;
@@ -13,7 +15,10 @@ import edu.kaiseran.structuregrader.core.visitor.ItemVisitor;
 import edu.kaiseran.structuregrader.core.visitor.ItemVisitorFactory;
 import edu.kaiseran.structuregrader.core.visitor.MapVisitorFactory;
 import edu.kaiseran.structuregrader.core.wrapper.AnnotationWrapper;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
@@ -30,7 +35,7 @@ import java.util.stream.Collectors;
  */
 @EqualsAndHashCode
 @Data
-public class AnnotatedSuite<ITEM extends Annotated> implements ItemVisitor<ITEM> {
+public class AnnotatedSuite<ITEM extends Annotated> implements ItemVisitor<ITEM>, HasChildSet {
 	/**
 	 * Specifications for the collection of annotations on the AnnotatedElement.
 	 */
@@ -74,6 +79,14 @@ public class AnnotatedSuite<ITEM extends Annotated> implements ItemVisitor<ITEM>
 
 			collectionSpecs.forEach(spec -> spec.visit(namedAnnotations));
 		}
+	}
+
+	@Override
+	public NamedSpecSet getChildSet() {
+		return NamedSpecSet.<MapSpec<AnnotationWrapper, String>>builder()
+				.items(collectionSpecs)
+				.name(".collectionSpecs")
+				.build();
 	}
 
 	/**

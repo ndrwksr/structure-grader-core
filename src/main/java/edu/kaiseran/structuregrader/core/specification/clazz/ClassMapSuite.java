@@ -139,7 +139,9 @@ public class ClassMapSuite extends MapSuite<ClassWrapper, ClassSuite> implements
 		public static String toJson(
 				@NonNull final ClassMapSuite classMapSuite
 		) throws JsonProcessingException {
-			return getMapper(null).writeValueAsString(classMapSuite);
+			return getMapper(null)
+					.writerWithDefaultPrettyPrinter()
+					.writeValueAsString(classMapSuite);
 		}
 
 		public static ClassMapSuite fromJson(

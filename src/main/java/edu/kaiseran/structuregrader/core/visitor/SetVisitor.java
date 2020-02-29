@@ -9,7 +9,7 @@ import javax.annotation.CheckForNull;
  *
  * @param <ITEM> The type of the NamedList that implementors can visit.
  */
-public interface SetVisitor<ITEM> {
+public interface SetVisitor<ITEM> extends Spec {
 	/**
 	 * @param collection The NamedList of type ITEM being visited.
 	 */

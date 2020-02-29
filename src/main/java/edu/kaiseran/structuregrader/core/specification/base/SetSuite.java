@@ -1,8 +1,10 @@
 package edu.kaiseran.structuregrader.core.specification.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import edu.kaiseran.structuregrader.core.HasChildSet;
 import edu.kaiseran.structuregrader.core.NamedMap;
 import edu.kaiseran.structuregrader.core.NamedSet;
+import edu.kaiseran.structuregrader.core.NamedSpecSet;
 import edu.kaiseran.structuregrader.core.visitor.MapVisitor;
 import edu.kaiseran.structuregrader.core.visitor.SetVisitor;
 import lombok.Data;
@@ -22,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @Data
 @SuperBuilder
-public abstract class SetSuite<ITEM> implements SetVisitor<ITEM> {
+public abstract class SetSuite<ITEM> implements SetVisitor<ITEM>, HasChildSet {
 	/**
 	 * The function to map items to their value strings.
 	 */
@@ -35,6 +37,14 @@ public abstract class SetSuite<ITEM> implements SetVisitor<ITEM> {
 	 */
 	@NonNull
 	private final Set<MapVisitor<ITEM>> mapVisitors;
+
+	@Override
+	public NamedSpecSet getChildSet() {
+		return NamedSpecSet.<MapVisitor<ITEM>>builder()
+				.items(mapVisitors)
+				.name(".mapVisitors")
+				.build();
+	}
 
 	@Override
 	public void visit(@CheckForNull final NamedSet<ITEM> collection) {

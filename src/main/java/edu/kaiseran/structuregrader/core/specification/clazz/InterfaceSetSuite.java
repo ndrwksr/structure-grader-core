@@ -2,7 +2,9 @@ package edu.kaiseran.structuregrader.core.specification.clazz;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableSet;
+import edu.kaiseran.structuregrader.core.HasChildSet;
 import edu.kaiseran.structuregrader.core.NamedSet;
+import edu.kaiseran.structuregrader.core.NamedSpecSet;
 import edu.kaiseran.structuregrader.core.Noncompliance;
 import edu.kaiseran.structuregrader.core.specification.collection.NoExtraSetSpec.NoExtraSetSpecFactory;
 import edu.kaiseran.structuregrader.core.specification.collection.NoMissingSetSpec.NoMissingSetSpecFactory;
@@ -26,7 +28,7 @@ import java.util.stream.Collectors;
  */
 @Builder
 @Getter
-public class InterfaceSetSuite implements SetVisitor<ClassWrapper>, ClassVisitor {
+public class InterfaceSetSuite implements SetVisitor<ClassWrapper>, ClassVisitor, HasChildSet {
 	/**
 	 * The visitors to the specified set of interface names.
 	 */
@@ -67,6 +69,14 @@ public class InterfaceSetSuite implements SetVisitor<ClassWrapper>, ClassVisitor
 		if (classWrapper != null) {
 			this.visit(classWrapper.getInterfaces());
 		}
+	}
+
+	@Override
+	public NamedSpecSet getChildSet() {
+		return NamedSpecSet.<SetVisitor<String>>builder()
+				.items(setVisitors)
+				.name(".setVisitors")
+				.build();
 	}
 
 	/**

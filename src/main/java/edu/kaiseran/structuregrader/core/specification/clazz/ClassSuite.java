@@ -2,6 +2,8 @@ package edu.kaiseran.structuregrader.core.specification.clazz;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableSet;
+import edu.kaiseran.structuregrader.core.HasChildSet;
+import edu.kaiseran.structuregrader.core.NamedSpecSet;
 import edu.kaiseran.structuregrader.core.Noncompliance;
 import edu.kaiseran.structuregrader.core.specification.clazz.AnnotatedClassSuite.AnnotatedClassSuiteFactory;
 import edu.kaiseran.structuregrader.core.specification.clazz.ClassMapSuite.ClassMapSuiteFactory;
@@ -33,12 +35,12 @@ import static edu.kaiseran.structuregrader.core.specification.collection.NoMissi
  */
 @EqualsAndHashCode
 @Getter
-public class ClassSuite implements ClassVisitor {
+public class ClassSuite implements ClassVisitor, HasChildSet {
 	/**
 	 * The specifications and suites to visit the specified class.
 	 */
 	@NonNull
-	private final ImmutableSet<ClassVisitor> specifiedClassVisitors;
+	private final Set<ClassVisitor> specifiedClassVisitors;
 
 	/**
 	 * The name of the parent of the specified class.
@@ -48,7 +50,7 @@ public class ClassSuite implements ClassVisitor {
 
 	@Builder
 	public ClassSuite(
-			@NonNull @JsonProperty("specifiedClassVisitors") final ImmutableSet<ClassVisitor> specifiedClassVisitors,
+			@NonNull @JsonProperty("specifiedClassVisitors") final Set<ClassVisitor> specifiedClassVisitors,
 			@NonNull @JsonProperty("parentName") final String parentName
 	) {
 		this.specifiedClassVisitors = specifiedClassVisitors;
@@ -58,6 +60,14 @@ public class ClassSuite implements ClassVisitor {
 	@Override
 	public void visit(@Nullable final ClassWrapper classWrapper) {
 		specifiedClassVisitors.forEach(visitor -> visitor.visit(classWrapper));
+	}
+
+	@Override
+	public NamedSpecSet getChildSet() {
+		return NamedSpecSet.<ClassVisitor>builder()
+				.items(specifiedClassVisitors)
+				.name(".specifiedClassVisitors")
+				.build();
 	}
 
 	/**
@@ -140,7 +150,7 @@ public class ClassSuite implements ClassVisitor {
 			classVisitors.add(classCollectionSuite);
 
 			return ClassSuite.builder()
-					.specifiedClassVisitors(ImmutableSet.copyOf(classVisitors))
+					.specifiedClassVisitors(classVisitors)
 					.parentName(parentName)
 					.build();
 		}

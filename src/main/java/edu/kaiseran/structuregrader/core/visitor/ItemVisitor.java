@@ -7,18 +7,11 @@ import javax.annotation.CheckForNull;
  *
  * @param <ITEM> The type of the object this visitor can visit.
  */
-public interface ItemVisitor<ITEM> {
+public interface ItemVisitor<ITEM> extends Spec {
 	/**
 	 * Visits the provided item.
 	 *
 	 * @param item The item to visit.
 	 */
 	void visit(@CheckForNull final ITEM item);
-
-	/**
-	 * Returns the name of the parent element of the visitee.
-	 *
-	 * @return the name of the parent element of the visitee.
-	 */
-	String getParentName();
 }

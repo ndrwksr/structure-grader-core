@@ -18,6 +18,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.Nullable;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -50,9 +51,7 @@ public class ConstructorSetSuite extends SetSuite<ConstructorWrapper> implements
 		if (classWrapper != null) {
 			super.visit(
 					NamedSet.<ConstructorWrapper>builder()
-							.items(classWrapper.getConstructors().getItems().stream()
-									//.filter(ExecutableWrapper::isSynthetic)
-									.collect(Collectors.toSet()))
+							.items(new HashSet<>(classWrapper.getConstructors().getItems()))
 							.name(classWrapper.getConstructors().getName())
 							.build()
 			);

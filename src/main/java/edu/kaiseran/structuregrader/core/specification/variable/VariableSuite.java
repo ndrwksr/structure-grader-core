@@ -3,6 +3,8 @@ package edu.kaiseran.structuregrader.core.specification.variable;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableSet;
+import edu.kaiseran.structuregrader.core.HasChildSet;
+import edu.kaiseran.structuregrader.core.NamedSpecSet;
 import edu.kaiseran.structuregrader.core.Noncompliance;
 import edu.kaiseran.structuregrader.core.property.Variable;
 import edu.kaiseran.structuregrader.core.specification.common.AnnotatedSuite.AnnotatedSuiteFactory;
@@ -29,7 +31,7 @@ import java.util.stream.Collectors;
  */
 @Data
 @SuperBuilder(toBuilder = true)
-public class VariableSuite<ITEM extends Variable> implements ItemVisitor<ITEM> {
+public class VariableSuite<ITEM extends Variable> implements ItemVisitor<ITEM>, HasChildSet {
 	/**
 	 * The sub-specifications that make up this suite.
 	 */
@@ -56,6 +58,14 @@ public class VariableSuite<ITEM extends Variable> implements ItemVisitor<ITEM> {
 		return VariableSuite.<ITEM>builder()
 				.specs(specs)
 				.parentName(parentName)
+				.build();
+	}
+
+	@Override
+	public NamedSpecSet getChildSet() {
+		return NamedSpecSet.<ItemVisitor<ITEM>>builder()
+				.items(specs)
+				.name(".specs")
 				.build();
 	}
 
@@ -121,7 +131,7 @@ public class VariableSuite<ITEM extends Variable> implements ItemVisitor<ITEM> {
 			final Set<ItemVisitor<ITEM>> specs = visitorFactories.stream()
 					.map(factory -> factory.buildFromItem(
 							item,
-							parentName + "#" + item.getName(),
+							item.getName(),
 							noncomplianceConsumer
 					))
 					.collect(Collectors.toSet());

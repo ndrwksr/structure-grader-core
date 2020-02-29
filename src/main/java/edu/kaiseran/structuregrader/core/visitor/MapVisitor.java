@@ -9,6 +9,6 @@ import javax.annotation.CheckForNull;
  *
  * @param <ITEM> The type of item in the collection.
  */
-public interface MapVisitor<ITEM> {
+public interface MapVisitor<ITEM> extends Spec {
 	void visit(@CheckForNull final NamedMap<ITEM> collection);
 }

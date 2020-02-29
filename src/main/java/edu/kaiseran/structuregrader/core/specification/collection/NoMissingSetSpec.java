@@ -9,6 +9,7 @@ import edu.kaiseran.structuregrader.core.Noncompliance;
 import edu.kaiseran.structuregrader.core.visitor.SetVisitor;
 import edu.kaiseran.structuregrader.core.visitor.SetVisitorFactory;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NonNull;
 
 import javax.annotation.CheckForNull;
@@ -36,15 +37,24 @@ public class NoMissingSetSpec<ITEM> implements SetVisitor<ITEM> {
 
 	private final String itemTypePlural;
 
+	/**
+	 * The name of the parent element.
+	 */
+	@NonNull
+	@Getter
+	private final String parentName;
+
 	@Builder
 	@JsonCreator
 	public NoMissingSetSpec(
 			@NonNull @JsonProperty("expectedItemNames") final Set<ITEM> expectedItemNames,
 			@NonNull @JsonProperty("itemTypePlural") final String itemTypePlural,
+			@NonNull @JsonProperty("parentName") final String parentName,
 			@NonNull @JacksonInject("noncomplianceConsumer") final Consumer<Noncompliance> noncomplianceConsumer
 	) {
 		this.expectedItemNames = expectedItemNames;
 		this.itemTypePlural = itemTypePlural;
+		this.parentName = parentName;
 		this.noncomplianceConsumer = noncomplianceConsumer;
 	}
 
@@ -92,6 +102,7 @@ public class NoMissingSetSpec<ITEM> implements SetVisitor<ITEM> {
 					.expectedItemNames(namedSet.getItems())
 					.noncomplianceConsumer(noncomplianceConsumer)
 					.itemTypePlural(itemTypePlural)
+					.parentName(parentName)
 					.build();
 		}
 	}

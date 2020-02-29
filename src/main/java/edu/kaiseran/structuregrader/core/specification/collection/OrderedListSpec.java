@@ -11,6 +11,7 @@ import edu.kaiseran.structuregrader.core.property.Ordinal;
 import edu.kaiseran.structuregrader.core.visitor.MapVisitor;
 import edu.kaiseran.structuregrader.core.visitor.MapVisitorFactory;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 
@@ -36,6 +37,7 @@ public class OrderedListSpec<ITEM extends Ordinal> implements MapVisitor<ITEM> {
 	 * The name of the parent element.
 	 */
 	@NonNull
+	@Getter
 	private final String parentName;
 
 	/**
