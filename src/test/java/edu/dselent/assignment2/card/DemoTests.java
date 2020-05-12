@@ -1,19 +1,22 @@
 package edu.dselent.assignment2.card;
 
+import com.github.ndrwksr.structuregrader.core.specification.clazz.ClassMapSuite;
+import com.github.ndrwksr.structuregrader.core.specification.clazz.ClassSuite;
+import com.github.ndrwksr.structuregrader.core.specification.clazz.InterfaceSetSuite;
+import com.github.ndrwksr.structuregrader.core.specification.clazz.SuperclassSpec;
 import com.google.common.collect.ImmutableSet;
-import edu.kaiseran.structuregrader.core.Noncompliance;
-import edu.kaiseran.structuregrader.core.SpecificationTester;
-import edu.kaiseran.structuregrader.core.specification.clazz.*;
-import edu.kaiseran.structuregrader.core.specification.collection.MissingExtraHelper;
-import edu.kaiseran.structuregrader.core.specification.collection.NoExtraMapSpec;
-import edu.kaiseran.structuregrader.core.specification.collection.NoMissingMapSpec;
-import edu.kaiseran.structuregrader.core.specification.common.ModifiedSpec;
-import edu.kaiseran.structuregrader.core.specification.common.TypedSpec;
-import edu.kaiseran.structuregrader.core.specification.executable.ConstructorSetSuite;
-import edu.kaiseran.structuregrader.core.specification.executable.MethodMapSuite;
-import edu.kaiseran.structuregrader.core.specification.variable.FieldMapSuite;
-import edu.kaiseran.structuregrader.core.specification.variable.VariableSuite;
-import edu.kaiseran.structuregrader.core.wrapper.MethodWrapper;
+import com.github.ndrwksr.structuregrader.core.Noncompliance;
+import com.github.ndrwksr.structuregrader.core.SpecificationTester;
+import com.github.ndrwksr.structuregrader.core.specification.collection.MissingExtraHelper;
+import com.github.ndrwksr.structuregrader.core.specification.collection.NoExtraMapSpec;
+import com.github.ndrwksr.structuregrader.core.specification.collection.NoMissingMapSpec;
+import com.github.ndrwksr.structuregrader.core.specification.common.ModifiedSpec;
+import com.github.ndrwksr.structuregrader.core.specification.common.TypedSpec;
+import com.github.ndrwksr.structuregrader.core.specification.executable.ConstructorSetSuite;
+import com.github.ndrwksr.structuregrader.core.specification.executable.MethodMapSuite;
+import com.github.ndrwksr.structuregrader.core.specification.variable.FieldMapSuite;
+import com.github.ndrwksr.structuregrader.core.specification.variable.VariableSuite;
+import com.github.ndrwksr.structuregrader.core.wrapper.MethodWrapper;
 import org.junit.Before;
 import org.junit.Test;
 

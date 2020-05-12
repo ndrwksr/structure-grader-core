@@ -11,10 +11,7 @@
         <module name="structuregrader.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="13">
-      <module name="structuregrader.main" target="13" />
-      <module name="structuregrader.test" target="13" />
-    </bytecodeTargetLevel>
+    <bytecodeTargetLevel target="13" />
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_STRING" value="-parameters" />
